@@ -3,9 +3,58 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.14.36429.23 d17.14
 MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Core", "Core", "{02EA681E-C7D8-13C7-8484-4AC65E1B71E8}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Infrastructure", "Infrastructure", "{D698FB6E-A9C3-4767-8DF8-05806C568B80}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Presentation", "Presentation", "{D6812AFD-E0B1-43B1-AA6E-FE574FE6661E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KuyumHesap.Domain", "KuyumHesap.Domain\KuyumHesap.Domain.csproj", "{253495A4-B9E5-4DAC-AF8B-C881318CB942}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KuyumHesap.Application", "KuyumHesap.Application\KuyumHesap.Application.csproj", "{8B91EBE5-B21C-4FB9-8605-11CE8E1EF1FF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KuyumHesap.Infrastructure", "KuyumHesap.Infrastructure\KuyumHesap.Infrastructure.csproj", "{EA0FBAC3-A805-465E-89D8-75F7881FE9C2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KuyumHesap.Persistence", "KuyumHesap.Persistence\KuyumHesap.Persistence.csproj", "{60A3D2DB-2060-4D3F-BA33-77A55A783155}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KuyumHesap.Api", "KuyumHesap.Api\KuyumHesap.Api.csproj", "{FF81381F-DA01-4B5F-834F-ABE0EAA7EC1E}"
+EndProject
 Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{253495A4-B9E5-4DAC-AF8B-C881318CB942}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{253495A4-B9E5-4DAC-AF8B-C881318CB942}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{253495A4-B9E5-4DAC-AF8B-C881318CB942}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{253495A4-B9E5-4DAC-AF8B-C881318CB942}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8B91EBE5-B21C-4FB9-8605-11CE8E1EF1FF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8B91EBE5-B21C-4FB9-8605-11CE8E1EF1FF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8B91EBE5-B21C-4FB9-8605-11CE8E1EF1FF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8B91EBE5-B21C-4FB9-8605-11CE8E1EF1FF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EA0FBAC3-A805-465E-89D8-75F7881FE9C2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EA0FBAC3-A805-465E-89D8-75F7881FE9C2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EA0FBAC3-A805-465E-89D8-75F7881FE9C2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EA0FBAC3-A805-465E-89D8-75F7881FE9C2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{60A3D2DB-2060-4D3F-BA33-77A55A783155}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{60A3D2DB-2060-4D3F-BA33-77A55A783155}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{60A3D2DB-2060-4D3F-BA33-77A55A783155}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{60A3D2DB-2060-4D3F-BA33-77A55A783155}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FF81381F-DA01-4B5F-834F-ABE0EAA7EC1E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FF81381F-DA01-4B5F-834F-ABE0EAA7EC1E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FF81381F-DA01-4B5F-834F-ABE0EAA7EC1E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FF81381F-DA01-4B5F-834F-ABE0EAA7EC1E}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{253495A4-B9E5-4DAC-AF8B-C881318CB942} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
+		{8B91EBE5-B21C-4FB9-8605-11CE8E1EF1FF} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
+		{EA0FBAC3-A805-465E-89D8-75F7881FE9C2} = {D698FB6E-A9C3-4767-8DF8-05806C568B80}
+		{60A3D2DB-2060-4D3F-BA33-77A55A783155} = {D698FB6E-A9C3-4767-8DF8-05806C568B80}
+		{FF81381F-DA01-4B5F-834F-ABE0EAA7EC1E} = {D6812AFD-E0B1-43B1-AA6E-FE574FE6661E}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {68C6D5FB-A98D-4030-96CD-B042F16DAFFE}
