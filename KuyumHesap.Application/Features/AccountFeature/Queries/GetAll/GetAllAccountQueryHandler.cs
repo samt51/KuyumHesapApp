@@ -16,5 +16,6 @@ namespace KuyumHesap.Application.Features.AccountFeature.Queries.GetAll
         {
             throw new NotImplementedException();
         }
-  
+
+    }
 }
