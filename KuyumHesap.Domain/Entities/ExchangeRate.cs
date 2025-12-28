@@ -1,0 +1,35 @@
+﻿using KuyumHesap.Domain.Command;
+
+namespace KuyumHesap.Domain.Entities
+{
+    /// <summary>
+    /// DÖVİZ KURLARI
+    /// </summary>
+    public class ExchangeRate : BaseEntity
+    {
+        /// <summary>
+        /// Kurun geçerli olduğu tarih
+        /// </summary>
+        public DateTime RateDate { get; set; }
+
+        /// <summary>
+        /// Döviz kuru kimliği
+        /// </summary>
+        public int ExchangeRateId { get; set; }
+
+        /// <summary>
+        /// Alış kuru
+        /// </summary>
+        public decimal BuyRate { get; set; }
+
+        /// <summary>
+        /// Satış kuru
+        /// </summary>
+        public decimal SellRate { get; set; }
+
+        /// <summary>
+        /// Bir önceki günün kapanış kuru
+        /// </summary>
+        public decimal? PreviousCloseRate { get; set; }
+    }
+}
