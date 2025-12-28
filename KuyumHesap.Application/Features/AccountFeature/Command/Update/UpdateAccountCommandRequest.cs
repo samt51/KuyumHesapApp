@@ -1,12 +1,11 @@
-﻿using KuyumHesap.Domain.Command;
+﻿using KuyumHesap.Application.Common.Models;
+using MediatR;
 
-namespace KuyumHesap.Domain.Entities
+namespace KuyumHesap.Application.Features.AccountFeature.Command.Update
 {
-    /// <summary>
-    /// Hesaplar Tablosu
-    /// </summary>
-    public class Account : BaseEntity
+    public class UpdateAccountCommandRequest : IRequest<ResponseDto<UpdateAccountCommandResponse>>
     {
+        public int Id { get; set; }
         /// <summary>
         /// Hesap adı (firma, kişi veya kurum adı)
         /// </summary>
@@ -16,7 +15,6 @@ namespace KuyumHesap.Domain.Entities
         /// Hesap tipi kimliği (Foreign Key -> AccountTypes)
         /// </summary>
         public int AccountTypeId { get; set; }
-        public AccountType AccountType { get; set; }
 
         /// <summary>
         /// Müşteri tipi (Bireysel, Kurumsal vb.)
@@ -92,19 +90,5 @@ namespace KuyumHesap.Domain.Entities
         /// Hesabın tezgahtar (satış personeli) olup olmadığı
         /// </summary>
         public bool IsCashier { get; set; }
-
-        public List<Movements> Movements { get; set; }
-        public List<Receipt> Receipts { get; set; }
-
-        public Account(List<Movements> movements, List<Receipt> receipts)
-        {
-            Movements = movements;
-            Receipts = receipts;
-        }
-        public Account()
-        {
-
-        }
     }
-
 }

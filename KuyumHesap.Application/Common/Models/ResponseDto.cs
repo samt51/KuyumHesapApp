@@ -18,6 +18,7 @@
         {
             return new ResponseDto<T> { Data = data, StatusCode = 200, IsSuccess = true, Errors = new List<string>() };
         }
+ 
         public ResponseDto<T> Fail(T data, List<string> errors, int statusCode)
         {
             return new ResponseDto<T> { Data = data, Errors = errors, StatusCode = statusCode, IsSuccess = false };
@@ -36,6 +37,11 @@
         {
             Errors.Add(errors);
             return new ResponseDto<T> { Errors = Errors, StatusCode = statusCode, IsSuccess = false };
+        }
+        public ResponseDto<T> Fail(string errors)
+        {
+            Errors.Add(errors);
+            return new ResponseDto<T> { Errors = Errors, StatusCode = 400, IsSuccess = false };
         }
     }
 }

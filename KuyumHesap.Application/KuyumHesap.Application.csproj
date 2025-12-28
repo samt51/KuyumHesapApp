@@ -7,8 +7,11 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Common\Extensions\" />
-    <Folder Include="Features\" />
+    <Folder Include="Features\AccountFeature\Exceptions\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="Features\AccountFeature\Command\Create\CreateAccountCommandHandler.cs" />
   </ItemGroup>
 
   <ItemGroup>
