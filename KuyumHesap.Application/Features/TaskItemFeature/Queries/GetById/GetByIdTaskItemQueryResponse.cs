@@ -1,17 +1,10 @@
-﻿using KuyumHesap.Domain.Command;
-using KuyumHesap.Domain.Enums;
+﻿using KuyumHesap.Domain.Enums;
 
-namespace KuyumHesap.Domain.Entities
+namespace KuyumHesap.Application.Features.TaskItemFeature.Queries.GetById
 {
-    /// <summary>
-    /// GÖREV MADDELERİ
-    /// </summary>
-    public class TaskItem : BaseEntity
+    public class GetByIdTaskItemQueryResponse
     {
-        public TaskItem()
-        {
-            
-        }
+        public int Id { get; set; }
         /// <summary>
         /// Görev başlığı
         /// </summary>
@@ -26,18 +19,11 @@ namespace KuyumHesap.Domain.Entities
         /// Görevi atayan kullanıcı kimliği
         /// </summary>
         public int AssignedByUserId { get; set; }
-        public Users Users { get; set; }
-
-        public TaskItem(Users users)
-        {
-            Users = users;
-        }
 
         /// <summary>
         /// Görevin atandığı kullanıcı kimliği
         /// </summary>
         public int? AssignedToUserId { get; set; }
-        public Users? AssignedToUser { get; set; }
 
         /// <summary>
         /// Görevin oluşturulma tarihi
@@ -63,6 +49,5 @@ namespace KuyumHesap.Domain.Entities
         /// Görevin aktiflik durumu
         /// </summary>
         public bool IsActive { get; set; }
-
     }
 }

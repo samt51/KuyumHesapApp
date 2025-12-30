@@ -5,6 +5,7 @@ using KuyumHesap.Application.Features.ReceiptFeature.Commands.Delete;
 using KuyumHesap.Application.Features.ReceiptFeature.Commands.Update;
 using KuyumHesap.Application.Features.ReceiptFeature.Commands.UpdateAgreement;
 using KuyumHesap.Application.Features.ReceiptFeature.Queries.GetAll;
+using KuyumHesap.Application.Features.ReceiptFeature.Queries.GetById;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -41,6 +42,12 @@ namespace KuyumHesap.Api.Controllers.ReceiptCont
         public async Task<ResponseDto<DeleteReceiptCommandResponse>> DeleteAsync(int id, CancellationToken token)
         {
             return await _mediator.Send(new DeleteReceiptCommandRequest(id), token);
+        }
+
+        [HttpGet("{id}")]
+        public async Task<ResponseDto<GetByIdReceiptQueryResponse>> GetByIdAsync(int id, CancellationToken token)
+        {
+            return await _mediator.Send(new GetByIdReceiptQueryRequest(id), token);
         }
     }
 }

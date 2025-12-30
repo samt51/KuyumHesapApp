@@ -9,6 +9,8 @@
   <ItemGroup>
     <Folder Include="Features\AccountFeature\Exceptions\" />
     <Folder Include="Features\BarcodeDetailFeature\Queries\" />
+    <Folder Include="Features\CureFeature\Queries\" />
+    <Folder Include="Features\MovementFeature\Commands\" />
   </ItemGroup>
 
   <ItemGroup>
