@@ -1,9 +1,10 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using KuyumHesap.Domain.Command;
+using Microsoft.EntityFrameworkCore;
 
 namespace KuyumHesap.Domain.Entities.VwModels
 {
     [Keyless]
-    public class EkstreSatirViewModel
+    public class EkstreSatirViewModel : IBaseEntity
     {
         public int HareketID { get; set; }
         public int FisID { get; set; }

@@ -20,5 +20,11 @@ namespace KuyumHesap.Domain.Entities
         public string? BarkodYaziciAdi { get; set; }
         public string? FisYaziciAdi { get; set; }
         public string? VarsayilanYaziciAdi { get; set; }
+        public List<TaskItem> TaskItems { get; set; }
+
+        public Users(List<TaskItem> taskItems)
+        {
+            TaskItems = taskItems;
+        }
     }
 }

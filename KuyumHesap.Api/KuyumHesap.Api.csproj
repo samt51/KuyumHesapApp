@@ -12,6 +12,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\KuyumHesap.Application\KuyumHesap.Application.csproj" />
+    <ProjectReference Include="..\KuyumHesap.Infrastructure\KuyumHesap.Infrastructure.csproj" />
     <ProjectReference Include="..\KuyumHesap.Persistence\KuyumHesap.Persistence.csproj" />
   </ItemGroup>
 
