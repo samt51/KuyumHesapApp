@@ -8,6 +8,7 @@
 
   <ItemGroup>
     <Folder Include="Features\AccountFeature\Exceptions\" />
+    <Folder Include="Features\BarcodeDetailFeature\Queries\" />
   </ItemGroup>
 
   <ItemGroup>

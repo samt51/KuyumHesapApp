@@ -7,12 +7,17 @@ namespace KuyumHesap.Domain.Entities
     /// </summary>
     public class BarcodeDetail : BaseEntity
     {
+        public BarcodeDetail()
+        {
+
+        }
+
 
         /// <summary>
         /// Bağlı olduğu barkod başlık kimliği (Foreign Key -> BarcodeHeaders)
         /// </summary>
         public int BarcodeHeaderId { get; set; }
-        public required BarcodeHeader BarcodeHeader { get; set; }
+        public BarcodeHeader BarcodeHeader { get; set; }
 
         /// <summary>
         /// Başlık veya alanın görünen adı

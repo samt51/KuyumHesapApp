@@ -34,5 +34,9 @@ namespace KuyumHesap.Domain.Entities
         {
             Accounts = accounts;
         }
+        public AccountType()
+        {
+            
+        }
     }
 }

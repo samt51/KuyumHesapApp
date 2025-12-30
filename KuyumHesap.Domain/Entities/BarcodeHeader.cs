@@ -7,6 +7,10 @@ namespace KuyumHesap.Domain.Entities
     /// </summary>
     public class BarcodeHeader : BaseEntity
     {
+        public BarcodeHeader()
+        {
+            
+        }
         /// <summary>
         /// Barkod başlık adı
         /// </summary>

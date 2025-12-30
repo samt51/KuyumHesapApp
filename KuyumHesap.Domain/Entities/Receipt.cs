@@ -7,10 +7,14 @@ namespace KuyumHesap.Domain.Entities
     /// </summary>
     public class Receipt : BaseEntity
     {
+        public Receipt()
+        {
+            
+        }
         /// <summary>
         /// Fiş Numarası Otomatik Atama
         /// </summary>
-        public string ReceiptNumber { get; set; }= string.Empty;
+        public string ReceiptNumber { get; set; } = string.Empty;
         /// <summary>
         /// Fiş Tarihi
         /// </summary>
@@ -19,7 +23,7 @@ namespace KuyumHesap.Domain.Entities
         /// Cari Hesap Id
         /// </summary>
         public int CurrentAccountId { get; set; }
-        public required Account Account { get; set; }
+        public Account Account { get; set; }
         /// <summary>
         /// Personel Id Bilgisi
         /// </summary>
@@ -27,7 +31,7 @@ namespace KuyumHesap.Domain.Entities
         /// <summary>
         /// Açıklama
         /// </summary>
-        public string? Description { get; set; } 
+        public string? Description { get; set; }
         /// <summary>
         /// Cari Mi ? 
         /// </summary>

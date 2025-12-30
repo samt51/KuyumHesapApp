@@ -8,10 +8,13 @@
         public TDest Map<TDest, TSrc>(TSrc src)
             => _mapper.Map<TSrc, TDest>(src);
 
-        public IList<TDest> Map<TDest, TSrc>(IEnumerable<TSrc> src)
+        public List<TDest> Map<TDest, TSrc>(IEnumerable<TSrc> src)
             => _mapper.Map<List<TDest>>(src);
 
         public TDest Map<TDest>(object src)
             => _mapper.Map<TDest>(src);
+
+        public TDest Map<TSrc, TDest>(TSrc source, TDest destination)
+               => _mapper.Map(source, destination);
     }
 }

@@ -7,7 +7,10 @@ namespace KuyumHesap.Domain.Entities
     /// </summary>
     public class StockType : BaseEntity
     {
-
+        public StockType()
+        {
+            
+        }
         /// <summary>
         /// Stok tipi adı
         /// </summary>
@@ -17,13 +20,13 @@ namespace KuyumHesap.Domain.Entities
         /// Bağlı olduğu stok grup kimliği (Foreign Key -> StockGroups)
         /// </summary>
         public int StockGroupId { get; set; }
-        public required StockGroup StockGroup { get; set; }
+        public  StockGroup StockGroup { get; set; }
 
         /// <summary>
         /// Stok tipine bağlı döviz kimliği (Foreign Key -> Currencies)
         /// </summary>
         public int CurrencyId { get; set; }
-        public required Currency Currency { get; set; }
+        public  Currency Currency { get; set; }
 
         /// <summary>
         /// Stok tipinin aktiflik durumu

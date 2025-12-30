@@ -7,6 +7,10 @@ namespace KuyumHesap.Domain.Entities
     /// </summary>
     public class StockGroup : BaseEntity
     {
+        public StockGroup()
+        {
+            
+        }
         /// <summary>
         /// Stok grup adı
         /// </summary>

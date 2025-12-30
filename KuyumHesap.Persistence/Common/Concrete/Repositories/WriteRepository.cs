@@ -24,7 +24,7 @@ namespace KuyumHesap.Persistence.Common.Concrete.Repositories
 
 
 
-        public async Task AddRangeAsync(IList<T> entities)
+        public async Task AddRangeAsync(List<T> entities)
         {
             await Table.AddRangeAsync(entities);
         }

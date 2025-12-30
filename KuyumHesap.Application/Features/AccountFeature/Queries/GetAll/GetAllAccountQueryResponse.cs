@@ -7,6 +7,6 @@
         public bool IsActive { get; set; }
         public int AccountTypeId { get; set; }
         public string AccountTypeName { get; set; } = string.Empty;
-        public string Tezgahtar { get; set; } = string.Empty;   
+        public bool Tezgahtar { get; set; }
     }
 }

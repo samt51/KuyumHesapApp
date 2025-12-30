@@ -7,6 +7,10 @@ namespace KuyumHesap.Domain.Entities
     /// </summary>
     public class Currency : BaseEntity
     {
+        public Currency()
+        {
+            
+        }
         /// <summary>
         /// Döviz kodu (ISO 4217 - TRY, USD, EUR vb.)
         /// </summary>

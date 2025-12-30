@@ -1,5 +1,7 @@
 ﻿using KuyumHesap.Domain.Entities;
+using KuyumHesap.Domain.Entities.VwModels;
 using Microsoft.EntityFrameworkCore;
+using System.Reflection.Emit;
 
 namespace KuyumHesap.Persistence.Common.Context
 {
@@ -12,6 +14,11 @@ namespace KuyumHesap.Persistence.Common.Context
         protected override void OnModelCreating(ModelBuilder b)
         {
             b.ApplyConfigurationsFromAssembly(typeof(AppDbContext).Assembly);
+            b.
+       Entity<EkstreSatirViewModel>()
+       .HasNoKey()
+       .ToView("vw_HesapEkstresi");
+
         }
         public DbSet<Account> Accounts { get; set; }
         public DbSet<AccountType> AccountTypes { get; set; }
@@ -30,5 +37,7 @@ namespace KuyumHesap.Persistence.Common.Context
         public DbSet<StockType> StockTypes { get; set; }
         public DbSet<TaskItem> TaskItems { get; set; }
         public DbSet<Users> Users { get; set; }
+        public DbSet<EkstreSatirViewModel> ReceiptViews => Set<EkstreSatirViewModel>();
+
     }
 }

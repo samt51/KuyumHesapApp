@@ -7,29 +7,33 @@ namespace KuyumHesap.Domain.Entities
     /// </summary>
     public class Movements : BaseEntity
     {
+        public Movements()
+        {
+            
+        }
         /// <summary>
         /// Bağlı olduğu fişin kimliği (Foreign Key -> Receipts)
         /// </summary>
         public int ReceiptId { get; set; }
-        public required Receipt Receipt { get; set; }
+        public  Receipt Receipt { get; set; }
 
         /// <summary>
         /// Hareket tipi kimliği (Foreign Key -> TransactionTypes)
         /// </summary>
         public int TransactionTypeId { get; set; }
-        public required MovementType TransactionType { get; set; }
+        public  MovementType TransactionType { get; set; }
 
         /// <summary>
         /// İşlemin ait olduğu hesap kimliği (Foreign Key -> Accounts)
         /// </summary>
         public int AccountId { get; set; }
-        public required Account Account { get; set; }
+        public  Account Account { get; set; }
 
         /// <summary>
         /// İşleme konu olan stok kimliği (Foreign Key -> Stocks)
         /// </summary>
         public int? StockId { get; set; }
-        public required Stock Stock { get; set; }
+        public  Stock Stock { get; set; }
 
         /// <summary>
         /// Hareket açıklaması
