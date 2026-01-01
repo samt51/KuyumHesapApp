@@ -3,7 +3,14 @@ using KuyumHesap.Application;
 using KuyumHesap.Infrastructure;
 using KuyumHesap.Persistence;
 using Microsoft.OpenApi.Models;
+using KuyumHesap.Application.Common.Middleware.ExceptionFilter;
+
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Configuration
+    .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
+    .AddJsonFile($"appsettings.{builder.Environment.EnvironmentName}.json", optional: true, reloadOnChange: true)
+    .AddEnvironmentVariables();
 
 // Add services to the container.
 
@@ -45,6 +52,7 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+app.ConfigureExceptionHandlingMiddleware();
 
 app.UseAuthorization();
 

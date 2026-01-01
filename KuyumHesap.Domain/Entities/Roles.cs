@@ -7,6 +7,10 @@ namespace KuyumHesap.Domain.Entities
     /// </summary>
     public class Roles : BaseEntity
     {
+        public Roles()
+        {
+            
+        }
         /// <summary>
         /// Role Name
         /// </summary>

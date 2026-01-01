@@ -1,4 +1,5 @@
 ﻿using FluentValidation;
+using KuyumHesap.Application.Common.Middleware.ExceptionFilter;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -12,6 +13,8 @@ namespace KuyumHesap.Application
         public static IServiceCollection AddApplication(this IServiceCollection services, IConfiguration configuration)
         {
             var assembly = Assembly.GetExecutingAssembly();
+          
+            services.AddTransient<ExceptionMiddleware>();
 
             services.AddValidatorsFromAssembly(assembly);
 
@@ -25,7 +28,7 @@ namespace KuyumHesap.Application
 
 
 
-  
+
             return services;
 
         }
