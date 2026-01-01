@@ -1,6 +1,5 @@
 ﻿using KuyumHesap.Infrastructure.Services.Abstract;
 using KuyumHesap.Infrastructure.Services.Concrete;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System.Reflection;

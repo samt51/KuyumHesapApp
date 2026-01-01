@@ -1,4 +1,6 @@
 ﻿using AutoMapper;
+using KuyumHesap.Application.Common.Models.Dtos;
+using KuyumHesap.Domain.Entities;
 
 namespace KuyumHesap.Persistence.Common.Concrete.Mapping
 {
@@ -6,7 +8,8 @@ namespace KuyumHesap.Persistence.Common.Concrete.Mapping
     {
         public MappingProfile()
         {
-            
+            CreateMap<Currency, CurrencyResponseDto>().ReverseMap();
+            CreateMap<StockGroup,StockGroupResponseDto>().ReverseMap(); 
         }
     }
 }

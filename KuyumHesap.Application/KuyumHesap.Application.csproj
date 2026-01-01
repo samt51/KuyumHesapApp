@@ -9,8 +9,8 @@
   <ItemGroup>
     <Folder Include="Features\AccountFeature\Exceptions\" />
     <Folder Include="Features\BarcodeDetailFeature\Queries\" />
-    <Folder Include="Features\CureFeature\Queries\" />
     <Folder Include="Features\MovementFeature\Commands\" />
+    <Folder Include="Features\ReportFeature\Commands\" />
   </ItemGroup>
 
   <ItemGroup>
@@ -30,6 +30,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\KuyumHesap.Domain\KuyumHesap.Domain.csproj" />
+    <ProjectReference Include="..\KuyumHesap.Infrastructure\KuyumHesap.Infrastructure.csproj" />
   </ItemGroup>
 
 </Project>

@@ -3,6 +3,7 @@ using KuyumHesap.Domain.Command;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Query;
 using System.Linq.Expressions;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace KuyumHesap.Persistence.Common.Concrete.Repositories
 {
@@ -87,11 +88,14 @@ namespace KuyumHesap.Persistence.Common.Concrete.Repositories
         /// <param name="enableTracking"></param>
         /// <returns></returns>
         /// <exception cref="NotFoundException"></exception>
-        public async Task<T> GetAsync(Expression<Func<T, bool>> predicate, Func<IQueryable<T>, IIncludableQueryable<T, object>>? include = null, bool enableTracking = false)
+        public async Task<T> GetAsync(Expression<Func<T, bool>> predicate, Func<IQueryable<T>, IIncludableQueryable<T, object>>? include = null, Func<IQueryable<T>, IOrderedQueryable<T>>? orderBy = null, bool enableTracking = false)
         {
             IQueryable<T> queryable = Table;
             if (!enableTracking) queryable = queryable.AsNoTracking();
             if (include is not null) queryable = include(queryable);
+            if (orderBy is not null)
+                queryable = orderBy(queryable);
+
 
             //queryable.Where(predicate);
 
@@ -117,11 +121,13 @@ namespace KuyumHesap.Persistence.Common.Concrete.Repositories
         /// <param name="include"></param>
         /// <param name="enableTracking"></param>
         /// <returns></returns>
-        public async Task<T> FindAsync(Expression<Func<T, bool>> predicate, Func<IQueryable<T>, IIncludableQueryable<T, object>>? include = null, bool enableTracking = false)
+        public async Task<T> FindAsync(Expression<Func<T, bool>> predicate, Func<IQueryable<T>, IIncludableQueryable<T, object>>? include = null, Func<IQueryable<T>, IOrderedQueryable<T>>? orderBy = null, bool enableTracking = false)
         {
             IQueryable<T> queryable = Table;
             if (!enableTracking) queryable = queryable.AsNoTracking();
             if (include is not null) queryable = include(queryable);
+            if (orderBy is not null)
+                queryable = orderBy(queryable);
 
             //queryable.Where(predicate);
 

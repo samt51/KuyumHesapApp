@@ -35,6 +35,7 @@ namespace KuyumHesap.Application.Common.Abstractions.Repositories
         /// <exception cref="NotFoundException"></exception>
         Task<T> GetAsync(Expression<Func<T, bool>> predicate,
             Func<IQueryable<T>, IIncludableQueryable<T, object>>? include = null,
+            Func<IQueryable<T>, IOrderedQueryable<T>>? orderBy = null,
             bool enableTracking = false);
 
 
@@ -47,6 +48,7 @@ namespace KuyumHesap.Application.Common.Abstractions.Repositories
         /// <returns></returns>
         Task<T> FindAsync(Expression<Func<T, bool>> predicate,
             Func<IQueryable<T>, IIncludableQueryable<T, object>>? include = null,
+            Func<IQueryable<T>, IOrderedQueryable<T>>? orderBy = null,
             bool enableTracking = false);
 
         Task<int> CountAsync(Expression<Func<T, bool>>? predicate = null);

@@ -1,12 +1,18 @@
 ﻿using KuyumHesap.Domain.Entities;
 using KuyumHesap.Domain.Entities.VwModels;
 using Microsoft.EntityFrameworkCore;
-using System.Reflection.Emit;
 
 namespace KuyumHesap.Persistence.Common.Context
 {
     public class AppDbContext : DbContext
     {
+        [DbFunction("fn_KurCevir", "dbo")]
+        public static decimal KurCevir(
+    DateTime tarih,
+    string kaynakDoviz,
+    string hedefDoviz,
+    decimal miktar)
+    => throw new NotSupportedException();
         public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
         {
 
@@ -18,6 +24,8 @@ namespace KuyumHesap.Persistence.Common.Context
        Entity<EkstreSatirViewModel>()
        .HasNoKey()
        .ToView("vw_HesapEkstresi");
+
+
 
         }
         public DbSet<Account> Accounts { get; set; }

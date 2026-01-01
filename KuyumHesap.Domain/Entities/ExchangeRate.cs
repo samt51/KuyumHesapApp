@@ -16,6 +16,7 @@ namespace KuyumHesap.Domain.Entities
         /// Döviz kuru kimliği
         /// </summary>
         public int ExchangeRateId { get; set; }
+        public Currency Currency { get; set; }
 
         /// <summary>
         /// Alış kuru

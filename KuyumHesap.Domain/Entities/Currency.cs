@@ -9,7 +9,7 @@ namespace KuyumHesap.Domain.Entities
     {
         public Currency()
         {
-            
+
         }
         /// <summary>
         /// Döviz kodu (ISO 4217 - TRY, USD, EUR vb.)
@@ -60,13 +60,15 @@ namespace KuyumHesap.Domain.Entities
         /// Satış kuru oranı
         /// </summary>
         public decimal SellRate { get; set; }
+        public List<ExchangeRate> ExchangeRates { get; set; }
 
         public List<Movements> Movements { get; set; }
         public List<StockType> StockTypes { get; set; }
-        public Currency(List<Movements> movements, List<StockType> stockTypes)
+        public Currency(List<Movements> movements, List<StockType> stockTypes, List<ExchangeRate> exchangeRates)
         {
             Movements = movements;
             StockTypes = stockTypes;
+            ExchangeRates = exchangeRates;
         }
     }
 

@@ -1,10 +1,13 @@
 ﻿using KuyumHesap.Application.Common.Abstractions.Aut.Jwt;
 using KuyumHesap.Application.Common.Abstractions.Mapper;
 using KuyumHesap.Application.Common.Abstractions.Repositories;
+using KuyumHesap.Application.Common.Abstractions.SqlViewAndFuncQuery;
 using KuyumHesap.Application.Common.Abstractions.UnitOfWorks;
 using KuyumHesap.Persistence.Common.Concrete.Auth;
 using KuyumHesap.Persistence.Common.Concrete.Mapping;
 using KuyumHesap.Persistence.Common.Concrete.Repositories;
+using KuyumHesap.Persistence.Common.Concrete.SqlFunctions;
+using KuyumHesap.Persistence.Common.Concrete.SqlFunctions.AccountBalanceFunc;
 using KuyumHesap.Persistence.Common.Concrete.UnitOfWorks;
 using KuyumHesap.Persistence.Common.Context;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -33,6 +36,11 @@ namespace KuyumHesap.Persistence
             services.AddScoped<IUnitOfWork, UnitOfWork>();
 
             services.AddTransient<ITokenService, TokenService>();
+
+            services.AddScoped<IAccountBalanceQuery, AccountBalanceQuerySqlFunc>();
+
+            services.AddScoped<ITotalHasBalanceQuery, TotalHasBalanceQuery>();
+
 
             services.AddAuthentication(opt =>
             {
