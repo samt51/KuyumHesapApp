@@ -1,4 +1,5 @@
 ﻿using KuyumHesap.Application.Common.Abstractions.Aut.Jwt;
+using KuyumHesap.Application.Common.Models.Dtos;
 using KuyumHesap.Domain.Entities;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Options;
@@ -82,35 +83,35 @@ namespace KuyumHesap.Persistence.Common.Concrete.Auth
             return principal;
 
         }
-        //public Task<LoginCommandResponse> GenerateToken(GenerateTokenRequest roleRequest)
-        //{
+        public Task<LoginCommandResponse> GenerateToken(GenerateTokenRequest roleRequest)
+        {
 
-        //    SymmetricSecurityKey symmetricSecurityKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(configuration["JWT:Secret"]));
+            SymmetricSecurityKey symmetricSecurityKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(configuration["JWT:Secret"]));
 
-        //    var notBefore = DateTime.Now;
-        //    var expiresTime = DateTime.Now.AddDays(1);
+            var notBefore = DateTime.Now;
+            var expiresTime = DateTime.Now.AddDays(1);
 
 
-        //    JwtSecurityToken jwt = new JwtSecurityToken(
-        //        issuer: configuration["JWT:Issuer"],
-        //        audience: configuration["JWT:Audience"],
-        //        claims: new List<Claim> {
-        //            new Claim("role", roleRequest.Role),
-        //            new Claim(ClaimTypes.Email,roleRequest.Email),
-        //            new Claim("Id",roleRequest.Id.ToString()),
-        //            new Claim(ClaimTypes.Name,roleRequest.Email.ToString())
+            JwtSecurityToken jwt = new JwtSecurityToken(
+                issuer: configuration["JWT:Issuer"],
+                audience: configuration["JWT:Audience"],
+                claims: new List<Claim> {
+                    new Claim("role", roleRequest.Role),
+                    new Claim(ClaimTypes.Email,roleRequest.Email),
+                    new Claim("Id",roleRequest.Id.ToString()),
+                    new Claim(ClaimTypes.Name,roleRequest.Email.ToString())
 
-        //        },
-        //        expires: expiresTime,
-        //        notBefore: notBefore,
-        //        signingCredentials: new SigningCredentials(symmetricSecurityKey, SecurityAlgorithms.HmacSha256)
-        //    );
+                },
+                expires: expiresTime,
+                notBefore: notBefore,
+                signingCredentials: new SigningCredentials(symmetricSecurityKey, SecurityAlgorithms.HmacSha256)
+            );
 
-        //    return Task.FromResult(new LoginCommandResponse
-        //    {
-        //        Token = new JwtSecurityTokenHandler().WriteToken(jwt),
-        //        TokenExpireDate = notBefore
-        //    });
-        //}
+            return Task.FromResult(new LoginCommandResponse
+            {
+                Token = new JwtSecurityTokenHandler().WriteToken(jwt),
+                TokenExpireDate = notBefore
+            });
+        }
     }
 }

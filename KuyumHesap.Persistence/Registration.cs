@@ -14,6 +14,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 
@@ -23,8 +24,15 @@ namespace KuyumHesap.Persistence
     {
         public static void AddPersistence(this IServiceCollection services, IConfiguration configuration)
         {
+
+            var optionsBuilder = new DbContextOptionsBuilder<AppDbContext>();
+
+            var connectionString = configuration.GetConnectionString("DefaultConnection");
+
+            optionsBuilder.UseSqlServer(connectionString);
             services.AddDbContext<AppDbContext>(opt =>
-                opt.UseSqlServer(configuration.GetConnectionString("DefaultConnection")));
+        opt.UseSqlServer(connectionString));
+
 
             services.Configure<TokenSettings>(configuration.GetSection("JWT"));
             services.AddAutoMapper(typeof(MappingProfile).Assembly);
@@ -40,6 +48,9 @@ namespace KuyumHesap.Persistence
             services.AddScoped<IAccountBalanceQuery, AccountBalanceQuerySqlFunc>();
 
             services.AddScoped<ITotalHasBalanceQuery, TotalHasBalanceQuery>();
+
+
+
 
 
             services.AddAuthentication(opt =>

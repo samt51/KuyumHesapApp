@@ -18,7 +18,7 @@
         {
             return new ResponseDto<T> { Data = data, StatusCode = 200, IsSuccess = true, Errors = new List<string>() };
         }
- 
+
         public ResponseDto<T> Fail(T data, List<string> errors, int statusCode)
         {
             return new ResponseDto<T> { Data = data, Errors = errors, StatusCode = statusCode, IsSuccess = false };

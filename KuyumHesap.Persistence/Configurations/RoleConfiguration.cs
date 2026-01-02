@@ -13,6 +13,7 @@ namespace KuyumHesap.Persistence.Configurations
                 new Roles { Id = 1, Name = "Admin", Code = "ADMIN", Type = "System" },
                 new Roles { Id = 2, Name = "User", Code = "USER", Type = "System" }
             };  
+            builder.HasData(data);
         }
     }
 }

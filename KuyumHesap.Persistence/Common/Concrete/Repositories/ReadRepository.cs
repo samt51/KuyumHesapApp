@@ -2,6 +2,7 @@
 using KuyumHesap.Domain.Command;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Query;
+using SendGrid.Helpers.Errors.Model;
 using System.Linq.Expressions;
 using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
@@ -102,7 +103,7 @@ namespace KuyumHesap.Persistence.Common.Concrete.Repositories
             var data = await queryable.FirstOrDefaultAsync(predicate);
             if (data is null)
             {
-                throw new Exception($"{typeof(T).Name} Is Not Found");
+                throw new NotFoundException($"{typeof(T).Name} Is Not Found");
             }
             return data;
         }

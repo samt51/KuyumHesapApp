@@ -1,13 +1,10 @@
-﻿using KuyumHesap.Application.Common.Models;
-using Microsoft.Extensions.Logging;
+﻿using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 
 namespace KuyumHesap.Application.Common.Middleware.ExceptionFilter
 {
     public class ExceptionModel
     {
-        public ResponseDto<ExceptionModel> Response { get; set; }
-
         public override string ToString()
         {
             return JsonConvert.SerializeObject(this);

@@ -1,6 +1,8 @@
 ﻿using FluentValidation;
+using KuyumHesap.Application.Common.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
+using SendGrid.Helpers.Errors.Model;
 using System.Text.Json;
 
 namespace KuyumHesap.Application.Common.Middleware.ExceptionFilter
@@ -22,41 +24,45 @@ namespace KuyumHesap.Application.Common.Middleware.ExceptionFilter
             {
                 var userId = context.User?.FindFirst("Id")?.Value ?? "-";
                 using (_logger.BeginScope(new Dictionary<string, object> { ["UserId"] = userId }))
-                    _logger.LogError(ex, "Unhandled exception");
+                    _logger.LogError(ex, "Unhandled exception"); // ✅ ex'i direkt ver
 
                 await HandleExceptionAsync(context, ex);
             }
         }
 
-        private static Task HandleExceptionAsync(HttpContext httpContext, Exception exception)
-        {
-            var statusCode = exception is ValidationException
-                ? StatusCodes.Status422UnprocessableEntity
-                : StatusCodes.Status500InternalServerError;
+        private static int GetStatusCode(Exception exception) =>
+            exception switch
+            {
+                BadRequestException => StatusCodes.Status400BadRequest,
+                NotFoundException => StatusCodes.Status404NotFound, // ✅ 400 değil 404 olmalı
+                ValidationException => StatusCodes.Status422UnprocessableEntity,
+                _ => StatusCodes.Status500InternalServerError
+            };
 
+        private static async Task HandleExceptionAsync(HttpContext httpContext, Exception exception)
+        {
+            var statusCode = GetStatusCode(exception);
+
+            httpContext.Response.Clear();
             httpContext.Response.StatusCode = statusCode;
             httpContext.Response.ContentType = "application/json; charset=utf-8";
 
-            if (exception is ValidationException vex)
+            // ✅ ResponseDto<T> oluştur (T burada object olsun)
+            ResponseDto<object> response;
+
+            if (exception is ValidationException validationEx)
             {
-                var payload = new
-                {
-                    statusCode = StatusCodes.Status400BadRequest,
-                    isSuccess = false,
-                    errors = vex.Errors.Select(e => e.ErrorMessage).ToList()
-                };
-                var json = JsonSerializer.Serialize(payload, JsonOpt);
-                return httpContext.Response.WriteAsync(json);
+                var errors = validationEx.Errors.Select(x => x.ErrorMessage).ToList();
+                response = new ResponseDto<object>().Fail(errors, statusCode);
+            }
+            else
+            {
+                response = new ResponseDto<object>().Fail(exception.Message, statusCode);
             }
 
-            var generic = new
-            {
-                statusCode,
-                isSuccess = false,
-                errors = new[] { "Internal Server Error" }
-            };
-            var genericJson = JsonSerializer.Serialize(generic, JsonOpt);
-            return httpContext.Response.WriteAsync(genericJson);
+            // ✅ JSON olarak yaz
+            await httpContext.Response.WriteAsync(JsonSerializer.Serialize(response, JsonOpt));
+            // Alternatif: await httpContext.Response.WriteAsJsonAsync(response, JsonOpt);
         }
     }
 }

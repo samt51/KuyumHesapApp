@@ -25,6 +25,19 @@ namespace KuyumHesap.Persistence.Common.Context
        .HasNoKey()
        .ToView("vw_HesapEkstresi");
 
+            b.Entity<TaskItem>(entity =>
+            {
+                entity.HasOne(x => x.AssignedByUser)
+                      .WithMany(u => u.AssignedTasks)
+                      .HasForeignKey(x => x.AssignedByUserId)
+                      .OnDelete(DeleteBehavior.Restrict);
+
+                entity.HasOne(x => x.AssignedToUser)
+                      .WithMany(u => u.CreatedTasks)
+                      .HasForeignKey(x => x.AssignedToUserId)
+                      .OnDelete(DeleteBehavior.Restrict);
+            });
+
 
 
         }

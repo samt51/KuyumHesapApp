@@ -26,18 +26,13 @@ namespace KuyumHesap.Domain.Entities
         /// Görevi atayan kullanıcı kimliği
         /// </summary>
         public int AssignedByUserId { get; set; }
-        public Users Users { get; set; }
-
-        public TaskItem(Users users)
-        {
-            Users = users;
-        }
+        public Users AssignedByUser { get; set; }
 
         /// <summary>
         /// Görevin atandığı kullanıcı kimliği
         /// </summary>
         public int? AssignedToUserId { get; set; }
-        public Users? AssignedToUser { get; set; }
+        public Users AssignedToUser { get; set; }
 
         /// <summary>
         /// Görevin oluşturulma tarihi

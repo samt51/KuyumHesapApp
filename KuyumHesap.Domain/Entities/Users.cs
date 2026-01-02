@@ -10,7 +10,7 @@ namespace KuyumHesap.Domain.Entities
     {
         public Users()
         {
-            
+
         }
         public string FirstName { get; set; } = string.Empty;
         public string LastName { get; set; } = string.Empty;
@@ -24,11 +24,12 @@ namespace KuyumHesap.Domain.Entities
         public string? BarkodYaziciAdi { get; set; }
         public string? FisYaziciAdi { get; set; }
         public string? VarsayilanYaziciAdi { get; set; }
-        public List<TaskItem> TaskItems { get; set; }
-
-        public Users(List<TaskItem> taskItems)
+        public List<TaskItem> AssignedTasks { get; set; }
+        public List<TaskItem> CreatedTasks { get; set; }
+        public Users(List<TaskItem> askItems, List<TaskItem> bskItems)
         {
-            TaskItems = taskItems;
+            AssignedTasks = askItems;
+            CreatedTasks = bskItems;
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using KuyumHesap.Domain.Enums;
+﻿using KuyumHesap.Application.Common.Models.Dtos.ResponseDtos;
+using KuyumHesap.Domain.Enums;
 
 namespace KuyumHesap.Application.Features.TaskItemFeature.Queries.GetById
 {
@@ -18,12 +19,12 @@ namespace KuyumHesap.Application.Features.TaskItemFeature.Queries.GetById
         /// <summary>
         /// Görevi atayan kullanıcı kimliği
         /// </summary>
-        public int AssignedByUserId { get; set; }
+        public UserResponseDto AssignedByUser { get; set; }
 
         /// <summary>
         /// Görevin atandığı kullanıcı kimliği
         /// </summary>
-        public int? AssignedToUserId { get; set; }
+        public UserResponseDto? AssignedToUser { get; set; }
 
         /// <summary>
         /// Görevin oluşturulma tarihi

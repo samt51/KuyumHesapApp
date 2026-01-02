@@ -4,7 +4,6 @@ using KuyumHesap.Application.Common.Abstractions.UnitOfWorks;
 using KuyumHesap.Application.Common.Models;
 using KuyumHesap.Domain.Entities;
 using MediatR;
-using System.Net.WebSockets;
 
 namespace KuyumHesap.Application.Features.StockGroupFeature.Queries.GetById
 {

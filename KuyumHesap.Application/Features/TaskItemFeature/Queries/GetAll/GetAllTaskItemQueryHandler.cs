@@ -40,12 +40,12 @@ namespace KuyumHesap.Application.Features.TaskItemFeature.Queries.GetAll
                 .GetAllAsync(
                     predicate: predicate,
                     include: q => q
-                        .Include(x => x.Users)
+                        .Include(x => x.AssignedByUser)
                         .Include(x => x.AssignedToUser),
                     orderBy: orderBy
                 );
 
-            var response = mapper.Map<List<GetAllTaskItemQueryResponse>>(data);
+            var response = mapper.Map<GetAllTaskItemQueryResponse, TaskItem>(data);
 
             return new ResponseDto<List<GetAllTaskItemQueryResponse>>().Success(response);
         }

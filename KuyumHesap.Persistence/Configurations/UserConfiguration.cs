@@ -23,7 +23,7 @@ namespace KuyumHesap.Persistence.Configurations
                 BagliHesapID = null
             },
                  new Users {
-                Id = 1,
+                Id = 2,
                 RoleId = 1,
                 FirstName = "Samet",
                 LastName = "Bağlan",

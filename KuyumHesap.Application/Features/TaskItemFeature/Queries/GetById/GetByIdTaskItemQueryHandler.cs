@@ -2,6 +2,7 @@
 using KuyumHesap.Application.Common.Abstractions.Mapper;
 using KuyumHesap.Application.Common.Abstractions.UnitOfWorks;
 using KuyumHesap.Application.Common.Models;
+using KuyumHesap.Application.Common.Models.Dtos.ResponseDtos;
 using KuyumHesap.Domain.Entities;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -22,11 +23,15 @@ namespace KuyumHesap.Application.Features.TaskItemFeature.Queries.GetById
                 .GetAsync(
                     predicate: g => g.Id == request.Id,
                     include: q => q
-                        .Include(x => x.Users)
+                        .Include(x => x.AssignedByUser)
                         .Include(x => x.AssignedToUser)
                 );
 
             var response = mapper.Map<GetByIdTaskItemQueryResponse, TaskItem>(data);
+
+            mapper.Map<UserResponseDto, Users>(data.AssignedByUser);
+
+            mapper.Map<UserResponseDto, Users>(data.AssignedToUser);    
 
             return new ResponseDto<GetByIdTaskItemQueryResponse>().Success(response);
         }
