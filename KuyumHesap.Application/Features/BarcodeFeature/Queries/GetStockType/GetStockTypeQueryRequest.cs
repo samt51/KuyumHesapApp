@@ -3,10 +3,10 @@ using MediatR;
 
 namespace KuyumHesap.Application.Features.BarcodeFeature.Queries.GetStockType
 {
-    public class GetStockTypeQueryRequest :IRequest<ResponseDto<List<GetStockTypeQueryResponse>>>
+    public class GetStockTypeQueryRequest : IRequest<ResponseDto<List<GetStockTypeQueryResponse>>>
     {
-        public int StockGroupId { get; set; }
-        public GetStockTypeQueryRequest(int stockGroupId)
+        public List<int> StockGroupId { get; set; }
+        public GetStockTypeQueryRequest(List<int> stockGroupId)
         {
             this.StockGroupId = stockGroupId;
         }

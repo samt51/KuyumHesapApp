@@ -15,7 +15,10 @@ namespace KuyumHesap.Application.Features.BarcodeFeature.Queries.GetStock
 
         public async Task<ResponseDto<List<GetStockQueryResponse>>> Handle(GetStockQueryRequest request, CancellationToken cancellationToken)
         {
-            var data = await unitOfWork.GetReadRepository<Stock>().GetAllAsync(x => x.StockTypeId == request.StockTypeId && !x.IsDeleted);
+
+            var groupIds = request.StockTypeId.Distinct().ToList();
+
+            var data = await unitOfWork.GetReadRepository<Stock>().GetAllAsync(x => groupIds.Contains(x.StockTypeId) && !x.IsDeleted);
 
             var map = mapper.Map<GetStockQueryResponse, Stock>(data);
 

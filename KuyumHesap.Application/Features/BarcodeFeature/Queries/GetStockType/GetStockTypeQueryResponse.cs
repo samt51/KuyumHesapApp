@@ -2,7 +2,7 @@
 {
     public class GetStockTypeQueryResponse
     {
-        public int StockTypeId { get; set; }
+        public int Id { get; set; }
         public string StockTypeName { get; set; } = string.Empty;
     }
 }

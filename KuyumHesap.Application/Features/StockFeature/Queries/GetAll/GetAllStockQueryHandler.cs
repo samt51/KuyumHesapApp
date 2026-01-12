@@ -4,6 +4,7 @@ using KuyumHesap.Application.Common.Abstractions.UnitOfWorks;
 using KuyumHesap.Application.Common.Models;
 using KuyumHesap.Domain.Entities;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 
 namespace KuyumHesap.Application.Features.StockFeature.Queries.GetAll
 {
@@ -15,8 +16,17 @@ namespace KuyumHesap.Application.Features.StockFeature.Queries.GetAll
 
         public async Task<ResponseDto<List<GetAllStockQueryResponse>>> Handle(GetAllStockQueryRequest request, CancellationToken cancellationToken)
         {
-            var data = await unitOfWork.GetReadRepository<Stock>().GetAllAsync(x => !x.IsDeleted);
-            var mappedData = mapper.Map<GetAllStockQueryResponse, Stock>(data);
+            var data = await unitOfWork
+         .GetReadRepository<Stock>()
+         .GetAllAsync(
+             x => !x.IsDeleted,
+        include: q => q
+        .Include(s => s.StockGroup)
+        .Include(s => s.StockType).ThenInclude(st => st.Currency)
+        .Include(s => s.StockType).ThenInclude(st => st.StockGroup));
+
+
+            var mappedData = mapper.Map<List<GetAllStockQueryResponse>>(data);
 
             return new ResponseDto<List<GetAllStockQueryResponse>>().Success(mappedData);
         }

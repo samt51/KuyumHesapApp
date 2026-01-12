@@ -25,7 +25,7 @@ namespace KuyumHesap.Domain.Entities
         /// <summary>
         /// Stok grup kimliği (Foreign Key -> StockGroups)
         /// </summary>
-        public int GroupId { get; set; }
+        public int StockGroupId { get; set; }
         public StockGroup StockGroup { get; set; }
 
         /// <summary>

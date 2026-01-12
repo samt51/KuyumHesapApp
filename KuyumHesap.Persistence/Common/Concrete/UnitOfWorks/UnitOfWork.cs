@@ -14,19 +14,24 @@ namespace KuyumHesap.Persistence.Common.Concrete.UnitOfWorks
         }
         public async Task CommitAsync(CancellationToken cancellationToken = default)
         {
+            if (dbContext.Database.CurrentTransaction == null) return;
             await dbContext.Database.CommitTransactionAsync(cancellationToken);
         }
 
         public async Task RollBackAsync(CancellationToken cancellationToken = default)
         {
+            if (dbContext.Database.CurrentTransaction == null) return;
             await dbContext.Database.RollbackTransactionAsync(cancellationToken);
         }
 
         public async ValueTask DisposeAsync() => await dbContext.DisposeAsync();
 
-        public async Task OpenTransactionAsync(CancellationToken? cancellationToken = null)
+        public async Task OpenTransactionAsync(CancellationToken cancellationToken)
         {
-            await dbContext.Database.BeginTransactionAsync();
+            if (dbContext.Database.CurrentTransaction != null)
+                return;
+
+            await dbContext.Database.BeginTransactionAsync(cancellationToken);
         }
 
         public async Task<int> SaveAsync(CancellationToken cancellationToken = default)

@@ -8,10 +8,12 @@ using KuyumHesap.Application.Features.TaskItemFeature.Queries.GetAllMyTask;
 using KuyumHesap.Application.Features.TaskItemFeature.Queries.GetById;
 using KuyumHesap.Domain.Enums;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace KuyumHesap.Api.Controllers.TaskItemCont
 {
+    [Authorize]
     public class TaskItemController : BaseController
     {
         private readonly IMediator _mediator;
@@ -45,7 +47,7 @@ namespace KuyumHesap.Api.Controllers.TaskItemCont
             return await _mediator.Send(new DeleteTaskItemCommandRequest(id), token);
         }
         [HttpGet]
-        public async Task<ResponseDto<List<GetAllMyTaskQueryResponse>>> GetAllMyTaskAsync(CancellationToken token)
+        public async Task<ResponseDto<GetAllMyTaskQueryResponse>> GetAllMyTaskAsync(CancellationToken token)
         {
             return await _mediator.Send(new GetAllMyTaskQueryRequest(), token);
         }

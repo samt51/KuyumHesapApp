@@ -32,8 +32,8 @@ namespace KuyumHesap.Api.Controllers.ProductTypeCont
         {
             return _mediator.Send(new DeleteProductTypeCommandRequest(id), cancellationToken);
         }
-        [HttpPost]
-        public Task<ResponseDto<UpdateProductTypeCommandResponse>> CreateAsync(UpdateProductTypeCommandRequest request, CancellationToken cancellationToken)
+        [HttpPut]
+        public Task<ResponseDto<UpdateProductTypeCommandResponse>> UpdateAsync(UpdateProductTypeCommandRequest request, CancellationToken cancellationToken)
         {
             return _mediator.Send(request, cancellationToken);
         }

@@ -21,7 +21,7 @@ namespace KuyumHesap.Application.Features.CureFeature.Queries.GetLatest
 
             var list = (
                 from k in rates
-                join d in currencies on k.ExchangeRateId equals d.Id
+                join d in currencies on k.CurrencyId equals d.Id
                 where k.RateDate == today
                       && d.CurrencyCode != "TRY"
                 orderby d.Id

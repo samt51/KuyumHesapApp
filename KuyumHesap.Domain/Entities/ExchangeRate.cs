@@ -7,6 +7,10 @@ namespace KuyumHesap.Domain.Entities
     /// </summary>
     public class ExchangeRate : BaseEntity
     {
+        public ExchangeRate()
+        {
+            
+        }
         /// <summary>
         /// Kurun geçerli olduğu tarih
         /// </summary>
@@ -15,7 +19,8 @@ namespace KuyumHesap.Domain.Entities
         /// <summary>
         /// Döviz kuru kimliği
         /// </summary>
-        public int ExchangeRateId { get; set; }
+        /// 
+        public int CurrencyId { get; set; }
         public Currency Currency { get; set; }
 
         /// <summary>

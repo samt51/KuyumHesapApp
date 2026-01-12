@@ -15,11 +15,13 @@ namespace KuyumHesap.Application.Features.ExchangeFeature.Commands.Create
 
         public async Task<ResponseDto<CreateExchangeCommandResponse>> Handle(CreateExchangeCommandRequest request, CancellationToken cancellationToken)
         {
-            var map = mapper.Map<Currency, CreateExchangeCommandRequest>(request);
+            await unitOfWork.GetReadRepository<Currency>().GetAsync(x => x.Id == request.CurrencyId && !x.IsDeleted);
+
+            var map = mapper.Map<ExchangeRate, CreateExchangeCommandRequest>(request);
 
             await unitOfWork.OpenTransactionAsync(cancellationToken);
 
-            await unitOfWork.GetWriteRepository<Currency>().AddAsync(map);
+            await unitOfWork.GetWriteRepository<ExchangeRate>().AddAsync(map);
 
             await unitOfWork.SaveAsync(cancellationToken);
 

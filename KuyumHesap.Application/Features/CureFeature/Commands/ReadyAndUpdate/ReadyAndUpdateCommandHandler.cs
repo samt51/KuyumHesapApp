@@ -60,8 +60,8 @@ namespace KuyumHesap.Application.Features.CureFeature.Commands.ReadyAndUpdate
                     exchangeRateListData.Add(new ExchangeRate
                     {
                         RateDate = DateTime.Today,
-                        ExchangeRateId = cure.Id,
-                        BuyRate =alisKuru ,
+                        CurrencyId = cure.Id,
+                        BuyRate = alisKuru,
                         SellRate = satisKuru
                     });
                 }
@@ -78,7 +78,7 @@ namespace KuyumHesap.Application.Features.CureFeature.Commands.ReadyAndUpdate
                 tryKurList.Add(new ExchangeRate
                 {
                     RateDate = DateTime.Today,
-                    ExchangeRateId = tryDoviz.Id,
+                    CurrencyId = tryDoviz.Id,
                     BuyRate = 1.0000m,
                     SellRate = 1.0000m,
                 });
@@ -162,7 +162,7 @@ namespace KuyumHesap.Application.Features.CureFeature.Commands.ReadyAndUpdate
                     await unitOfWork.GetWriteRepository<ExchangeRate>().AddAsync(new ExchangeRate
                     {
                         RateDate = DateTime.Today,
-                        ExchangeRateId = item.Id,
+                        CurrencyId = item.Id,
                         BuyRate = item.BuyRate,
                         SellRate = item.SellRate
                     }, ct);

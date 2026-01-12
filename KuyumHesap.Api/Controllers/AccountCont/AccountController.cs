@@ -25,7 +25,7 @@ namespace KuyumHesap.Api.Controllers.AccountCont
             return await _mediator.Send(new GetByIdAccountQueryRequest(id), token);
         }
         [HttpGet]
-        public async Task<ResponseDto<List<GetAllAccountQueryResponse>>> GetAllAsync([FromQuery] string accountTypeName, CancellationToken token)
+        public async Task<ResponseDto<List<GetAllAccountQueryResponse>>> GetAllAsync(string accountTypeName, CancellationToken token)
         {
             return await _mediator.Send(new GetAllAccountQueryRequest { AccountTypeName = accountTypeName }, token);
         }
@@ -34,7 +34,7 @@ namespace KuyumHesap.Api.Controllers.AccountCont
         {
             return await _mediator.Send(request, token);
         }
-        [HttpPost]
+        [HttpPut]
         public async Task<ResponseDto<UpdateAccountCommandResponse>> UpdateAsync(UpdateAccountCommandRequest request, CancellationToken token)
         {
             return await _mediator.Send(request, token);

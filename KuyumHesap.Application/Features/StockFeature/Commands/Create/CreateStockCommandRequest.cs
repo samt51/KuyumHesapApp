@@ -1,5 +1,4 @@
 ﻿using KuyumHesap.Application.Common.Models;
-using KuyumHesap.Domain.Entities;
 using MediatR;
 
 namespace KuyumHesap.Application.Features.StockFeature.Commands.Create
@@ -19,7 +18,7 @@ namespace KuyumHesap.Application.Features.StockFeature.Commands.Create
         /// <summary>
         /// Stok grup kimliği (Foreign Key -> StockGroups)
         /// </summary>
-        public int GroupId { get; set; }
+        public int StockGroupId { get; set; }
 
         /// <summary>
         /// Stok birimi adı (adet, gram, kg vb.)

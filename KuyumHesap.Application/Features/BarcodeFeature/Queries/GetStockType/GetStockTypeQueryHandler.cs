@@ -15,11 +15,24 @@ namespace KuyumHesap.Application.Features.BarcodeFeature.Queries.GetStockType
 
         public async Task<ResponseDto<List<GetStockTypeQueryResponse>>> Handle(GetStockTypeQueryRequest request, CancellationToken cancellationToken)
         {
-            var rsp = new List<GetStockTypeQueryResponse>();
+             
+            if (request.StockGroupId == null || request.StockGroupId.Count == 0)
+                return new ResponseDto<List<GetStockTypeQueryResponse>>()
+                    .Success(new List<GetStockTypeQueryResponse>());
 
-            var data = await unitOfWork.GetReadRepository<StockType>().GetAllAsync(x => !x.IsDeleted && x.StockGroupId == request.StockGroupId, orderBy: c => c.OrderBy(y => y.StockTypeName));
+        
+            var groupIds = request.StockGroupId.Distinct().ToList();
 
-            var map = mapper.Map<GetStockTypeQueryResponse, StockType>(data);
+             
+            var data = await unitOfWork
+                .GetReadRepository<StockType>()
+                .GetAllAsync(
+                    x => !x.IsDeleted && groupIds.Contains(x.StockGroupId),
+                    orderBy: q => q.OrderBy(y => y.StockTypeName)
+                );
+
+            
+            var map = mapper.Map<List<GetStockTypeQueryResponse>>(data);
 
             return new ResponseDto<List<GetStockTypeQueryResponse>>().Success(map);
         }

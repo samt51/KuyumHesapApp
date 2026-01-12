@@ -2,6 +2,7 @@
 {
     public class GetAllAccountTypeQueryResponse
     {
+        public int Id { get; set; }
         /// <summary>
         /// Hesap tipi adı
         /// </summary>
@@ -21,10 +22,7 @@
         /// Hesap tipinin aktiflik durumu
         /// </summary>
         public bool IsActive { get; set; }
-        /// <summary>
-        /// Entitylerdeki Ortak Id alanı
-        /// </summary>
-        public int Id { get; set; }
+
         /// <summary>
         /// EKLEME TARİHİ
         /// </summary>

@@ -3,10 +3,7 @@ using KuyumHesap.Application.Common.Abstractions.Mapper;
 using KuyumHesap.Application.Common.Abstractions.SqlViewAndFuncQuery;
 using KuyumHesap.Application.Common.Abstractions.UnitOfWorks;
 using KuyumHesap.Application.Common.Models;
-using KuyumHesap.Domain.Entities.VwModels;
 using MediatR;
-using System;
-using System.Threading;
 
 namespace KuyumHesap.Application.Features.ReportFeature.Queries.GetCashReport
 {

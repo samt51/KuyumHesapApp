@@ -18,7 +18,6 @@ namespace KuyumHesap.Application.Features.StockTypeFeature.Queries.GetById
         /// <summary>
         /// Stok tipine bağlı döviz kimliği (Foreign Key -> Currencies)
         /// </summary>
-        public int CurrencyId { get; set; }
         public CurrencyResponseDto Currency { get; set; }
 
         /// <summary>

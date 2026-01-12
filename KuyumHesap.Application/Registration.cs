@@ -18,7 +18,7 @@ namespace KuyumHesap.Application
 
             services.AddValidatorsFromAssembly(assembly);
 
-
+            services.AddHttpContextAccessor();
             services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(assembly));
 
             services.Configure<ApiBehaviorOptions>(options =>

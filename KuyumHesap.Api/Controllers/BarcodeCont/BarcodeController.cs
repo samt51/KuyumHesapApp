@@ -1,5 +1,6 @@
 ﻿using KuyumHesap.Api.Common.Cont;
 using KuyumHesap.Application.Common.Models;
+using KuyumHesap.Application.Features.BarcodeFeature.Queries.GetAllMain;
 using KuyumHesap.Application.Features.BarcodeFeature.Queries.GetPacker;
 using KuyumHesap.Application.Features.BarcodeFeature.Queries.GetProductType;
 using KuyumHesap.Application.Features.BarcodeFeature.Queries.GetStock;
@@ -18,40 +19,45 @@ namespace KuyumHesap.Api.Controllers.BarcodeCont
             _mediator = mediator;
         }
         [HttpGet]
-        [Route("GetStokGruplari")]
-        public async Task<ResponseDto<List<GetStockGroupQueryResponse>>> GetStockGroupAsync(GetStockGroupQueryRequest request, CancellationToken token)
+
+        public async Task<ResponseDto<List<GetStockGroupQueryResponse>>> GetStockGroupAsync(CancellationToken token)
         {
-            return await _mediator.Send(request, token);
+            return await _mediator.Send(new GetStockGroupQueryRequest(), token);
         }
         [HttpGet]
-        [Route("GetStokTipleri")]
-        public async Task<ResponseDto<List<GetStockTypeQueryResponse>>> GetStockTypeAsync(int stokGrupID, CancellationToken token)
+      
+        public async Task<ResponseDto<List<GetStockTypeQueryResponse>>> GetStockTypeAsync(List<int> stokGrupIDs, CancellationToken token)
         {
-            return await _mediator.Send(new GetStockTypeQueryRequest(stokGrupID), token);
+            return await _mediator.Send(new GetStockTypeQueryRequest(stokGrupIDs), token);
         }
         [HttpGet]
-        [Route("GetStoklar")]
-        public async Task<ResponseDto<List<GetStockQueryResponse>>> GetStockAsync(int stokTipID, CancellationToken token)
+
+        public async Task<ResponseDto<List<GetStockQueryResponse>>> GetStockAsync(List<int> stokTipID, CancellationToken token)
         {
             return await _mediator.Send(new GetStockQueryRequest(stokTipID), token);
         }
         [HttpGet]
-        [Route("GetUrunTipleri")]
         public async Task<ResponseDto<List<GetProductTypeQueryResponse>>> GetProductTypeAsync(CancellationToken token)
         {
             return await _mediator.Send(new GetProductTypeQueryRequest(), token);
         }
         [HttpGet]
-        [Route("GetToptancilar")]
+
         public async Task<ResponseDto<List<GetPackerQueryResponse>>> GetPackerAsync(CancellationToken token)
         {
             return await _mediator.Send(new GetPackerQueryRequest(), token);
         }
         [HttpGet]
-        [Route("GetStokBilgisi")]
+
         public async Task<ResponseDto<GetStockInfoQueryResponse>> GetStockInfoAsync(int stockId, CancellationToken token)
         {
             return await _mediator.Send(new GetStockInfoQueryRequest(stockId), token);
+        }
+        [HttpGet]
+      
+        public async Task<ResponseDto<GetAllMainQueryResponse>> GetAllMainBarcodeAsync(CancellationToken token)
+        {
+            return await _mediator.Send(new GetAllMainQueryRequest(), token);
         }
     }
 }

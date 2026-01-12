@@ -3,7 +3,7 @@ using MediatR;
 
 namespace KuyumHesap.Application.Features.TaskItemFeature.Queries.GetAllMyTask
 {
-    public class GetAllMyTaskQueryRequest : IRequest<ResponseDto<List<GetAllMyTaskQueryResponse>>>
+    public class GetAllMyTaskQueryRequest : IRequest<ResponseDto<GetAllMyTaskQueryResponse>>
     {
     }
 }

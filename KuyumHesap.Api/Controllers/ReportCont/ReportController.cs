@@ -1,6 +1,7 @@
 ﻿using KuyumHesap.Api.Common.Cont;
 using KuyumHesap.Application.Common.Models;
 using KuyumHesap.Application.Features.ReportFeature.Queries.GetAccountStatement;
+using KuyumHesap.Application.Features.ReportFeature.Queries.GetAllReports;
 using KuyumHesap.Application.Features.ReportFeature.Queries.GetBankBalance;
 using KuyumHesap.Application.Features.ReportFeature.Queries.GetBankReport;
 using KuyumHesap.Application.Features.ReportFeature.Queries.GetCashReport;
@@ -28,8 +29,13 @@ namespace KuyumHesap.Api.Controllers.ReportCont
                 FinishDate = finishDate
             });
         }
-        [HttpGet("kasa-raporu")]
-        public async Task<ResponseDto<GetCashReportQueryResponse>> GetCashReportAsync([FromQuery] int hesapId)
+        [HttpGet]
+        public async Task<ResponseDto<GetAllReportQueryResponse>> GetAllReportAsync(int? hesapId)
+        {
+            return await _mediator.Send(new GetAllReportQueryRequest(hesapId));
+        }
+        [HttpGet]
+        public async Task<ResponseDto<GetCashReportQueryResponse>> GetCashReportAsync(int? hesapId)
         {
             return await _mediator.Send(new GetCashReportQueryRequest(hesapId));
         }

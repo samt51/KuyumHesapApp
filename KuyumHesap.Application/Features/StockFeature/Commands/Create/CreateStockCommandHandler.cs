@@ -15,17 +15,31 @@ namespace KuyumHesap.Application.Features.StockFeature.Commands.Create
 
         public async Task<ResponseDto<CreateStockCommandResponse>> Handle(CreateStockCommandRequest request, CancellationToken cancellationToken)
         {
+            try
+            {
+
+    
             var mapData = mapper.Map<Stock, CreateStockCommandRequest>(request);
 
             await unitOfWork.OpenTransactionAsync(cancellationToken);
 
+            mapData.CreatedByUserId = 1;
+
             await unitOfWork.GetWriteRepository<Stock>().AddAsync(mapData, cancellationToken);
 
-            await unitOfWork.SaveAsync(cancellationToken);  
+            await unitOfWork.SaveAsync(cancellationToken);
 
-            await unitOfWork.CommitAsync(cancellationToken);    
+            await unitOfWork.CommitAsync(cancellationToken);
 
             return new ResponseDto<CreateStockCommandResponse>().Success();
+
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+
         }
     }
 }

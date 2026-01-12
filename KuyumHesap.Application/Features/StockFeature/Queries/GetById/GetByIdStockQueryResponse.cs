@@ -1,4 +1,6 @@
-﻿using KuyumHesap.Domain.Entities;
+﻿using KuyumHesap.Application.Common.Models.Dtos;
+using KuyumHesap.Application.Common.Models.Dtos.ResponseDtos;
+using KuyumHesap.Domain.Entities;
 
 namespace KuyumHesap.Application.Features.StockFeature.Queries.GetById
 {
@@ -13,14 +15,12 @@ namespace KuyumHesap.Application.Features.StockFeature.Queries.GetById
         /// <summary>
         /// Stok tipi kimliği (Foreign Key -> StockTypes)
         /// </summary>
-        public int StockTypeId { get; set; }
-        public StockType StockType { get; set; }
+        public StockTypeResponseDto stockTypeResponseDto { get; set; }
 
         /// <summary>
         /// Stok grup kimliği (Foreign Key -> StockGroups)
         /// </summary>
-        public int GroupId { get; set; }
-        public StockGroup StockGroup { get; set; }
+        public StockGroupResponseDto groupResponseDto { get; set; }
 
         /// <summary>
         /// Stok birimi adı (adet, gram, kg vb.)

@@ -4,6 +4,7 @@ using KuyumHesap.Application.Features.ExchangeFeature.Commands.Create;
 using KuyumHesap.Application.Features.ExchangeFeature.Commands.Delete;
 using KuyumHesap.Application.Features.ExchangeFeature.Commands.Update;
 using KuyumHesap.Application.Features.ExchangeFeature.Queries.GetAll;
+using KuyumHesap.Application.Features.ExchangeFeature.Queries.GetById;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -15,6 +16,11 @@ namespace KuyumHesap.Api.Controllers.ExchangeCont
         public ExchangeController(IMediator mediator) : base(mediator)
         {
             _mediator = mediator;
+        }
+        [HttpGet("{id}")]
+        public async Task<ResponseDto<GetByIdExchangeQueryResponse>> GetByIdAsync(int id, CancellationToken token)
+        {
+            return await _mediator.Send(new GetByIdExchangeQueryRequest(id), token);
         }
         [HttpGet]
         public async Task<ResponseDto<List<GetAllExchangeQueryResponse>>> GetAllAsync(CancellationToken token)

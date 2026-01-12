@@ -1,5 +1,7 @@
 ﻿using KuyumHesap.Api.Common.Cont;
 using KuyumHesap.Application.Common.Models;
+using KuyumHesap.Application.Features.MovementFeature.Commands.Create;
+using KuyumHesap.Application.Features.MovementFeature.Commands.Update;
 using KuyumHesap.Application.Features.MovementFeature.Queries.GetAll;
 using KuyumHesap.Application.Features.MovementFeature.Queries.GetById;
 using MediatR;
@@ -23,6 +25,16 @@ namespace KuyumHesap.Api.Controllers.MovementCont
         public async Task<ResponseDto<GetByIdMovementTypeQueryResponse>> GetByIdAsync(int id, CancellationToken token)
         {
             return await _mediator.Send(new GetByIdMovementTypeQueryRequest(id), token);
+        }
+        [HttpPost]
+        public async Task<ResponseDto<CreateMovementTypeCommandResponse>> CreateAsync(CreateMovementTypeCommandRequest request, CancellationToken token)
+        {
+            return await _mediator.Send(request, token);
+        }
+        [HttpPut]
+        public async Task<ResponseDto<UpdateMovementTypeCommandResponse>> UpdateAsync(UpdateMovementTypeCommandRequest request, CancellationToken token)
+        {
+            return await _mediator.Send(request, token);
         }
     }
 }

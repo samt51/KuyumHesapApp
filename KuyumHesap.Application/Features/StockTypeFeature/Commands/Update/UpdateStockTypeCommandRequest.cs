@@ -6,6 +6,7 @@ namespace KuyumHesap.Application.Features.StockTypeFeature.Commands.Update
     public class UpdateStockTypeCommandRequest : IRequest<ResponseDto<UpdateStockTypeCommandResponse>>
     {
         public int Id { get; set; }
+
         /// <summary>
         /// Stok tipi adı
         /// </summary>

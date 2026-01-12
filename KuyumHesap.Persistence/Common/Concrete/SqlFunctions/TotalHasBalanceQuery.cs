@@ -17,30 +17,32 @@ namespace KuyumHesap.Persistence.Common.Concrete.SqlFunctions
         {
             var bugun = DateTime.Today;
 
-            // Tek sorgu: Döviz bazlı bakiyeyi hesapla, fn_KurCevir ile HAS'a çevir, hepsini topla
             var sql = @"
 SELECT 
-    ABS(ISNULL(SUM(
+    CAST(ABS(ISNULL(SUM(
         dbo.fn_KurCevir(
-            {0},                -- Bugun
-            t.BakiyeBirimi,     -- Kaynak doviz
-            'HAS',              -- Hedef
-            t.Bakiye            -- Miktar
+            @p0,
+            t.BakiyeBirimi,
+            'HAS',
+            t.Bakiye
         )
-    ), 0))
+    ), 0)) AS decimal(18,2)) AS [Value]
 FROM (
     SELECT 
         h.BakiyeBirimi,
-        SUM(CASE WHEN h.GirisMi = 1 THEN h.BakiyeEtkiMiktari ELSE -h.BakiyeEtkiMiktari END) AS Bakiye
+        SUM(CASE WHEN h.GirisMi = 1 
+                 THEN h.BakiyeEtkiMiktari 
+                 ELSE -h.BakiyeEtkiMiktari 
+            END) AS Bakiye
     FROM vw_HesapEkstresi h
-    WHERE h.HesapTipiAdi = {1}
-      AND CAST(h.Tarih AS DATE) <= {0}
+    WHERE h.HesapTipiAdi = @p1
+      AND CAST(h.Tarih AS DATE) <= @p0
     GROUP BY h.BakiyeBirimi
-) t;";
+) t";
 
             var toplamHas = await _context.Database
-                .SqlQueryRaw<decimal>(sql, bugun.Date, hesapTipiAdi)
-                .SingleOrDefaultAsync(ct);
+                .SqlQueryRaw<decimal>(sql, bugun, hesapTipiAdi)
+                .SingleAsync(ct);
 
             return toplamHas;
         }

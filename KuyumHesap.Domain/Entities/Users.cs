@@ -1,5 +1,4 @@
 ﻿using KuyumHesap.Domain.Command;
-using System.Data;
 
 namespace KuyumHesap.Domain.Entities
 {

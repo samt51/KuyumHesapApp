@@ -13,15 +13,8 @@
         /// </summary>
         public string TransactionName { get; set; } = null!;
 
-        /// <summary>
-        /// Borç / Alacak yönü (G = Giriş, C = Çıkış)
-        /// </summary>
-        public char DebitCreditFlag { get; set; }
-
-        /// <summary>
-        /// Stok giriş / çıkış yönü (S = Stok Giriş, C = Stok Çıkış)
-        /// </summary>
-        public char StockInOutFlag { get; set; }
+        public char GC { get; set; }
+        public char SC { get; set; }
 
         /// <summary>
         /// Hareket tipinin aktiflik durumu

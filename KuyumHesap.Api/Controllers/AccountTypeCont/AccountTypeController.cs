@@ -12,7 +12,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace KuyumHesap.Api.Controllers.AccountTypeCont
 {
-    [Authorize(Roles ="Admin")]
+   
     public class AccountTypeController : BaseController
     {
         private readonly IMediator _mediator;
