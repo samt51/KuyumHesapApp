@@ -12,6 +12,7 @@ using KuyumHesap.Application.Features.BarcodeFeature.Queries.GetProductType;
 using KuyumHesap.Application.Features.BarcodeFeature.Queries.GetStock;
 using KuyumHesap.Application.Features.BarcodeFeature.Queries.GetStockType;
 using KuyumHesap.Application.Features.BarcodeHeaderFeature.Dtos;
+using KuyumHesap.Application.Features.BarcodeHeaderFeature.Queries.GetAll;
 using KuyumHesap.Application.Features.BarcodeHeaderFeature.Queries.GetById;
 using KuyumHesap.Application.Features.CurrecyFeature.Queries.GetAll;
 using KuyumHesap.Application.Features.ExchangeFeature.Dtos;
@@ -110,27 +111,31 @@ namespace KuyumHesap.Persistence.Common.Concrete.Mapping
             CreateMap<Users, GetByIdUserQueryResponse>()
 .ForMember(d => d.RoleResponseDto, opt => opt.MapFrom(s => s.Role));
 
-            // Stock -> Response
             CreateMap<Stock, GetAllStockQueryResponse>()
                 .ForMember(d => d.stockTypeResponseDto, opt => opt.MapFrom(s => s.StockType))
                 .ForMember(d => d.groupResponseDto, opt => opt.MapFrom(s => s.StockGroup));
 
-            // StockType -> StockTypeResponseDto
             CreateMap<StockType, StockTypeResponseDto>()
          .ForMember(d => d.stockGroupsResponseDto, opt => opt.MapFrom(s => s.StockGroup))
          .ForMember(d => d.currencyResponseDto, opt => opt.MapFrom(s => s.Currency));
 
-
- 
-            // Nested
             CreateMap<StockGroup, StockGroupResponseDto>();
-            CreateMap<StockGroup, StockGroupsResponseDto>(); // senin DTO’n farklı olduğu için bunu da ekliyorum
+            CreateMap<StockGroup, StockGroupsResponseDto>();
             CreateMap<Currency, CurrencyResponseDto>();
 
             CreateMap<Stock, GetByIdStockQueryResponse>()
 .ForMember(d => d.groupResponseDto, opt => opt.MapFrom(s => s.StockGroup));
             CreateMap<Stock, GetByIdStockQueryResponse>()
 .ForMember(d => d.stockTypeResponseDto, opt => opt.MapFrom(s => s.StockType));
+
+            CreateMap<BarcodeHeader, GetAllBarcodeHeaderQueryResponse>()
+.ForMember(d => d.barcodeDetails, opt => opt.MapFrom(s => s.BarcodeDetails));
+
+            CreateMap<BarcodeDetail, BarcodeDetailResponseDto>().ReverseMap();
+
+            CreateMap<BarcodeHeader, GetByIdBarcodeHeaderQueryResponse>()
+.ForMember(d => d.barcodeDetails, opt => opt.MapFrom(s => s.BarcodeDetails));
+
         }
     }
 }

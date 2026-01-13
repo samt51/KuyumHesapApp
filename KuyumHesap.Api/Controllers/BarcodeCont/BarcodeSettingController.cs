@@ -5,6 +5,7 @@ using KuyumHesap.Application.Features.BarcodeHeaderFeature.Command.Create;
 using KuyumHesap.Application.Features.BarcodeHeaderFeature.Command.Delete;
 using KuyumHesap.Application.Features.BarcodeHeaderFeature.Command.Update;
 using KuyumHesap.Application.Features.BarcodeHeaderFeature.Queries.GetAll;
+using KuyumHesap.Application.Features.BarcodeHeaderFeature.Queries.GetById;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -18,9 +19,9 @@ namespace KuyumHesap.Api.Controllers.BarcodeCont
             _mediator = mediator;
         }
         [HttpGet("{id}")]
-        public async Task<ResponseDto<GetByIdAccountQueryResponse>> GetByIdAsync(int id, CancellationToken token)
+        public async Task<ResponseDto<GetByIdBarcodeHeaderQueryResponse>> GetByIdAsync(int id, CancellationToken token)
         {
-            return await _mediator.Send(new GetByIdAccountQueryRequest(id), token);
+            return await _mediator.Send(new GetByIdBarcodeHeaderQueryRequest(id), token);
         }
         [HttpGet]
         public async Task<ResponseDto<List<GetAllBarcodeHeaderQueryResponse>>> GetAllAsync(CancellationToken token)
@@ -37,7 +38,7 @@ namespace KuyumHesap.Api.Controllers.BarcodeCont
         {
             return await _mediator.Send(request, token);
         }
-        [HttpPost]
+        [HttpPut]
         public async Task<ResponseDto<UpdateBarcodeHeaderCommandResponse>> UpdateAsync(UpdateBarcodeHeaderCommandRequest request, CancellationToken token)
         {
             return await _mediator.Send(request, token);

@@ -4,6 +4,7 @@ using KuyumHesap.Application.Common.Abstractions.UnitOfWorks;
 using KuyumHesap.Application.Common.Models;
 using KuyumHesap.Domain.Entities;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 
 namespace KuyumHesap.Application.Features.BarcodeHeaderFeature.Queries.GetAll
 {
@@ -16,18 +17,11 @@ namespace KuyumHesap.Application.Features.BarcodeHeaderFeature.Queries.GetAll
         public async Task<ResponseDto<List<GetAllBarcodeHeaderQueryResponse>>> Handle(GetAllBarcodeHeaderQueryRequest request, CancellationToken cancellationToken)
         {
             var rsp = new List<GetAllBarcodeHeaderQueryResponse>();
-            var data = await unitOfWork.GetReadRepository<BarcodeHeader>().GetAllAsync(x => !x.IsDeleted, orderBy: y => y.OrderBy(c => c.Name));
+            var data = await unitOfWork.GetReadRepository<BarcodeHeader>().GetAllAsync(x => !x.IsDeleted, include: y => y.Include(c => c.BarcodeDetails), orderBy: y => y.OrderBy(c => c.Name));
 
-            foreach (var item in data)
-            {
-                rsp.Add(new GetAllBarcodeHeaderQueryResponse
-                {
-                    Id = item.Id,
-                    Name = item.Name
-                });
-            }
+            var map = mapper.Map<List<GetAllBarcodeHeaderQueryResponse>>(data);
 
-            return new ResponseDto<List<GetAllBarcodeHeaderQueryResponse>>().Success();
+            return new ResponseDto<List<GetAllBarcodeHeaderQueryResponse>>().Success(map);
         }
     }
 }
