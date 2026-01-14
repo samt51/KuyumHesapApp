@@ -4,6 +4,7 @@ using KuyumHesap.Application.Common.Middleware.ExceptionFilter;
 using KuyumHesap.Infrastructure;
 using KuyumHesap.Persistence;
 using KuyumHesap.Persistence.Common.Context;
+using KuyumHesap.Persistence.Common.Extensions;
 using Microsoft.AspNetCore.HttpLogging;
 using Microsoft.OpenApi.Models;
 using Serilog;
@@ -11,7 +12,7 @@ using Serilog.Context;
 using Serilog.Core;
 using Serilog.Sinks.MSSqlServer;
 using System.Collections.ObjectModel;
-using KuyumHesap.Persistence.Common.Extensions;
+using System.Runtime.InteropServices;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -21,21 +22,28 @@ builder.Configuration
     .AddEnvironmentVariables();
 
 
-Logger log = new LoggerConfiguration()
+var lc = new LoggerConfiguration()
     .WriteTo.Console()
     .WriteTo.File("logs/log.txt")
-    .WriteTo.MSSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"), "Log", autoCreateSqlTable: true, columnOptions: new ColumnOptions
-    {
-        AdditionalColumns = new Collection<SqlColumn>
-        {
-            new SqlColumn("UserId",System.Data.SqlDbType.VarChar)
-        }
-    })
-     .Enrich.FromLogContext()
-    .MinimumLevel.Information()
-    .CreateLogger();
+    .Enrich.FromLogContext()
+    .MinimumLevel.Information();
 
-builder.Host.UseSerilog(log);
+if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+{
+    lc = lc.WriteTo.MSSqlServer(
+        connectionString: builder.Configuration.GetConnectionString("DefaultConnection"),
+        sinkOptions: new MSSqlServerSinkOptions { TableName = "Log", AutoCreateSqlTable = true },
+        columnOptions: new ColumnOptions
+        {
+            AdditionalColumns = new Collection<SqlColumn>
+            {
+                new SqlColumn("UserId", System.Data.SqlDbType.VarChar)
+            }
+        });
+}
+
+Log.Logger = lc.CreateLogger();
+builder.Host.UseSerilog(Log.Logger);
 builder.Services.AddMemoryCache();
 
 builder.Services.AddHttpLogging(logging =>
