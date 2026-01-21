@@ -13,7 +13,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace KuyumHesap.Api.Controllers.TaskItemCont
 {
-    [Authorize]
+    
     public class TaskItemController : BaseController
     {
         private readonly IMediator _mediator;
