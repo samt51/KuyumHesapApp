@@ -1,12 +1,11 @@
 ﻿using KuyumHesap.Application.Common.Models;
-using KuyumHesap.Domain.Entities;
+using KuyumHesap.Application.Common.Models.Dtos;
 using MediatR;
 
 namespace KuyumHesap.Application.Features.ReceiptFeature.Commands.Create
 {
     public class CreateReceiptCommandRequest : IRequest<ResponseDto<CreateReceiptCommandResponse>>
     {
-        public int Id { get; set; }
         /// <summary>
         /// Fiş Numarası Otomatik Atama
         /// </summary>
@@ -19,7 +18,6 @@ namespace KuyumHesap.Application.Features.ReceiptFeature.Commands.Create
         /// Cari Hesap Id
         /// </summary>
         public int CurrentAccountId { get; set; }
-        public required Account Account { get; set; }
         /// <summary>
         /// Personel Id Bilgisi
         /// </summary>
@@ -40,6 +38,6 @@ namespace KuyumHesap.Application.Features.ReceiptFeature.Commands.Create
         /// Açık Hesap Tutarı
         /// </summary>
         public decimal? OpenBalanceAmount { get; set; }
-        public List<Movements> Movements { get; set; }
+        public List<CreateMovementReceiptRequestDto> CreateMovementReceiptRequestDtos { get; set; }
     }
 }

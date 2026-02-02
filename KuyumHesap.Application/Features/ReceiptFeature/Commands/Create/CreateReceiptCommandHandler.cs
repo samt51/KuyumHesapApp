@@ -15,7 +15,7 @@ namespace KuyumHesap.Application.Features.ReceiptFeature.Commands.Create
 
         public async Task<ResponseDto<CreateReceiptCommandResponse>> Handle(CreateReceiptCommandRequest request, CancellationToken cancellationToken)
         {
-            var matualCashFlow = request.Movements.Where(x => x.TransactionTypeId == 8 && (x.CounterCurrencyId != null && x.CounterCurrencyId == x.ForeignCurrencyId)).ToList();
+            var matualCashFlow = request.CreateMovementReceiptRequestDtos.Where(x => x.TransactionTypeId == 8 && (x.CounterCurrencyId != null && x.CounterCurrencyId == x.ForeignCurrencyId)).ToList();
 
             var map = mapper.Map<Receipt, CreateReceiptCommandRequest>(request);
 
@@ -27,20 +27,16 @@ namespace KuyumHesap.Application.Features.ReceiptFeature.Commands.Create
 
             if (matualCashFlow.Any())
             {
-                foreach (var item in matualCashFlow)
-                {
-                    item.CounterCurrencyAmount = item.CounterExchangeRate;
-                    item.ReceiptId = map.Id;
-                }
+ 
             }
 
-            await unitOfWork.GetWriteRepository<Movements>().AddRangeAsync(matualCashFlow);
+ 
 
             await unitOfWork.SaveAsync(cancellationToken);
 
             await unitOfWork.CommitAsync(cancellationToken);
 
-            map.Movements = matualCashFlow;
+ 
 
             return new ResponseDto<CreateReceiptCommandResponse>().Success();
 
