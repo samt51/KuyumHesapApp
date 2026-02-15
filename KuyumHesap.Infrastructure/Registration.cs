@@ -1,4 +1,4 @@
-﻿using KuyumHesap.Infrastructure.Services.Abstract;
+﻿using KuyumHesap.Application.Common.Abstractions.Aut;
 using KuyumHesap.Infrastructure.Services.Concrete;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;

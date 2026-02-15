@@ -6,6 +6,7 @@ using KuyumHesap.Application.Features.ReceiptFeature.Commands.Update;
 using KuyumHesap.Application.Features.ReceiptFeature.Commands.UpdateAgreement;
 using KuyumHesap.Application.Features.ReceiptFeature.Queries.GetAll;
 using KuyumHesap.Application.Features.ReceiptFeature.Queries.GetById;
+using KuyumHesap.Application.Features.ReceiptFeature.Queries.GetEkstreByCustomerId;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -49,5 +50,11 @@ namespace KuyumHesap.Api.Controllers.ReceiptCont
         {
             return await _mediator.Send(new GetByIdReceiptQueryRequest(id), token);
         }
+        [HttpPost]
+        public async Task<ResponseDto<List<GetEkstreByCustomerIdResponse>>> GetEkstreByCustomerIdAsync(GetEkstreByCustomerIdRequest request, CancellationToken token)
+        {
+            return await _mediator.Send(request, token);
+        }
+
     }
 }

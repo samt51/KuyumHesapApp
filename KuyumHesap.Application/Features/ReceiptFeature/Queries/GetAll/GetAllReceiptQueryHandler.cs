@@ -36,7 +36,7 @@ namespace KuyumHesap.Application.Features.ReceiptFeature.Queries.GetAll
                     Id = item.Id,
                     ReceiptNumber = item.ReceiptNumber,
                     ReceiptDate = item.ReceiptDate,
-                    CurrentAccountId = item.CurrentAccountId,
+                    CurrentAccountId = item.AccountId,
                     EmployeeId = item.EmployeeId,
                     Description = item.Description,
                     IsCustomerReceipt = item.IsCustomerReceipt,

@@ -1,11 +1,10 @@
 ﻿using KuyumHesap.Application.Common.Abstractions;
+using KuyumHesap.Application.Common.Abstractions.Aut;
 using KuyumHesap.Application.Common.Abstractions.Mapper;
 using KuyumHesap.Application.Common.Abstractions.UnitOfWorks;
 using KuyumHesap.Application.Common.Models;
 using KuyumHesap.Domain.Entities;
-using KuyumHesap.Infrastructure.Services.Abstract;
 using MediatR;
-using System.Net.WebSockets;
 using System.Text.Json;
 
 namespace KuyumHesap.Application.Features.CureFeature.Commands.ReadyAndUpdate
@@ -30,7 +29,7 @@ namespace KuyumHesap.Application.Features.CureFeature.Commands.ReadyAndUpdate
 
                 return new ResponseDto<ReadyAndUpdateCommandResponse>().Fail("Bugünün kurları bulunamadı. Son kur tarihi baz alınarak kurlar güncellendi.", 200);
             }
-            var cureData = await _kurGuncellemeService.HariciAPIdenKurlariGuncelle();
+            var cureData = "";
             if (!JsonDocument.Parse(cureData).RootElement.TryGetProperty("data", out var haremData))
             {
                 throw new Exception

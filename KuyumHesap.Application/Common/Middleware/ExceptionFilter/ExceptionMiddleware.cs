@@ -24,7 +24,7 @@ namespace KuyumHesap.Application.Common.Middleware.ExceptionFilter
             {
                 var userId = context.User?.FindFirst("Id")?.Value ?? "-";
                 using (_logger.BeginScope(new Dictionary<string, object> { ["UserId"] = userId }))
-                    _logger.LogError(ex, "Unhandled exception"); // ✅ ex'i direkt ver
+                    _logger.LogError(ex.Message, "Unhandled exception"); // ✅ ex'i direkt ver
 
                 await HandleExceptionAsync(context, ex);
             }

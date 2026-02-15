@@ -5,6 +5,7 @@ using KuyumHesap.Application.Features.ExchangeFeature.Commands.Delete;
 using KuyumHesap.Application.Features.ExchangeFeature.Commands.Update;
 using KuyumHesap.Application.Features.ExchangeFeature.Queries.GetAll;
 using KuyumHesap.Application.Features.ExchangeFeature.Queries.GetById;
+using KuyumHesap.Application.Features.ExchangeFeature.Queries.GetExchangeRateByCurrencyCode;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -41,6 +42,11 @@ namespace KuyumHesap.Api.Controllers.ExchangeCont
         public async Task<ResponseDto<DeleteExchangeCommandResponse>> DeleteAsync(int id, CancellationToken token)
         {
             return await _mediator.Send(new DeleteExchangeCommandRequest(id), token);
+        }
+        [HttpGet("{currencyId}")]
+        public Task<ResponseDto<GetExchangeRateByCurrencyCodeResponse>> GetExchangeRateByCurrencyCodeAsync(int currencyId, CancellationToken token)
+        {
+            return _mediator.Send(new GetExchangeRateByCurrencyCodeRequest { CurrencyId = currencyId }, token);
         }
     }
 }

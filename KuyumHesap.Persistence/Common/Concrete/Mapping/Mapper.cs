@@ -14,6 +14,10 @@
         public TDest Map<TDest>(object src)
             => _mapper.Map<TDest>(src);
 
+        public TDest Map<TSrc, TDest>(TSrc src)
+    where TDest : new()
+    => _mapper.Map(src, new TDest());
+
         public TDest Map<TSrc, TDest>(TSrc source, TDest destination)
                => _mapper.Map(source, destination);
     }

@@ -1,6 +1,8 @@
 ﻿using AutoMapper;
+using KuyumHesap.Application.Common.Models;
 using KuyumHesap.Application.Common.Models.Dtos;
 using KuyumHesap.Application.Common.Models.Dtos.ResponseDtos;
+using KuyumHesap.Application.Features.AccountFeature.Command.Create;
 using KuyumHesap.Application.Features.AccountFeature.Command.Update;
 using KuyumHesap.Application.Features.AccountFeature.Queries.CheckSoftDuplicate;
 using KuyumHesap.Application.Features.AccountFeature.Queries.GetAll;
@@ -14,6 +16,7 @@ using KuyumHesap.Application.Features.BarcodeFeature.Queries.GetStockType;
 using KuyumHesap.Application.Features.BarcodeHeaderFeature.Dtos;
 using KuyumHesap.Application.Features.BarcodeHeaderFeature.Queries.GetAll;
 using KuyumHesap.Application.Features.BarcodeHeaderFeature.Queries.GetById;
+using KuyumHesap.Application.Features.CureFeature.Queries.GetUpdatedDailyCure;
 using KuyumHesap.Application.Features.CurrecyFeature.Queries.GetAll;
 using KuyumHesap.Application.Features.ExchangeFeature.Dtos;
 using KuyumHesap.Application.Features.ExchangeFeature.Queries.GetAll;
@@ -22,6 +25,7 @@ using KuyumHesap.Application.Features.MovementFeature.Queries.GetAll;
 using KuyumHesap.Application.Features.MovementFeature.Queries.GetById;
 using KuyumHesap.Application.Features.ProductTypeFeature.Queries.GetAll;
 using KuyumHesap.Application.Features.ProductTypeFeature.Queries.GetById;
+using KuyumHesap.Application.Features.ReceiptFeature.Commands.Create;
 using KuyumHesap.Application.Features.ReceiptFeature.Queries.GetAll.Dtos;
 using KuyumHesap.Application.Features.ReceiptFeature.Queries.GetById;
 using KuyumHesap.Application.Features.StockFeature.Commands.Create;
@@ -54,6 +58,7 @@ namespace KuyumHesap.Persistence.Common.Concrete.Mapping
             CreateMap<StockGroup, StockGroupResponseDto>().ReverseMap();
             CreateMap<AccountType, GetAllAccountTypeQueryResponse>().ReverseMap();
             CreateMap<AccountType, GetByIdAccountTypeQueryResponse>().ReverseMap();
+            CreateMap<Account, CreateAccountCommandRequest>().ReverseMap();
             CreateMap<Account, GetByIdAccountQueryResponse>().ReverseMap();
             CreateMap<Account, GetAllAccountQueryResponse>().ReverseMap();
             CreateMap<Account, UpdateAccountCommandRequest>().ReverseMap();
@@ -136,6 +141,15 @@ namespace KuyumHesap.Persistence.Common.Concrete.Mapping
             CreateMap<BarcodeHeader, GetByIdBarcodeHeaderQueryResponse>()
 .ForMember(d => d.barcodeDetails, opt => opt.MapFrom(s => s.BarcodeDetails));
 
+            CreateMap<Receipt, CreateReceiptCommandRequest>().ReverseMap();
+
+
+            CreateMap<Movements, CreateMovementReceiptRequestDto>().ReverseMap();
+
+            CreateMap<Movements, Movements>().ReverseMap();
+
+
+            CreateMap<GetUpdatedDailyCureResponse, DailyCureDataDto.Data>().ReverseMap();
         }
     }
 }

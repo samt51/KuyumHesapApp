@@ -1,8 +1,8 @@
 ﻿using KuyumHesap.Application.Common.Abstractions;
+using KuyumHesap.Application.Common.Abstractions.Aut;
 using KuyumHesap.Application.Common.Abstractions.Mapper;
 using KuyumHesap.Application.Common.Abstractions.UnitOfWorks;
 using KuyumHesap.Application.Common.Models;
-using KuyumHesap.Infrastructure.Services.Abstract;
 using MediatR;
 
 namespace KuyumHesap.Application.Features.CureFeature.Commands.Update
@@ -17,7 +17,7 @@ namespace KuyumHesap.Application.Features.CureFeature.Commands.Update
 
         public async Task<ResponseDto<UpdateCureCommandResponse>> Handle(UpdateCureCommandRequest request, CancellationToken cancellationToken)
         {
-            var data = await _kurGuncellemeService.HariciAPIdenKurlariGuncelle();
+            var data = new List<Domain.Entities.ExchangeRate>();
             return new ResponseDto<UpdateCureCommandResponse>().Success();  
         }
     }

@@ -2,6 +2,7 @@
 using KuyumHesap.Application.Common.Models;
 using KuyumHesap.Application.Features.CureFeature.Commands.ReadyAndUpdate;
 using KuyumHesap.Application.Features.CureFeature.Queries.GetLatest;
+using KuyumHesap.Application.Features.CureFeature.Queries.GetUpdatedDailyCure;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -24,6 +25,11 @@ namespace KuyumHesap.Api.Controllers.ExchangeCont
         {
             return await _mediator.Send(new GetLatestQueryRequest(), token);
         }
+        [HttpGet]
+        public async Task<ResponseDto<GetUpdatedDailyCureResponse>> GetLastCureAsync(CancellationToken token)
+        {
+            return await _mediator.Send(new GetUpdatedDailyCureRequest(), token);
 
+        }
     }
 }

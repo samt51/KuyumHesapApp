@@ -16,9 +16,9 @@ namespace KuyumHesap.Application.Features.AccountFeature.Command.Create
 
         public async Task<ResponseDto<CreateAccountCommandResponse>> Handle(CreateAccountCommandRequest request, CancellationToken cancellationToken)
         {
-            var accountByAccountName = await unitOfWork.GetReadRepository<Account>().GetAsync(x => x.AccountName == request.AccountName && !x.IsDeleted);
+            var accountByAccountName = await unitOfWork.GetReadRepository<Account>().FindAsync(x => x.AccountName == request.AccountName && !x.IsDeleted);
 
-            if (string.IsNullOrWhiteSpace(accountByAccountName.NationalIdNumber) && string.IsNullOrWhiteSpace(accountByAccountName?.MobilePhone))
+            if (!string.IsNullOrWhiteSpace(accountByAccountName?.NationalIdNumber) && !string.IsNullOrWhiteSpace(accountByAccountName?.MobilePhone))
             {
                 return new ResponseDto<CreateAccountCommandResponse>().Fail($"{accountByAccountName?.AccountName} isminde bir hesap zaten mevcut. Lütfen bilgileri güncelleyin.");
             }

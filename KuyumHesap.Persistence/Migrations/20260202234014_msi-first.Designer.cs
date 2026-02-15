@@ -4,6 +4,7 @@ using KuyumHesap.Persistence.Common.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace KuyumHesap.Persistence.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260202234014_msi-first")]
+    partial class msifirst
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -152,7 +155,7 @@ namespace KuyumHesap.Persistence.Migrations
                             AccountTypeName = "SERMAYELER",
                             BalanceOrder = 100,
                             CreatedByUserId = 1,
-                            CreatedDate = new DateTime(2026, 2, 3, 2, 40, 58, 914, DateTimeKind.Local).AddTicks(4807),
+                            CreatedDate = new DateTime(2026, 2, 3, 2, 40, 13, 891, DateTimeKind.Local).AddTicks(3132),
                             IsActive = true,
                             IsDeleted = false,
                             IsSubBalanceCalculated = true
@@ -163,7 +166,7 @@ namespace KuyumHesap.Persistence.Migrations
                             AccountTypeName = "MÜŞTERİLER",
                             BalanceOrder = 1,
                             CreatedByUserId = 0,
-                            CreatedDate = new DateTime(2026, 2, 3, 2, 40, 58, 914, DateTimeKind.Local).AddTicks(4809),
+                            CreatedDate = new DateTime(2026, 2, 3, 2, 40, 13, 891, DateTimeKind.Local).AddTicks(3133),
                             IsActive = true,
                             IsDeleted = false,
                             IsSubBalanceCalculated = false
@@ -174,7 +177,7 @@ namespace KuyumHesap.Persistence.Migrations
                             AccountTypeName = "TOPTANCILAR",
                             BalanceOrder = 2,
                             CreatedByUserId = 0,
-                            CreatedDate = new DateTime(2026, 2, 3, 2, 40, 58, 914, DateTimeKind.Local).AddTicks(4810),
+                            CreatedDate = new DateTime(2026, 2, 3, 2, 40, 13, 891, DateTimeKind.Local).AddTicks(3133),
                             IsActive = true,
                             IsDeleted = false,
                             IsSubBalanceCalculated = false
@@ -185,7 +188,7 @@ namespace KuyumHesap.Persistence.Migrations
                             AccountTypeName = "ATÖLYELER",
                             BalanceOrder = 3,
                             CreatedByUserId = 0,
-                            CreatedDate = new DateTime(2026, 2, 3, 2, 40, 58, 914, DateTimeKind.Local).AddTicks(4811),
+                            CreatedDate = new DateTime(2026, 2, 3, 2, 40, 13, 891, DateTimeKind.Local).AddTicks(3134),
                             IsActive = true,
                             IsDeleted = false,
                             IsSubBalanceCalculated = false
@@ -196,7 +199,7 @@ namespace KuyumHesap.Persistence.Migrations
                             AccountTypeName = "BANKALAR",
                             BalanceOrder = 4,
                             CreatedByUserId = 0,
-                            CreatedDate = new DateTime(2026, 2, 3, 2, 40, 58, 914, DateTimeKind.Local).AddTicks(4812),
+                            CreatedDate = new DateTime(2026, 2, 3, 2, 40, 13, 891, DateTimeKind.Local).AddTicks(3135),
                             IsActive = true,
                             IsDeleted = false,
                             IsSubBalanceCalculated = false
@@ -207,7 +210,7 @@ namespace KuyumHesap.Persistence.Migrations
                             AccountTypeName = "POSLAR",
                             BalanceOrder = 5,
                             CreatedByUserId = 0,
-                            CreatedDate = new DateTime(2026, 2, 3, 2, 40, 58, 914, DateTimeKind.Local).AddTicks(4812),
+                            CreatedDate = new DateTime(2026, 2, 3, 2, 40, 13, 891, DateTimeKind.Local).AddTicks(3136),
                             IsActive = true,
                             IsDeleted = false,
                             IsSubBalanceCalculated = false
@@ -218,7 +221,7 @@ namespace KuyumHesap.Persistence.Migrations
                             AccountTypeName = "KASALAR",
                             BalanceOrder = 6,
                             CreatedByUserId = 0,
-                            CreatedDate = new DateTime(2026, 2, 3, 2, 40, 58, 914, DateTimeKind.Local).AddTicks(4813),
+                            CreatedDate = new DateTime(2026, 2, 3, 2, 40, 13, 891, DateTimeKind.Local).AddTicks(3136),
                             IsActive = true,
                             IsDeleted = false,
                             IsSubBalanceCalculated = false
@@ -229,7 +232,7 @@ namespace KuyumHesap.Persistence.Migrations
                             AccountTypeName = "GİDER/GELİR",
                             BalanceOrder = 7,
                             CreatedByUserId = 0,
-                            CreatedDate = new DateTime(2026, 2, 3, 2, 40, 58, 914, DateTimeKind.Local).AddTicks(4814),
+                            CreatedDate = new DateTime(2026, 2, 3, 2, 40, 13, 891, DateTimeKind.Local).AddTicks(3137),
                             IsActive = true,
                             IsDeleted = false,
                             IsSubBalanceCalculated = true
@@ -240,7 +243,7 @@ namespace KuyumHesap.Persistence.Migrations
                             AccountTypeName = "İSKONTOLAR",
                             BalanceOrder = 8,
                             CreatedByUserId = 0,
-                            CreatedDate = new DateTime(2026, 2, 3, 2, 40, 58, 914, DateTimeKind.Local).AddTicks(4815),
+                            CreatedDate = new DateTime(2026, 2, 3, 2, 40, 13, 891, DateTimeKind.Local).AddTicks(3138),
                             IsActive = true,
                             IsDeleted = false,
                             IsSubBalanceCalculated = true
@@ -251,7 +254,7 @@ namespace KuyumHesap.Persistence.Migrations
                             AccountTypeName = "KAR/ZARAR",
                             BalanceOrder = 9,
                             CreatedByUserId = 0,
-                            CreatedDate = new DateTime(2026, 2, 3, 2, 40, 58, 914, DateTimeKind.Local).AddTicks(4816),
+                            CreatedDate = new DateTime(2026, 2, 3, 2, 40, 13, 891, DateTimeKind.Local).AddTicks(3139),
                             IsActive = true,
                             IsDeleted = false,
                             IsSubBalanceCalculated = true
@@ -262,7 +265,7 @@ namespace KuyumHesap.Persistence.Migrations
                             AccountTypeName = "DEMİRBAŞLAR",
                             BalanceOrder = 10,
                             CreatedByUserId = 0,
-                            CreatedDate = new DateTime(2026, 2, 3, 2, 40, 58, 914, DateTimeKind.Local).AddTicks(4817),
+                            CreatedDate = new DateTime(2026, 2, 3, 2, 40, 13, 891, DateTimeKind.Local).AddTicks(3139),
                             IsActive = true,
                             IsDeleted = false,
                             IsSubBalanceCalculated = false
@@ -273,7 +276,7 @@ namespace KuyumHesap.Persistence.Migrations
                             AccountTypeName = "ÖZELHESAPLAR",
                             BalanceOrder = 11,
                             CreatedByUserId = 0,
-                            CreatedDate = new DateTime(2026, 2, 3, 2, 40, 58, 914, DateTimeKind.Local).AddTicks(4817),
+                            CreatedDate = new DateTime(2026, 2, 3, 2, 40, 13, 891, DateTimeKind.Local).AddTicks(3140),
                             IsActive = true,
                             IsDeleted = false,
                             IsSubBalanceCalculated = false
@@ -284,7 +287,7 @@ namespace KuyumHesap.Persistence.Migrations
                             AccountTypeName = "PERSONEL",
                             BalanceOrder = 12,
                             CreatedByUserId = 0,
-                            CreatedDate = new DateTime(2026, 2, 3, 2, 40, 58, 914, DateTimeKind.Local).AddTicks(4818),
+                            CreatedDate = new DateTime(2026, 2, 3, 2, 40, 13, 891, DateTimeKind.Local).AddTicks(3141),
                             IsActive = true,
                             IsDeleted = false,
                             IsSubBalanceCalculated = false
@@ -295,7 +298,7 @@ namespace KuyumHesap.Persistence.Migrations
                             AccountTypeName = "STOKLAR",
                             BalanceOrder = 13,
                             CreatedByUserId = 0,
-                            CreatedDate = new DateTime(2026, 2, 3, 2, 40, 58, 914, DateTimeKind.Local).AddTicks(4819),
+                            CreatedDate = new DateTime(2026, 2, 3, 2, 40, 13, 891, DateTimeKind.Local).AddTicks(3142),
                             IsActive = true,
                             IsDeleted = false,
                             IsSubBalanceCalculated = false
@@ -480,7 +483,7 @@ namespace KuyumHesap.Persistence.Migrations
                             BuyRate = 0.995m,
                             Country = "GLOBAL",
                             CreatedByUserId = 1,
-                            CreatedDate = new DateTime(2026, 2, 3, 2, 40, 58, 914, DateTimeKind.Local).AddTicks(5701),
+                            CreatedDate = new DateTime(2026, 2, 3, 2, 40, 13, 891, DateTimeKind.Local).AddTicks(3907),
                             CurrencyCode = "HAS",
                             CurrencyName = "ALTIN 1000",
                             IsActive = true,
@@ -497,7 +500,7 @@ namespace KuyumHesap.Persistence.Migrations
                             BuyRate = 0.99m,
                             Country = "AMERİKA BİRLEŞİK DEVLETLERİ",
                             CreatedByUserId = 1,
-                            CreatedDate = new DateTime(2026, 2, 3, 2, 40, 58, 914, DateTimeKind.Local).AddTicks(5717),
+                            CreatedDate = new DateTime(2026, 2, 3, 2, 40, 13, 891, DateTimeKind.Local).AddTicks(3920),
                             CurrencyCode = "USD",
                             CurrencyName = "AMERİKAN DOLARI",
                             IsActive = true,
@@ -514,7 +517,7 @@ namespace KuyumHesap.Persistence.Migrations
                             BuyRate = 1m,
                             Country = "TÜRKİYE",
                             CreatedByUserId = 1,
-                            CreatedDate = new DateTime(2026, 2, 3, 2, 40, 58, 914, DateTimeKind.Local).AddTicks(5719),
+                            CreatedDate = new DateTime(2026, 2, 3, 2, 40, 13, 891, DateTimeKind.Local).AddTicks(3957),
                             CurrencyCode = "TRY",
                             CurrencyName = "TÜRK LİRASI",
                             IsActive = true,
@@ -531,7 +534,7 @@ namespace KuyumHesap.Persistence.Migrations
                             BuyRate = 0.99m,
                             Country = "AVRUPA BİRLİĞİ",
                             CreatedByUserId = 1,
-                            CreatedDate = new DateTime(2026, 2, 3, 2, 40, 58, 914, DateTimeKind.Local).AddTicks(5721),
+                            CreatedDate = new DateTime(2026, 2, 3, 2, 40, 13, 891, DateTimeKind.Local).AddTicks(3959),
                             CurrencyCode = "EUR",
                             CurrencyName = "AVRUPA PARA BİRİMİ",
                             IsActive = true,
@@ -548,7 +551,7 @@ namespace KuyumHesap.Persistence.Migrations
                             BuyRate = 0.99m,
                             Country = "İSVİÇRE",
                             CreatedByUserId = 1,
-                            CreatedDate = new DateTime(2026, 2, 3, 2, 40, 58, 914, DateTimeKind.Local).AddTicks(5723),
+                            CreatedDate = new DateTime(2026, 2, 3, 2, 40, 13, 891, DateTimeKind.Local).AddTicks(3961),
                             CurrencyCode = "CHF",
                             CurrencyName = "İSVİÇRE FRANGI",
                             IsActive = true,
@@ -565,7 +568,7 @@ namespace KuyumHesap.Persistence.Migrations
                             BuyRate = 1m,
                             Country = "AMERİKA BİRLEŞİK DEVLETLERİ",
                             CreatedByUserId = 1,
-                            CreatedDate = new DateTime(2026, 2, 3, 2, 40, 58, 914, DateTimeKind.Local).AddTicks(5725),
+                            CreatedDate = new DateTime(2026, 2, 3, 2, 40, 13, 891, DateTimeKind.Local).AddTicks(3963),
                             CurrencyCode = "SAR",
                             CurrencyName = "SUUDİ ARABİSTAN RİYALİ",
                             IsActive = true,
@@ -582,7 +585,7 @@ namespace KuyumHesap.Persistence.Migrations
                             BuyRate = 0.99m,
                             Country = "AMERİKA BİRLEŞİK DEVLETLERİ",
                             CreatedByUserId = 1,
-                            CreatedDate = new DateTime(2026, 2, 3, 2, 40, 58, 914, DateTimeKind.Local).AddTicks(5727),
+                            CreatedDate = new DateTime(2026, 2, 3, 2, 40, 13, 891, DateTimeKind.Local).AddTicks(3965),
                             CurrencyCode = "GHS",
                             CurrencyName = "GÜMÜŞ HASI",
                             IsActive = true,
@@ -736,7 +739,7 @@ namespace KuyumHesap.Persistence.Migrations
                             Id = 1,
                             AutoGeneratedTransactionTypeId = 2,
                             CreatedByUserId = 1,
-                            CreatedDate = new DateTime(2026, 2, 3, 2, 40, 58, 914, DateTimeKind.Local).AddTicks(6284),
+                            CreatedDate = new DateTime(2026, 2, 3, 2, 40, 13, 891, DateTimeKind.Local).AddTicks(4559),
                             Description = "NAKİT GİRİŞ İŞLEMLERİ İÇİN KULLANILIR",
                             GC = "G",
                             IsActive = true,
@@ -750,7 +753,7 @@ namespace KuyumHesap.Persistence.Migrations
                             Id = 2,
                             AutoGeneratedTransactionTypeId = 1,
                             CreatedByUserId = 1,
-                            CreatedDate = new DateTime(2026, 2, 3, 2, 40, 58, 914, DateTimeKind.Local).AddTicks(6288),
+                            CreatedDate = new DateTime(2026, 2, 3, 2, 40, 13, 891, DateTimeKind.Local).AddTicks(4563),
                             Description = "NAKİT ÇIKIŞ İŞLEMLERİ İÇİN KULLANILIR",
                             GC = "C",
                             IsActive = true,
@@ -764,7 +767,7 @@ namespace KuyumHesap.Persistence.Migrations
                             Id = 3,
                             AutoGeneratedTransactionTypeId = 4,
                             CreatedByUserId = 1,
-                            CreatedDate = new DateTime(2026, 2, 3, 2, 40, 58, 914, DateTimeKind.Local).AddTicks(6289),
+                            CreatedDate = new DateTime(2026, 2, 3, 2, 40, 13, 891, DateTimeKind.Local).AddTicks(4565),
                             Description = "ÜRÜN GİRİŞ İŞLEMLERİ İÇİN KULLANILIR",
                             GC = "G",
                             IsActive = true,
@@ -778,7 +781,7 @@ namespace KuyumHesap.Persistence.Migrations
                             Id = 4,
                             AutoGeneratedTransactionTypeId = 3,
                             CreatedByUserId = 1,
-                            CreatedDate = new DateTime(2026, 2, 3, 2, 40, 58, 914, DateTimeKind.Local).AddTicks(6290),
+                            CreatedDate = new DateTime(2026, 2, 3, 2, 40, 13, 891, DateTimeKind.Local).AddTicks(4566),
                             Description = "ÜRÜN ÇIKIŞ İŞLEMLERİ İÇİN KULLANILIR",
                             GC = "C",
                             IsActive = true,
@@ -792,7 +795,7 @@ namespace KuyumHesap.Persistence.Migrations
                             Id = 5,
                             AutoGeneratedTransactionTypeId = 6,
                             CreatedByUserId = 1,
-                            CreatedDate = new DateTime(2026, 2, 3, 2, 40, 58, 914, DateTimeKind.Local).AddTicks(6292),
+                            CreatedDate = new DateTime(2026, 2, 3, 2, 40, 13, 891, DateTimeKind.Local).AddTicks(4567),
                             Description = "HESABIN ALACAĞINA İSKONTO YAZMAK İÇİN",
                             GC = "G",
                             IsActive = true,
@@ -806,7 +809,7 @@ namespace KuyumHesap.Persistence.Migrations
                             Id = 6,
                             AutoGeneratedTransactionTypeId = 5,
                             CreatedByUserId = 1,
-                            CreatedDate = new DateTime(2026, 2, 3, 2, 40, 58, 914, DateTimeKind.Local).AddTicks(6319),
+                            CreatedDate = new DateTime(2026, 2, 3, 2, 40, 13, 891, DateTimeKind.Local).AddTicks(4568),
                             Description = "HESABIN BORCUNA İSKONTO YAZMAK İÇİN",
                             GC = "C",
                             IsActive = true,
@@ -820,7 +823,7 @@ namespace KuyumHesap.Persistence.Migrations
                             Id = 7,
                             AutoGeneratedTransactionTypeId = 8,
                             CreatedByUserId = 1,
-                            CreatedDate = new DateTime(2026, 2, 3, 2, 40, 58, 914, DateTimeKind.Local).AddTicks(6320),
+                            CreatedDate = new DateTime(2026, 2, 3, 2, 40, 13, 891, DateTimeKind.Local).AddTicks(4569),
                             Description = "VİRMAN(HAVALE) GİRİŞ İŞLEMLERİ İÇİN KULLANILIR",
                             GC = "G",
                             IsActive = true,
@@ -834,7 +837,7 @@ namespace KuyumHesap.Persistence.Migrations
                             Id = 8,
                             AutoGeneratedTransactionTypeId = 7,
                             CreatedByUserId = 1,
-                            CreatedDate = new DateTime(2026, 2, 3, 2, 40, 58, 914, DateTimeKind.Local).AddTicks(6321),
+                            CreatedDate = new DateTime(2026, 2, 3, 2, 40, 13, 891, DateTimeKind.Local).AddTicks(4571),
                             Description = "VİRMAN(HAVALE) ÇIKIŞ İŞLEMLERİ İÇİN KULLANILIR",
                             GC = "C",
                             IsActive = true,
@@ -848,7 +851,7 @@ namespace KuyumHesap.Persistence.Migrations
                             Id = 9,
                             AutoGeneratedTransactionTypeId = 10,
                             CreatedByUserId = 1,
-                            CreatedDate = new DateTime(2026, 2, 3, 2, 40, 58, 914, DateTimeKind.Local).AddTicks(6322),
+                            CreatedDate = new DateTime(2026, 2, 3, 2, 40, 13, 891, DateTimeKind.Local).AddTicks(4572),
                             Description = "ÇEVİRME GİRİŞ İŞLEMLERİ İÇİN KULLANILIR",
                             GC = "G",
                             IsActive = true,
@@ -862,7 +865,7 @@ namespace KuyumHesap.Persistence.Migrations
                             Id = 10,
                             AutoGeneratedTransactionTypeId = 9,
                             CreatedByUserId = 1,
-                            CreatedDate = new DateTime(2026, 2, 3, 2, 40, 58, 914, DateTimeKind.Local).AddTicks(6324),
+                            CreatedDate = new DateTime(2026, 2, 3, 2, 40, 13, 891, DateTimeKind.Local).AddTicks(4573),
                             Description = "ÇEVİRME ÇIKIŞ İŞLEMLERİ İÇİN KULLANILIR",
                             GC = "C",
                             IsActive = true,
@@ -1022,7 +1025,7 @@ namespace KuyumHesap.Persistence.Migrations
                         {
                             Id = 1,
                             CreatedByUserId = 1,
-                            CreatedDate = new DateTime(2026, 2, 3, 2, 40, 58, 914, DateTimeKind.Local).AddTicks(6879),
+                            CreatedDate = new DateTime(2026, 2, 3, 2, 40, 13, 891, DateTimeKind.Local).AddTicks(5065),
                             IsDeleted = false,
                             ProductTypeName = "YÜZÜK"
                         },
@@ -1030,7 +1033,7 @@ namespace KuyumHesap.Persistence.Migrations
                         {
                             Id = 2,
                             CreatedByUserId = 1,
-                            CreatedDate = new DateTime(2026, 2, 3, 2, 40, 58, 914, DateTimeKind.Local).AddTicks(6881),
+                            CreatedDate = new DateTime(2026, 2, 3, 2, 40, 13, 891, DateTimeKind.Local).AddTicks(5066),
                             IsDeleted = false,
                             ProductTypeName = "KÜPE"
                         },
@@ -1038,7 +1041,7 @@ namespace KuyumHesap.Persistence.Migrations
                         {
                             Id = 3,
                             CreatedByUserId = 1,
-                            CreatedDate = new DateTime(2026, 2, 3, 2, 40, 58, 914, DateTimeKind.Local).AddTicks(6882),
+                            CreatedDate = new DateTime(2026, 2, 3, 2, 40, 13, 891, DateTimeKind.Local).AddTicks(5067),
                             IsDeleted = false,
                             ProductTypeName = "ALYANS"
                         },
@@ -1046,7 +1049,7 @@ namespace KuyumHesap.Persistence.Migrations
                         {
                             Id = 4,
                             CreatedByUserId = 1,
-                            CreatedDate = new DateTime(2026, 2, 3, 2, 40, 58, 914, DateTimeKind.Local).AddTicks(6882),
+                            CreatedDate = new DateTime(2026, 2, 3, 2, 40, 13, 891, DateTimeKind.Local).AddTicks(5067),
                             IsDeleted = false,
                             ProductTypeName = "BİLEKLİK"
                         },
@@ -1054,7 +1057,7 @@ namespace KuyumHesap.Persistence.Migrations
                         {
                             Id = 5,
                             CreatedByUserId = 1,
-                            CreatedDate = new DateTime(2026, 2, 3, 2, 40, 58, 914, DateTimeKind.Local).AddTicks(6883),
+                            CreatedDate = new DateTime(2026, 2, 3, 2, 40, 13, 891, DateTimeKind.Local).AddTicks(5068),
                             IsDeleted = false,
                             ProductTypeName = "KELEPÇE"
                         });
@@ -1068,7 +1071,7 @@ namespace KuyumHesap.Persistence.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("AccountId")
+                    b.Property<int?>("AccountId")
                         .HasColumnType("int");
 
                     b.Property<int>("CreatedByUserId")
@@ -1160,7 +1163,7 @@ namespace KuyumHesap.Persistence.Migrations
                             Id = 1,
                             Code = "ADMIN",
                             CreatedByUserId = 0,
-                            CreatedDate = new DateTime(2026, 2, 3, 2, 40, 58, 914, DateTimeKind.Local).AddTicks(7363),
+                            CreatedDate = new DateTime(2026, 2, 3, 2, 40, 13, 891, DateTimeKind.Local).AddTicks(5529),
                             IsDeleted = false,
                             Name = "Admin",
                             Type = "System"
@@ -1170,7 +1173,7 @@ namespace KuyumHesap.Persistence.Migrations
                             Id = 2,
                             Code = "USER",
                             CreatedByUserId = 0,
-                            CreatedDate = new DateTime(2026, 2, 3, 2, 40, 58, 914, DateTimeKind.Local).AddTicks(7366),
+                            CreatedDate = new DateTime(2026, 2, 3, 2, 40, 13, 891, DateTimeKind.Local).AddTicks(5532),
                             IsDeleted = false,
                             Name = "User",
                             Type = "System"
@@ -1271,7 +1274,7 @@ namespace KuyumHesap.Persistence.Migrations
                         {
                             Id = 1,
                             CreatedByUserId = 1,
-                            CreatedDate = new DateTime(2026, 2, 3, 2, 40, 58, 914, DateTimeKind.Local).AddTicks(7934),
+                            CreatedDate = new DateTime(2026, 2, 3, 2, 40, 13, 891, DateTimeKind.Local).AddTicks(5924),
                             IsDeleted = false,
                             StockGroupName = "MAMUL GRUBU"
                         },
@@ -1279,7 +1282,7 @@ namespace KuyumHesap.Persistence.Migrations
                         {
                             Id = 2,
                             CreatedByUserId = 1,
-                            CreatedDate = new DateTime(2026, 2, 3, 2, 40, 58, 914, DateTimeKind.Local).AddTicks(7935),
+                            CreatedDate = new DateTime(2026, 2, 3, 2, 40, 13, 891, DateTimeKind.Local).AddTicks(5926),
                             IsDeleted = false,
                             StockGroupName = "MADEN GRUBU"
                         },
@@ -1287,7 +1290,7 @@ namespace KuyumHesap.Persistence.Migrations
                         {
                             Id = 3,
                             CreatedByUserId = 1,
-                            CreatedDate = new DateTime(2026, 2, 3, 2, 40, 58, 914, DateTimeKind.Local).AddTicks(7936),
+                            CreatedDate = new DateTime(2026, 2, 3, 2, 40, 13, 891, DateTimeKind.Local).AddTicks(5927),
                             IsDeleted = false,
                             StockGroupName = "HURDA GRUBU"
                         },
@@ -1295,7 +1298,7 @@ namespace KuyumHesap.Persistence.Migrations
                         {
                             Id = 4,
                             CreatedByUserId = 1,
-                            CreatedDate = new DateTime(2026, 2, 3, 2, 40, 58, 914, DateTimeKind.Local).AddTicks(7937),
+                            CreatedDate = new DateTime(2026, 2, 3, 2, 40, 13, 891, DateTimeKind.Local).AddTicks(5928),
                             IsDeleted = false,
                             StockGroupName = "PIRLANTA TAŞ GRUBU"
                         },
@@ -1303,7 +1306,7 @@ namespace KuyumHesap.Persistence.Migrations
                         {
                             Id = 5,
                             CreatedByUserId = 1,
-                            CreatedDate = new DateTime(2026, 2, 3, 2, 40, 58, 914, DateTimeKind.Local).AddTicks(7938),
+                            CreatedDate = new DateTime(2026, 2, 3, 2, 40, 13, 891, DateTimeKind.Local).AddTicks(5929),
                             IsDeleted = false,
                             StockGroupName = "ELMAS TAŞ GRUBU"
                         },
@@ -1311,7 +1314,7 @@ namespace KuyumHesap.Persistence.Migrations
                         {
                             Id = 6,
                             CreatedByUserId = 1,
-                            CreatedDate = new DateTime(2026, 2, 3, 2, 40, 58, 914, DateTimeKind.Local).AddTicks(7939),
+                            CreatedDate = new DateTime(2026, 2, 3, 2, 40, 13, 891, DateTimeKind.Local).AddTicks(5930),
                             IsDeleted = false,
                             StockGroupName = "RENKLİ TAŞ GRUBU"
                         });
@@ -1366,7 +1369,7 @@ namespace KuyumHesap.Persistence.Migrations
                         {
                             Id = 1,
                             CreatedByUserId = 1,
-                            CreatedDate = new DateTime(2026, 2, 3, 2, 40, 58, 914, DateTimeKind.Local).AddTicks(8348),
+                            CreatedDate = new DateTime(2026, 2, 3, 2, 40, 13, 891, DateTimeKind.Local).AddTicks(6313),
                             CurrencyId = 1,
                             IsActive = true,
                             IsDeleted = false,
@@ -1377,7 +1380,7 @@ namespace KuyumHesap.Persistence.Migrations
                         {
                             Id = 2,
                             CreatedByUserId = 1,
-                            CreatedDate = new DateTime(2026, 2, 3, 2, 40, 58, 914, DateTimeKind.Local).AddTicks(8352),
+                            CreatedDate = new DateTime(2026, 2, 3, 2, 40, 13, 891, DateTimeKind.Local).AddTicks(6316),
                             CurrencyId = 8,
                             IsActive = true,
                             IsDeleted = false,
@@ -1388,7 +1391,7 @@ namespace KuyumHesap.Persistence.Migrations
                         {
                             Id = 3,
                             CreatedByUserId = 1,
-                            CreatedDate = new DateTime(2026, 2, 3, 2, 40, 58, 914, DateTimeKind.Local).AddTicks(8353),
+                            CreatedDate = new DateTime(2026, 2, 3, 2, 40, 13, 891, DateTimeKind.Local).AddTicks(6317),
                             CurrencyId = 1,
                             IsActive = true,
                             IsDeleted = false,
@@ -1399,7 +1402,7 @@ namespace KuyumHesap.Persistence.Migrations
                         {
                             Id = 4,
                             CreatedByUserId = 1,
-                            CreatedDate = new DateTime(2026, 2, 3, 2, 40, 58, 914, DateTimeKind.Local).AddTicks(8354),
+                            CreatedDate = new DateTime(2026, 2, 3, 2, 40, 13, 891, DateTimeKind.Local).AddTicks(6318),
                             CurrencyId = 7,
                             IsActive = true,
                             IsDeleted = false,
@@ -1410,7 +1413,7 @@ namespace KuyumHesap.Persistence.Migrations
                         {
                             Id = 5,
                             CreatedByUserId = 1,
-                            CreatedDate = new DateTime(2026, 2, 3, 2, 40, 58, 914, DateTimeKind.Local).AddTicks(8355),
+                            CreatedDate = new DateTime(2026, 2, 3, 2, 40, 13, 891, DateTimeKind.Local).AddTicks(6319),
                             CurrencyId = 2,
                             IsActive = true,
                             IsDeleted = false,
@@ -1421,7 +1424,7 @@ namespace KuyumHesap.Persistence.Migrations
                         {
                             Id = 6,
                             CreatedByUserId = 1,
-                            CreatedDate = new DateTime(2026, 2, 3, 2, 40, 58, 914, DateTimeKind.Local).AddTicks(8355),
+                            CreatedDate = new DateTime(2026, 2, 3, 2, 40, 13, 891, DateTimeKind.Local).AddTicks(6320),
                             CurrencyId = 3,
                             IsActive = true,
                             IsDeleted = false,
@@ -1432,7 +1435,7 @@ namespace KuyumHesap.Persistence.Migrations
                         {
                             Id = 7,
                             CreatedByUserId = 1,
-                            CreatedDate = new DateTime(2026, 2, 3, 2, 40, 58, 914, DateTimeKind.Local).AddTicks(8356),
+                            CreatedDate = new DateTime(2026, 2, 3, 2, 40, 13, 891, DateTimeKind.Local).AddTicks(6361),
                             CurrencyId = 2,
                             IsActive = true,
                             IsDeleted = false,
@@ -1443,7 +1446,7 @@ namespace KuyumHesap.Persistence.Migrations
                         {
                             Id = 8,
                             CreatedByUserId = 1,
-                            CreatedDate = new DateTime(2026, 2, 3, 2, 40, 58, 914, DateTimeKind.Local).AddTicks(8357),
+                            CreatedDate = new DateTime(2026, 2, 3, 2, 40, 13, 891, DateTimeKind.Local).AddTicks(6362),
                             CurrencyId = 1,
                             IsActive = true,
                             IsDeleted = false,
@@ -1585,7 +1588,7 @@ namespace KuyumHesap.Persistence.Migrations
                             Id = 1,
                             Active = true,
                             CreatedByUserId = 0,
-                            CreatedDate = new DateTime(2026, 2, 3, 2, 40, 58, 914, DateTimeKind.Local).AddTicks(8919),
+                            CreatedDate = new DateTime(2026, 2, 3, 2, 40, 13, 891, DateTimeKind.Local).AddTicks(6939),
                             Email = "mahmut.kavalci@gmail.com",
                             FirstName = "Mahmut",
                             IsDeleted = false,
@@ -1599,7 +1602,7 @@ namespace KuyumHesap.Persistence.Migrations
                             Id = 2,
                             Active = true,
                             CreatedByUserId = 0,
-                            CreatedDate = new DateTime(2026, 2, 3, 2, 40, 58, 914, DateTimeKind.Local).AddTicks(9283),
+                            CreatedDate = new DateTime(2026, 2, 3, 2, 40, 13, 891, DateTimeKind.Local).AddTicks(7212),
                             Email = "samt51.m@icloud.com",
                             FirstName = "Samet",
                             IsDeleted = false,
@@ -1782,13 +1785,9 @@ namespace KuyumHesap.Persistence.Migrations
 
             modelBuilder.Entity("KuyumHesap.Domain.Entities.Receipt", b =>
                 {
-                    b.HasOne("KuyumHesap.Domain.Entities.Account", "Account")
+                    b.HasOne("KuyumHesap.Domain.Entities.Account", null)
                         .WithMany("Receipts")
-                        .HasForeignKey("AccountId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Account");
+                        .HasForeignKey("AccountId");
                 });
 
             modelBuilder.Entity("KuyumHesap.Domain.Entities.Stock", b =>

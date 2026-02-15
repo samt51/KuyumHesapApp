@@ -1,7 +1,11 @@
+using Hangfire;
 using KuyumHesap.Api.Common.Filters;
 using KuyumHesap.Application;
+using KuyumHesap.Application.Common.Abstractions.ServiceProvider;
 using KuyumHesap.Application.Common.Middleware.ExceptionFilter;
 using KuyumHesap.Infrastructure;
+using KuyumHesap.Infrastructure.Services;
+using KuyumHesap.Infrastructure.Services.Jobs;
 using KuyumHesap.Persistence;
 using KuyumHesap.Persistence.Common.Context;
 using KuyumHesap.Persistence.Common.Extensions;
@@ -86,6 +90,34 @@ builder.Services.AddSwaggerGen(c =>
     c.CustomSchemaIds(t => t.FullName);
 
 });
+
+builder.Services.AddHttpClient("CureClient", c =>
+{
+    c.Timeout = TimeSpan.FromSeconds(10);
+});
+
+builder.Services.AddScoped<IExchangeRateProvider, PusulaExchangeRateProvider>();
+builder.Services.AddScoped<IRefreshExchangeRatesUseCase, RefreshExchangeRatesUseCase>();
+builder.Services.AddScoped<ExchangeRateHangfireJob>();
+
+builder.Services.AddHangfire(config =>
+{
+    config.UseSimpleAssemblyNameTypeSerializer();
+    config.UseRecommendedSerializerSettings();
+    config.UseSqlServerStorage(
+        builder.Configuration.GetConnectionString("HangfireConnection"));
+});
+
+builder.Services.AddHangfireServer(options =>
+{
+    options.ServerName = $"{Environment.MachineName}:{Guid.NewGuid()}";
+    options.WorkerCount = 1; // debug için 1 iyi
+    options.Queues = new[] { "default" };
+});
+builder.Services.AddMemoryCache();
+
+
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -96,6 +128,7 @@ var app = builder.Build();
 
 app.UseHttpsRedirection();
 app.ConfigureExceptionHandlingMiddleware();
+app.UseHangfireDashboard("/hangfire");
 app.UseAuthentication();
 app.UseAuthorization();
 
@@ -103,6 +136,18 @@ await app.MigrateDevAndSeedAsync<AppDbContext>(async (db, sp) =>
 {
     await HostingExtensions.DevSeeder.SeedAsync(db);
 });
+
+using (var scope = app.Services.CreateScope())
+{
+    var recurring = scope.ServiceProvider.GetRequiredService<IRecurringJobManager>();
+
+    recurring.AddOrUpdate<ExchangeRateHangfireJob>(
+     "exchange-rate-refresh",
+     x => x.Run(),
+     "*/5 * * * *",
+     TimeZoneInfo.Local
+ );
+}
 
 
 app.Use(async (context, next) =>

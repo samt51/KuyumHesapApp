@@ -9,7 +9,15 @@ namespace KuyumHesap.Domain.Entities
     {
         public ExchangeRate()
         {
-            
+
+        }
+        public ExchangeRate(DateTime rateDate, int currrencyId, decimal buyRATE, decimal sellRate, decimal? previosCloseRate)
+        {
+            this.RateDate = rateDate;
+            this.CurrencyId = currrencyId;
+            this.BuyRate = buyRATE;
+            this.SellRate = sellRate;
+            this.PreviousCloseRate = previosCloseRate;
         }
         /// <summary>
         /// Kurun geçerli olduğu tarih

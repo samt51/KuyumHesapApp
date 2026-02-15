@@ -1,16 +1,10 @@
-﻿using KuyumHesap.Domain.Command;
+﻿using KuyumHesap.Application.Features.MovementFeature.Dtos;
 
-namespace KuyumHesap.Domain.Entities
+namespace KuyumHesap.Application.Features.ReceiptFeature.Queries.GetEkstreByCustomerId
 {
-    /// <summary>
-    /// Fişler tablosunun modeli
-    /// </summary>
-    public class Receipt : BaseEntity
+    public class GetEkstreByCustomerIdResponse
     {
-        public Receipt()
-        {
-            Movements = new List<Movements>();
-        }
+        public int Id { get; set; }
         /// <summary>
         /// Fiş Numarası Otomatik Atama
         /// </summary>
@@ -23,7 +17,8 @@ namespace KuyumHesap.Domain.Entities
         /// Cari Hesap Id
         /// </summary>
         public int AccountId { get; set; }
-        public Account Account { get; set; }
+        public string AccountName { get; set; } = null!;
+        public string AccountTypeName { get; set; } = null!;
         /// <summary>
         /// Personel Id Bilgisi
         /// </summary>
@@ -44,12 +39,6 @@ namespace KuyumHesap.Domain.Entities
         /// Açık Hesap Tutarı
         /// </summary>
         public decimal? OpenBalanceAmount { get; set; }
-
-        public List<Movements> Movements { get; set; }
-
-        public Receipt(List<Movements> movements)
-        {
-            Movements = movements ?? new List<Movements>();
-        }
+        public List<GetMovementByCustomerIdResponse> GetMovementByCustomerIdResponses { get; set; }
     }
 }
