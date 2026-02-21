@@ -132,11 +132,14 @@ app.UseHangfireDashboard("/hangfire");
 app.UseAuthentication();
 app.UseAuthorization();
 
-await app.MigrateDevAndSeedAsync<AppDbContext>(async (db, sp) =>
+if (app.Environment.IsDevelopment())
 {
-    await HostingExtensions.DevSeeder.SeedAsync(db);
-});
-
+    await app.MigrateDevAndSeedAsync<AppDbContext>(async (db, sp) =>
+    {
+        await HostingExtensions.DevSeeder.SeedAsync(db);
+    });
+}
+ 
 using (var scope = app.Services.CreateScope())
 {
     var recurring = scope.ServiceProvider.GetRequiredService<IRecurringJobManager>();
