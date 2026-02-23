@@ -19,7 +19,7 @@ namespace KuyumHesap.Application.Features.AccountFeature.Command.Update
 
             if (string.IsNullOrEmpty(data.NationalIdNumber) && string.IsNullOrEmpty(data.MobilePhone))
             {
-                var duplicate = await unitOfWork.GetReadRepository<Account>().GetAsync(x =>x.AccountName == request.AccountName&& x.Id != request.Id && !x.IsDeleted);
+                var duplicate = await unitOfWork.GetReadRepository<Account>().FindAsync(x => x.AccountName == request.AccountName && x.Id != request.Id && !x.IsDeleted);
                 if (duplicate != null)
                 {
                     return new ResponseDto<UpdateAccountCommandResponse>().Fail($"{duplicate.AccountName} isminde bir hesap zaten mevcut. Lütfen bilgileri güncelleyin.");

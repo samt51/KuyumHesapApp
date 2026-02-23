@@ -1,6 +1,7 @@
 ﻿using KuyumHesap.Application.Common.Abstractions;
 using KuyumHesap.Application.Common.Abstractions.Mapper;
 using KuyumHesap.Application.Common.Abstractions.UnitOfWorks;
+using KuyumHesap.Application.Common.Extensions;
 using KuyumHesap.Application.Common.Models;
 using KuyumHesap.Application.Common.Models.Dtos;
 using KuyumHesap.Domain.Entities;
@@ -22,6 +23,7 @@ namespace KuyumHesap.Application.Features.ReceiptFeature.Commands.Create
         }
         public async Task CreateCashModal(CreateReceiptCommandRequest request)
         {
+            request.ReceiptNumber = HelpersExtension.GenerateUniqueReceiptNumber();
             var map = mapper.Map<Receipt, CreateReceiptCommandRequest>(request);
 
             await unitOfWork.OpenTransactionAsync(cancellationToken: CancellationToken.None);
@@ -29,7 +31,6 @@ namespace KuyumHesap.Application.Features.ReceiptFeature.Commands.Create
             map.AccountId = request.CurrentAccountId;
 
             map.CreatedByUserId = 1;
-            map.ReceiptNumber = "";
             await unitOfWork.GetWriteRepository<Receipt>().AddAsync(map);
 
 
@@ -61,7 +62,7 @@ namespace KuyumHesap.Application.Features.ReceiptFeature.Commands.Create
 
 
                         counterMap.Id = 0;
-
+                        counterMap.AccountId = request.AccountId;
                         counterMap.TransactionTypeId = 2;
                         counterMap.CounterCurrencyId = movement.ForeignCurrencyId;
                         counterMap.CounterTransactionId = movement.Id;
@@ -108,6 +109,7 @@ namespace KuyumHesap.Application.Features.ReceiptFeature.Commands.Create
                         movement.TransactionTypeId = 1;
                         movement.CostAmount = movement.CounterCurrencyAmount;
                         movement.ReceiptId = map.Id;
+                        movement.AccountId = request.AccountId;
 
                         await unitOfWork.GetWriteRepository<Movements>().AddAsync(movement);
 
