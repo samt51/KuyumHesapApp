@@ -6,6 +6,7 @@ using KuyumHesap.Application.Features.MovementFeature.Dtos;
 using KuyumHesap.Domain.Entities;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using System.Threading.Tasks;
 
 namespace KuyumHesap.Application.Features.ReceiptFeature.Queries.GetEkstreByCustomerId
 {
@@ -95,6 +96,32 @@ namespace KuyumHesap.Application.Features.ReceiptFeature.Queries.GetEkstreByCust
                 rsp.Add(entityData);
             }
             return new ResponseDto<List<GetEkstreByCustomerIdResponse>>().Success(rsp);
+        }
+
+        public async Task<decimal> TotalAmount()
+        {
+            var toplamHas = 0;
+            var hasKuruData = await unitOfWork.GetReadRepository<ExchangeRate>().FindAsync(k => k.CurrencyId == 1, orderBy: y => y.OrderByDescending(c => c.CreatedDate));
+            var hasKuru = hasKuruData != null ? hasKuruData.BuyRate : 1;
+
+            //for (const dovizKodu in bakiyeDurumu) {
+            //    const bakiye = bakiyeDurumu[dovizKodu];
+            //    if (dovizKodu === 'HAS')
+            //    {
+            //        toplamHas += bakiye;
+            //    }
+            //    else
+            //    {
+            //        const dovizKurData = allExchangeRates.find(k => k.dovizKodu === dovizKodu);
+            //        const dovizKur = dovizKurData ? dovizKurData.alisKuru : 1;
+            //        if (hasKuru > 0)
+            //        {
+            //            toplamHas += (bakiye * dovizKur) / hasKuru;
+            //        }
+            //    }
+            //}
+
+            return 4;
         }
     }
 }
