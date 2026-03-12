@@ -12,6 +12,8 @@ namespace KuyumHesap.Application.Features.ReceiptFeature.Commands.Create
     public class CreateReceiptCommandHandler : BaseHandler, IRequestHandler<CreateReceiptCommandRequest, ResponseDto<CreateReceiptCommandResponse>>
     {
         int cashLastId = 0;
+        int accounId;
+        int currentAccounId = 0;
         public CreateReceiptCommandHandler(IMapper mapper, IUnitOfWork unitOfWork) : base(mapper, unitOfWork)
         {
         }
@@ -26,13 +28,17 @@ namespace KuyumHesap.Application.Features.ReceiptFeature.Commands.Create
         {
             try
             {
+                accounId = request.AccountId;
+                currentAccounId = request.CurrentAccountId;
                 // Generate and map receipt
                 request.ReceiptNumber = HelpersExtension.GenerateUniqueReceiptNumber();
+
                 var receipt = mapper.Map<Receipt, CreateReceiptCommandRequest>(request);
 
                 await unitOfWork.OpenTransactionAsync(cancellationToken);
 
                 receipt.AccountId = request.CurrentAccountId;
+
                 receipt.CreatedByUserId = 1;
 
                 // Add receipt and save to get generated Id
@@ -63,7 +69,7 @@ namespace KuyumHesap.Application.Features.ReceiptFeature.Commands.Create
                 // Attempt rollback if available and rethrow (simplified to preserve original behavior)
                 try
                 {
-                    await unitOfWork.RollBackAsync(cancellationToken);  
+                    await unitOfWork.RollBackAsync(cancellationToken);
                 }
                 catch
                 {
@@ -109,6 +115,7 @@ namespace KuyumHesap.Application.Features.ReceiptFeature.Commands.Create
             async Task HandlePrimaryThenCounterAsync(Movements primary, CreateReceiptCommandRequest req, Receipt rec, int counterTransactionType, int descriptionSourceType, CancellationToken ct)
             {
                 // Add primary movement
+                primary.AccountId = req.CurrentAccountId;
                 primary.ReceiptId = rec.Id;
                 primary.CostAmount = primary.CounterCurrencyAmount;
                 await unitOfWork.GetWriteRepository<Movements>().AddAsync(primary);
@@ -117,7 +124,7 @@ namespace KuyumHesap.Application.Features.ReceiptFeature.Commands.Create
                 // Create counter copy
                 var counter = mapper.Map<Movements, Movements>(primary);
                 counter.Id = 0;
-                counter.AccountId = req.AccountId;
+                counter.AccountId = counterTransactionType == 6 ? 3 : req.AccountId;
                 counter.TransactionTypeId = counterTransactionType;
                 counter.CounterCurrencyId = primary.ForeignCurrencyId;
                 counter.CounterTransactionId = primary.Id;
@@ -142,6 +149,7 @@ namespace KuyumHesap.Application.Features.ReceiptFeature.Commands.Create
             {
                 // Create the counter (first)
                 var counter = mapper.Map<Movements, Movements>(counterDefinition);
+                counter.AccountId = primaryTransactionType == 5 ? currentAccounId : accounId;
                 counter.ReceiptId = rec.Id;
                 counter.CounterCurrencyAmount = counterDefinition.ForeignCurrencyAmount;
                 counter.CounterCurrencyId = counterDefinition.ForeignCurrencyId;
@@ -156,7 +164,7 @@ namespace KuyumHesap.Application.Features.ReceiptFeature.Commands.Create
                 counterDefinition.TransactionTypeId = primaryTransactionType;
                 counterDefinition.CostAmount = counterDefinition.CounterCurrencyAmount;
                 counterDefinition.ReceiptId = rec.Id;
-                counterDefinition.AccountId = req.AccountId;
+                counterDefinition.AccountId = primaryTransactionType == 5 ? 3 : req.AccountId;
 
                 await unitOfWork.GetWriteRepository<Movements>().AddAsync(counterDefinition);
                 await unitOfWork.SaveAsync(ct);

@@ -12,6 +12,7 @@ namespace KuyumHesap.Application.Features.ReceiptFeature.Queries.GetEkstreByCust
 {
     public class GetEkstreByCustomerIdHandler : BaseHandler, IRequestHandler<GetEkstreByCustomerIdRequest, ResponseDto<List<GetEkstreByCustomerIdResponse>>>
     {
+        string toggleName;
         public GetEkstreByCustomerIdHandler(IMapper mapper, IUnitOfWork unitOfWork) : base(mapper, unitOfWork)
         {
         }
@@ -32,7 +33,10 @@ namespace KuyumHesap.Application.Features.ReceiptFeature.Queries.GetEkstreByCust
               .Include(r => r.Account)
                   .ThenInclude(a => a.AccountType)
               .Include(r => r.Movements)
-                  .ThenInclude(m => m.TransactionType));
+                  .ThenInclude(m => m.TransactionType)
+                  .Include(c=>c.Movements)
+                  .ThenInclude(y=>y.Account)
+                  .ThenInclude(v=>v.AccountType));
 
             var currency = await unitOfWork.GetReadRepository<Currency>().GetAllAsync(x => !x.IsDeleted);
 
@@ -58,6 +62,7 @@ namespace KuyumHesap.Application.Features.ReceiptFeature.Queries.GetEkstreByCust
                 };
                 foreach (var movement in item.Movements)
                 {
+                 
                     listData.Add(new()
                     {
 
@@ -90,6 +95,7 @@ namespace KuyumHesap.Application.Features.ReceiptFeature.Queries.GetEkstreByCust
                         LaborUnit = movement.LaborUnit,
                         NetProductValue = movement.NetProductValue,
                         TotalLaborCost = movement.TotalLaborCost,
+                        ToggleName = movement.Account?.AccountType?.AccountTypeName
                     });
                 }
                 entityData.GetMovementByCustomerIdResponses = listData;
