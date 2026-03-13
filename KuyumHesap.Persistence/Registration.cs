@@ -8,6 +8,7 @@ using KuyumHesap.Persistence.Common.Concrete.Mapping;
 using KuyumHesap.Persistence.Common.Concrete.Repositories;
 using KuyumHesap.Persistence.Common.Concrete.SqlFunctions;
 using KuyumHesap.Persistence.Common.Concrete.SqlFunctions.AccountBalanceFunc;
+using KuyumHesap.Persistence.Common.Concrete.SqlViews;
 using KuyumHesap.Persistence.Common.Concrete.UnitOfWorks;
 using KuyumHesap.Persistence.Common.Context;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -48,6 +49,8 @@ namespace KuyumHesap.Persistence
             services.AddScoped<IAccountBalanceQuery, AccountBalanceQuerySqlFunc>();
 
             services.AddScoped<ITotalHasBalanceQuery, TotalHasBalanceQuery>();
+
+            services.AddScoped<IAccountStatementQuery, AccountStatementQuery>();
 
 
 

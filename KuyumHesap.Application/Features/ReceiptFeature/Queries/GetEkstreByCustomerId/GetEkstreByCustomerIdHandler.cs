@@ -1,133 +1,297 @@
 ﻿using KuyumHesap.Application.Common.Abstractions;
 using KuyumHesap.Application.Common.Abstractions.Mapper;
+using KuyumHesap.Application.Common.Abstractions.SqlViewAndFuncQuery;
 using KuyumHesap.Application.Common.Abstractions.UnitOfWorks;
 using KuyumHesap.Application.Common.Models;
-using KuyumHesap.Application.Features.MovementFeature.Dtos;
+using KuyumHesap.Application.Common.Models.Dtos.SqlResponse;
 using KuyumHesap.Domain.Entities;
 using MediatR;
-using Microsoft.EntityFrameworkCore;
-using System.Threading.Tasks;
+using static KuyumHesap.Application.Features.ReceiptFeature.Queries.GetEkstreByCustomerId.GetEkstreByCustomerIdHandler;
 
 namespace KuyumHesap.Application.Features.ReceiptFeature.Queries.GetEkstreByCustomerId
 {
-    public class GetEkstreByCustomerIdHandler : BaseHandler, IRequestHandler<GetEkstreByCustomerIdRequest, ResponseDto<List<GetEkstreByCustomerIdResponse>>>
+    public class GetEkstreByCustomerIdHandler : BaseHandler, IRequestHandler<GetEkstreByCustomerIdRequest, ResponseDto<EkstreViewModel>>
     {
         string toggleName;
-        public GetEkstreByCustomerIdHandler(IMapper mapper, IUnitOfWork unitOfWork) : base(mapper, unitOfWork)
+        private readonly IAccountStatementQuery _accountStatementQuery;
+        public GetEkstreByCustomerIdHandler(IAccountStatementQuery accountStatementQuery, IMapper mapper, IUnitOfWork unitOfWork) : base(mapper, unitOfWork)
         {
+            _accountStatementQuery = accountStatementQuery;
         }
 
-        public async Task<ResponseDto<List<GetEkstreByCustomerIdResponse>>> Handle(GetEkstreByCustomerIdRequest request, CancellationToken cancellationToken)
+        public async Task<ResponseDto<EkstreViewModel>> Handle(GetEkstreByCustomerIdRequest request, CancellationToken cancellationToken)
         {
-            await unitOfWork.GetReadRepository<Account>().GetAsync(x => !x.IsDeleted && x.Id == request.CustomerId);
-
-            var data = await unitOfWork
-      .GetReadRepository<Receipt>()
-      .GetAllAsync(
-          predicate: x =>
-              !x.IsDeleted &&
-              x.AccountId == request.CustomerId &&
-              x.ReceiptDate >= request.StartDate &&
-              x.ReceiptDate <= request.EndDate,
-          include: q => q
-              .Include(r => r.Account)
-                  .ThenInclude(a => a.AccountType)
-              .Include(r => r.Movements)
-                  .ThenInclude(m => m.TransactionType)
-                  .Include(c=>c.Movements)
-                  .ThenInclude(y=>y.Account)
-                  .ThenInclude(v=>v.AccountType));
-
-            var currency = await unitOfWork.GetReadRepository<Currency>().GetAllAsync(x => !x.IsDeleted);
-
-            var rsp = new List<GetEkstreByCustomerIdResponse>();
-            foreach (var item in data)
+            var ekstre = new EkstreViewModel();
+            // Önce view'den extre verilerini çek
+            List<AccountStatementViewResponseModel> totalBalance;
+            try
             {
-                var listData = new List<GetMovementByCustomerIdResponse>();
-                var receiptData = new List<GetEkstreByCustomerIdResponse>();
-                var entityData = new GetEkstreByCustomerIdResponse
-                {
-
-                    Id = item.Id,
-                    AccountId = item.AccountId,
-                    AccountName = item.Account.AccountName,
-                    AccountTypeName = item.Account.AccountType.AccountTypeName,
-                    ReceiptDate = item.ReceiptDate,
-                    CurrencyCode = item.CurrencyCode,
-                    Description = item.Description,
-                    EmployeeId = item.EmployeeId,
-                    IsCustomerReceipt = item.IsCustomerReceipt,
-                    OpenBalanceAmount = item.OpenBalanceAmount,
-                    ReceiptNumber = item.ReceiptNumber,
-                };
-                foreach (var movement in item.Movements)
-                {
-                 
-                    listData.Add(new()
-                    {
-
-                        Id = movement.Id,
-                        AccountId = movement.AccountId,
-                        TransactionTypeId = movement.TransactionTypeId,
-                        TransactionName = movement.TransactionType.TransactionName,
-                        TransactionCode = movement.TransactionType.TransactionCode,
-                        StockId = movement.StockId,
-                        Description = movement.Description,
-                        ForeignCurrencyAmount = movement.ForeignCurrencyAmount,
-                        ForeignCurrencyId = movement.ForeignCurrencyId,
-                        ForeignCurrencyCode = currency.FirstOrDefault(c => c.Id == movement.ForeignCurrencyId)?.CurrencyCode ?? "",
-                        ForeignExchangeRate = movement.ForeignExchangeRate,
-                        CounterCurrencyAmount = movement.CounterCurrencyAmount,
-                        CounterCurrencyId = movement.CounterCurrencyId,
-                        CounterCurrencyCode = currency.FirstOrDefault(c => c.Id == movement.CounterCurrencyId)?.CurrencyCode ?? "",
-                        CounterExchangeRate = movement.CounterExchangeRate,
-                        BaseCurrencyAmount = movement.BaseCurrencyAmount,
-                        CostAmount = movement.CostAmount,
-                        ProfitAmount = movement.ProfitAmount,
-                        CounterTransactionId = movement.CounterTransactionId,
-                        Quantity = movement.Quantity,
-                        MillRate = movement.MillRate,
-                        LaborCost = movement.LaborCost,
-                        ReceiptId = movement.ReceiptId,
-                        IsLaborIncluded = movement.IsLaborIncluded,
-                        IsReconciled = movement.IsReconciled,
-                        LaborQuantity = movement.LaborQuantity,
-                        LaborUnit = movement.LaborUnit,
-                        NetProductValue = movement.NetProductValue,
-                        TotalLaborCost = movement.TotalLaborCost,
-                        ToggleName = movement.Account?.AccountType?.AccountTypeName
-                    });
-                }
-                entityData.GetMovementByCustomerIdResponses = listData;
-                rsp.Add(entityData);
+                totalBalance = await _accountStatementQuery.GetAsync(cancellationToken);
             }
-            return new ResponseDto<List<GetEkstreByCustomerIdResponse>>().Success(rsp);
+            catch (Exception)
+            {
+                // view sorgusu başarısızsa hata fırlat
+                throw;
+            }
+
+            var baslangic = request.StartDate.Date;
+            var bitis = request.EndDate.Date.AddDays(1).AddTicks(-1); // Bitiş tarihini gün sonu olarak ayarla
+
+            // Hesap ve tarih filtresi: istenen müşterinin, endDate öncesi kayıtları
+            var dataBalance = totalBalance
+                .Where(x => x.AccountId == request.CustomerId && x.ReceiptDate < request.EndDate)
+                .ToList();
+
+            // Döviz bazında bakiye hesapla:
+            // SUM(CASE WHEN IsEntry = 1 THEN BalanceEffectAmount ELSE -BalanceEffectAmount END) AS Bakiye
+            var devredenBalance = dataBalance
+                .GroupBy(x => (x.BalanceUnit ?? string.Empty).Trim())
+                .Select(g => new EkstreBakiyeViewModel
+                {
+                    CurrencyCode = g.Key,
+                    Balance = g.Sum(item => (item.IsEntry ? item.BalanceEffectAmount : -item.BalanceEffectAmount))
+                })
+                .ToList();
+
+            ekstre.DevredenBakiyeler = devredenBalance;
+
+            var filteredEkstre = new List<AccountStatementViewResponseModel>();
+
+            try
+            {
+                filteredEkstre = await _accountStatementQuery.GetViewByAccountIdaAndStartBetweenEndDate(request.CustomerId, baslangic, bitis, cancellationToken);
+
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+
+
+            var listEkstre = new List<EkstreSatirViewModel>();
+            foreach (var item in filteredEkstre)
+            {
+
+                listEkstre.Add(new EkstreSatirViewModel
+                {
+                    ReceiptId = item.ReceiptId,
+                    MovementId = item.MovementId,
+                    ReceiptDate = item.ReceiptDate,
+                    TransactionName = item.TransactionName,
+                    Quantity = item.Quantity,
+                    Unit = item.Unit,
+                    ExchangeRate = item.Rate,
+                    CounterQuantity = item.CounterQuantity,
+                    CounterUnit = item.CounterUnit,
+                    CounterExchangeRate = item.CounterRate,
+                    Description = item.Description,
+                    IsEntry = item.IsEntry,
+                    StockName = item.StockName,
+                    MillRate = item.MillRate,
+                    LaborCost = item.LaborCost,
+                    LaborUnit = item.LaborUnit,
+                    IsReconciled = item.IsReconciled,
+                    NetProductValue = item.NetProductValue,
+                    TotalLaborCost = item.TotalLaborCost,
+                    BalanceEffectAmount = item.BalanceEffectAmount,
+                    BalanceCurrency = item.BalanceUnit,
+                    StockUnit = item.StockUnit,
+                    AccountId = item.ReceiptAccounId,
+                    AccountName = item.ReceiptAccountName,
+                    AccountTypeName = item.ReceiptAccounTypeName,
+                    TransactionTypeId = item.TransactionTypeId
+                });
+            }
+
+            var bakiyeTakip = devredenBalance.ToDictionary(b => b.CurrencyCode, b => b.Balance);
+
+            foreach (var hareket in listEkstre)
+            {
+                string bakiyeBirimi = hareket.Unit;
+                decimal bakiyeEtkiMiktari = hareket.BalanceEffectAmount;
+
+                if (string.IsNullOrEmpty(bakiyeBirimi)) continue;
+
+                if (!bakiyeTakip.ContainsKey(bakiyeBirimi)) { bakiyeTakip[bakiyeBirimi] = 0; }
+
+                decimal eskiBakiye = bakiyeTakip[bakiyeBirimi];
+                decimal yeniBakiye = eskiBakiye + (hareket.IsEntry ? bakiyeEtkiMiktari : -bakiyeEtkiMiktari);
+                bakiyeTakip[bakiyeBirimi] = yeniBakiye;
+
+                hareket.OldBalance = eskiBakiye;
+                hareket.FinalBalance = yeniBakiye;
+
+                ekstre.Hareketler.Add(hareket);
+            }
+
+            return new ResponseDto<EkstreViewModel>().Success(ekstre);
+        }
+        /// <summary>
+        /// Extre bakiyelerini dönen basit view modeli.
+        /// </summary>
+        public class EkstreBakiyeViewModel
+        {
+            /// <summary>
+            /// Döviz kodu (ör. HAS, USD, EUR)
+            /// </summary>
+            public string CurrencyCode { get; set; } = "";
+
+            /// <summary>
+            /// Döviz cinsinden bakiye
+            /// </summary>
+            public decimal Balance { get; set; }
         }
 
-        public async Task<decimal> TotalAmount()
+
+        /// <summary>
+        /// Ekstre satırının view modeli (vw_HesapEkstresi'den gelen satır karşılığı).
+        /// </summary>
+        public class EkstreSatirViewModel
         {
-            var toplamHas = 0;
-            var hasKuruData = await unitOfWork.GetReadRepository<ExchangeRate>().FindAsync(k => k.CurrencyId == 1, orderBy: y => y.OrderByDescending(c => c.CreatedDate));
-            var hasKuru = hasKuruData != null ? hasKuruData.BuyRate : 1;
+            /// <summary>
+            /// Cari Hesap Id
+            /// </summary>
+            public int AccountId { get; set; }
+            public string AccountName { get; set; } = null!;
+            public string AccountTypeName { get; set; } = null!;
 
-            //for (const dovizKodu in bakiyeDurumu) {
-            //    const bakiye = bakiyeDurumu[dovizKodu];
-            //    if (dovizKodu === 'HAS')
-            //    {
-            //        toplamHas += bakiye;
-            //    }
-            //    else
-            //    {
-            //        const dovizKurData = allExchangeRates.find(k => k.dovizKodu === dovizKodu);
-            //        const dovizKur = dovizKurData ? dovizKurData.alisKuru : 1;
-            //        if (hasKuru > 0)
-            //        {
-            //            toplamHas += (bakiye * dovizKur) / hasKuru;
-            //        }
-            //    }
-            //}
+            public decimal? OpenBalanceAmount { get; set; }
+            /// <summary>
+            /// Fiş (Receipt) kimliği
+            /// </summary>
+            public int ReceiptId { get; set; }
 
-            return 4;
+            /// <summary>
+            /// Hareket (Movement) kimliği
+            /// </summary>
+            public int MovementId { get; set; }
+
+            /// <summary>
+            /// İşlem tarihi
+            /// </summary>
+            public DateTime ReceiptDate { get; set; }
+
+            /// <summary>
+            /// İşlem/işlem tipi Id
+            /// </summary>
+            public int TransactionTypeId { get; set; }
+
+            /// <summary>
+            /// İşlem/işlem tipi adı
+            /// </summary>
+            public string TransactionName { get; set; } = "";
+
+            /// <summary>
+            /// Açıklama
+            /// </summary>
+            public string? Description { get; set; }
+
+            /// <summary>
+            /// Giriş mi (true = giriş, false = çıkış)
+            /// </summary>
+            public bool IsEntry { get; set; }
+
+            /// <summary>
+            /// Miktar (stok veya döviz cinsinden)
+            /// </summary>
+            public decimal Quantity { get; set; }
+
+            /// <summary>
+            /// Birim kodu / adı
+            /// </summary>
+            public string Unit { get; set; } = "";
+
+            /// <summary>
+            /// Döviz / stok kuru
+            /// </summary>
+            public decimal ExchangeRate { get; set; }
+
+            /// <summary>
+            /// Karşılık miktar (döviz veya miktar)
+            /// </summary>
+            public decimal? CounterQuantity { get; set; }
+
+            /// <summary>
+            /// Karşılık birimi
+            /// </summary>
+            public string? CounterUnit { get; set; }
+
+            /// <summary>
+            /// Karşılık döviz kuru
+            /// </summary>
+            public decimal? CounterExchangeRate { get; set; }
+
+            /// <summary>
+            /// Önceki bakiye (satır işlendiğindeki önceki bakiye)
+            /// </summary>
+            public decimal OldBalance { get; set; }
+
+            /// <summary>
+            /// Sonraki / güncel bakiye (satır işlendiğinden sonra)
+            /// </summary>
+            public decimal FinalBalance { get; set; }
+
+            /// <summary>
+            /// Stok adı
+            /// </summary>
+            public string? StockName { get; set; }
+
+            /// <summary>
+            /// Milyem / ayar oranı
+            /// </summary>
+            public decimal? MillRate { get; set; }
+
+            /// <summary>
+            /// İşçilik tutarı
+            /// </summary>
+            public decimal? LaborCost { get; set; }
+
+            /// <summary>
+            /// İşçilik birimi (örn. adet, saat)
+            /// </summary>
+            public string? LaborUnit { get; set; }
+
+            /// <summary>
+            /// Mutabakat durumu (true = mutabakat sağlanmış)
+            /// </summary>
+            public bool IsReconciled { get; set; }
+
+            /// <summary>
+            /// Ürünün NET HAS değeri
+            /// </summary>
+            public decimal? NetProductValue { get; set; }
+
+            /// <summary>
+            /// Toplam işçilik tutarı
+            /// </summary>
+            public decimal? TotalLaborCost { get; set; }
+
+            /// <summary>
+            /// Bakiyeye etki eden miktar (view'deki BalanceEffectAmount)
+            /// </summary>
+            public decimal BalanceEffectAmount { get; set; }
+
+            /// <summary>
+            /// Bakiyenin para birimi / birim kodu (ör. HAS, USD)
+            /// </summary>
+            public string BalanceCurrency { get; set; } = "";
+
+            /// <summary>
+            /// Tutar (base currency / BPBR karşılığı gibi): view'deki Tutar_BPBR
+            /// </summary>
+            public decimal BaseCurrencyAmount { get; set; }
+
+            /// <summary>
+            /// Stok birimi (view'deki StockUnit / UnitName)
+            /// </summary>
+            public string StockUnit { get; set; } = "";
+        }
+
+        public class EkstreViewModel
+        {
+            public List<EkstreBakiyeViewModel> DevredenBakiyeler { get; set; } = new();
+            public List<EkstreSatirViewModel> Hareketler { get; set; } = new();
         }
     }
 }

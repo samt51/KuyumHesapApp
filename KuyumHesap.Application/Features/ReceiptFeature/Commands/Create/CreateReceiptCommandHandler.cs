@@ -130,6 +130,7 @@ namespace KuyumHesap.Application.Features.ReceiptFeature.Commands.Create
                 counter.CounterTransactionId = primary.Id;
                 counter.CounterCurrencyAmount = primary.ForeignCurrencyAmount;
                 counter.CostAmount = primary.CounterCurrencyAmount;
+                counter.IsDeleted = true;
                 counter.Description = allMovements.Where(y => y.TransactionTypeId == descriptionSourceType).Select(x => x.Description).FirstOrDefault() ?? "";
 
                 await unitOfWork.GetWriteRepository<Movements>().AddAsync(counter);
@@ -149,7 +150,11 @@ namespace KuyumHesap.Application.Features.ReceiptFeature.Commands.Create
             {
                 // Create the counter (first)
                 var counter = mapper.Map<Movements, Movements>(counterDefinition);
-                counter.AccountId = primaryTransactionType == 5 ? currentAccounId : accounId;
+                counter.AccountId = primaryTransactionType == 5||primaryTransactionType==8 ||primaryTransactionType==7 ? currentAccounId : accounId;
+                if(primaryTransactionType == 7)
+                {
+
+                }
                 counter.ReceiptId = rec.Id;
                 counter.CounterCurrencyAmount = counterDefinition.ForeignCurrencyAmount;
                 counter.CounterCurrencyId = counterDefinition.ForeignCurrencyId;
@@ -165,6 +170,7 @@ namespace KuyumHesap.Application.Features.ReceiptFeature.Commands.Create
                 counterDefinition.CostAmount = counterDefinition.CounterCurrencyAmount;
                 counterDefinition.ReceiptId = rec.Id;
                 counterDefinition.AccountId = primaryTransactionType == 5 ? 3 : req.AccountId;
+                counterDefinition.IsDeleted = true;
 
                 await unitOfWork.GetWriteRepository<Movements>().AddAsync(counterDefinition);
                 await unitOfWork.SaveAsync(ct);
