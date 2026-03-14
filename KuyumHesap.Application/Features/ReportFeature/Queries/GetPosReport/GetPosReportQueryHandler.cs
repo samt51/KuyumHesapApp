@@ -19,10 +19,10 @@ namespace KuyumHesap.Application.Features.ReportFeature.Queries.GetPosReport
         {
             var rsp = new GetPosReportQueryResponse();
 
-            var data = await _accountBalanceQuery.GetAsync("POSLAR", request.AccountId, cancellationToken);
+            var data = await _accountBalanceQuery.GetReportByAccountTypeNameAsync("POSLAR", request.AccountId, cancellationToken);
 
-            rsp.Detaylar = data.Detaylar;
-            rsp.ToplamBakiyeHas = data.ToplamBakiyeHas;
+            rsp.Detaylar = data.Details;
+            rsp.ToplamBakiyeHas = data.TotalBalanceHas;
 
             return new ResponseDto<GetPosReportQueryResponse>().Success(rsp);
         }

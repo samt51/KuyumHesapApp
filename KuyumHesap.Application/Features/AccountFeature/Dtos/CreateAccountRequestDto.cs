@@ -1,18 +1,16 @@
-﻿using KuyumHesap.Domain.Entities;
-
-namespace KuyumHesap.Application.Features.AccountFeature.Dtos
+﻿namespace KuyumHesap.Application.Features.AccountFeature.Dtos
 {
     public class CreateAccountRequestDto
     {
-        /// <summary>
-        /// Hesap adı (firma, kişi veya kurum adı)
-        /// </summary>
-        public string AccountName { get; set; } = null!;
+            /// <summary>
+            /// Hesap adı (firma, kişi veya kurum adı)
+            /// </summary>
+            public string AccountName { get; set; } = null!;
 
-        /// <summary>
-        /// Hesap tipi kimliği (Foreign Key -> AccountTypes)
-        /// </summary>
-        public int AccountTypeId { get; set; }
+            /// <summary>
+            /// Hesap tipi kimliği (Foreign Key -> AccountTypes)
+            /// </summary>
+            public int AccountTypeId { get; set; }
 
         /// <summary>
         /// Müşteri tipi (Bireysel, Kurumsal vb.)

@@ -4,7 +4,7 @@ namespace KuyumHesap.Application.Common.Abstractions.SqlViewAndFuncQuery
 {
     public interface IAccountBalanceQuery
     {
-        Task<KasaRaporuViewModelDto> GetAsync(string hesapTipiAdi, int? hesapId, CancellationToken ct);
+        Task<CashReportModelResponseDto> GetReportByAccountTypeNameAsync(string accountTypeName, int? accountId, CancellationToken ct);
 
     }
 }

@@ -7,5 +7,6 @@ namespace KuyumHesap.Application.Common.Abstractions.SqlViewAndFuncQuery
         Task<List<AccountStatementViewResponseModel>> GetAsync(CancellationToken ct);
 
         Task<List<AccountStatementViewResponseModel>> GetViewByAccountIdaAndStartBetweenEndDate(int accountId, DateTime start, DateTime end, CancellationToken ct);
+        Task<List<GetBalanceAndCurrencyCodeFromView>> GetBalanceAndCurrencyCodeByAccountId(int accountId, DateTime start, CancellationToken ct);
     }
 }

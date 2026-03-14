@@ -1,11 +1,10 @@
 ﻿using KuyumHesap.Application.Common.Models.Dtos.SqlResponse;
 
-namespace KuyumHesap.Application.Features.ReportFeature.Queries.GetCashReport
+namespace KuyumHesap.Application.Common.Models.Dtos
 {
-    public class GetCashReportQueryResponse
+    public class CashReportModelResponseDto
     {
         public decimal TotalBalanceHas { get; set; }
         public List<CashRegisterStatusResponse> Details { get; set; } = new();
     }
-  
 }

@@ -87,22 +87,22 @@ namespace KuyumHesap.Application.Features.ReceiptFeature.Commands.Create
             switch (movement.TransactionTypeId)
             {
                 case 1:
-                    await HandlePrimaryThenCounterAsync(movement, request, receipt, counterTransactionType: 2, descriptionSourceType: 2, cancellationToken);
+                    await HandlePrimaryThenCounterAsync(movement, request, receipt, counterTransactionType: 2, descriptionSourceType: 2, 1, cancellationToken);
                     break;
                 case 2:
-                    await HandleCounterThenPrimaryAsync(movement, request, receipt, primaryTransactionType: 1, descriptionSourceType: 1, cancellationToken);
+                    await HandleCounterThenPrimaryAsync(movement, request, receipt, primaryTransactionType: 1, descriptionSourceType: 1, 2, cancellationToken);
                     break;
                 case 5:
-                    await HandlePrimaryThenCounterAsync(movement, request, receipt, counterTransactionType: 6, descriptionSourceType: 6, cancellationToken);
+                    await HandlePrimaryThenCounterAsync(movement, request, receipt, counterTransactionType: 6, descriptionSourceType: 6, 5, cancellationToken);
                     break;
                 case 6:
-                    await HandleCounterThenPrimaryAsync(movement, request, receipt, primaryTransactionType: 5, descriptionSourceType: 5, cancellationToken);
+                    await HandleCounterThenPrimaryAsync(movement, request, receipt, primaryTransactionType: 5, descriptionSourceType: 5, 6, cancellationToken);
                     break;
                 case 7:
-                    await HandleCounterThenPrimaryAsync(movement, request, receipt, primaryTransactionType: 8, descriptionSourceType: 8, cancellationToken);
+                    await HandleCounterThenPrimaryAsync(movement, request, receipt, primaryTransactionType: 8, descriptionSourceType: 8, 7, cancellationToken);
                     break;
                 case 8:
-                    await HandleCounterThenPrimaryAsync(movement, request, receipt, primaryTransactionType: 7, descriptionSourceType: 7, cancellationToken);
+                    await HandleCounterThenPrimaryAsync(movement, request, receipt, primaryTransactionType: 7, descriptionSourceType: 7, 8, cancellationToken);
                     break;
                 default:
                     // If unknown transaction type, just add movement
@@ -112,7 +112,7 @@ namespace KuyumHesap.Application.Features.ReceiptFeature.Commands.Create
             }
 
             // Local helpers below capture the pattern used repeatedly in the old code.
-            async Task HandlePrimaryThenCounterAsync(Movements primary, CreateReceiptCommandRequest req, Receipt rec, int counterTransactionType, int descriptionSourceType, CancellationToken ct)
+            async Task HandlePrimaryThenCounterAsync(Movements primary, CreateReceiptCommandRequest req, Receipt rec, int counterTransactionType, int descriptionSourceType, int isProccessingNo, CancellationToken ct)
             {
                 // Add primary movement
                 primary.AccountId = req.CurrentAccountId;
@@ -146,19 +146,22 @@ namespace KuyumHesap.Application.Features.ReceiptFeature.Commands.Create
                 await unitOfWork.SaveAsync(ct);
             }
 
-            async Task HandleCounterThenPrimaryAsync(Movements counterDefinition, CreateReceiptCommandRequest req, Receipt rec, int primaryTransactionType, int descriptionSourceType, CancellationToken ct)
+            async Task HandleCounterThenPrimaryAsync(Movements counterDefinition, CreateReceiptCommandRequest req, Receipt rec, int primaryTransactionType, int descriptionSourceType, int isProccessingNo, CancellationToken ct)
             {
                 // Create the counter (first)
                 var counter = mapper.Map<Movements, Movements>(counterDefinition);
-                counter.AccountId = primaryTransactionType == 5||primaryTransactionType==8 ||primaryTransactionType==7 ? currentAccounId : accounId;
-                if(primaryTransactionType == 7)
-                {
+                counter.AccountId = primaryTransactionType == 5 || primaryTransactionType == 8 || primaryTransactionType == 7 ? currentAccounId : accounId;
 
+                if (isProccessingNo == 2)
+                {
+                    counter.AccountId = req.CurrentAccountId;
                 }
                 counter.ReceiptId = rec.Id;
-                counter.CounterCurrencyAmount = counterDefinition.ForeignCurrencyAmount;
-                counter.CounterCurrencyId = counterDefinition.ForeignCurrencyId;
+                counter.CounterCurrencyAmount  = counterDefinition.CounterCurrencyAmount;
+                counter.CounterCurrencyId = counterDefinition.CounterCurrencyId;
                 counter.CostAmount = counterDefinition.CounterCurrencyAmount;
+
+
 
                 await unitOfWork.GetWriteRepository<Movements>().AddAsync(counter);
                 await unitOfWork.SaveAsync(ct);
@@ -171,6 +174,9 @@ namespace KuyumHesap.Application.Features.ReceiptFeature.Commands.Create
                 counterDefinition.ReceiptId = rec.Id;
                 counterDefinition.AccountId = primaryTransactionType == 5 ? 3 : req.AccountId;
                 counterDefinition.IsDeleted = true;
+                counterDefinition.CounterCurrencyAmount = counter.ForeignCurrencyAmount;
+                counterDefinition.CounterCurrencyId = counter.ForeignCurrencyId;
+             
 
                 await unitOfWork.GetWriteRepository<Movements>().AddAsync(counterDefinition);
                 await unitOfWork.SaveAsync(ct);

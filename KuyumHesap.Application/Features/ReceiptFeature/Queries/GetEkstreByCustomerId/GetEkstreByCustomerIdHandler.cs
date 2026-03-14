@@ -24,52 +24,38 @@ namespace KuyumHesap.Application.Features.ReceiptFeature.Queries.GetEkstreByCust
             var ekstre = new EkstreViewModel();
             // Önce view'den extre verilerini çek
             List<AccountStatementViewResponseModel> totalBalance;
-            try
-            {
-                totalBalance = await _accountStatementQuery.GetAsync(cancellationToken);
-            }
-            catch (Exception)
-            {
-                // view sorgusu başarısızsa hata fırlat
-                throw;
-            }
 
             var baslangic = request.StartDate.Date;
             var bitis = request.EndDate.Date.AddDays(1).AddTicks(-1); // Bitiş tarihini gün sonu olarak ayarla
 
             // Hesap ve tarih filtresi: istenen müşterinin, endDate öncesi kayıtları
-            var dataBalance = totalBalance
-                .Where(x => x.AccountId == request.CustomerId && x.ReceiptDate < request.EndDate)
-                .ToList();
+            var devredenBalance = await _accountStatementQuery.GetBalanceAndCurrencyCodeByAccountId(request.CustomerId, baslangic, cancellationToken);
 
-            // Döviz bazında bakiye hesapla:
-            // SUM(CASE WHEN IsEntry = 1 THEN BalanceEffectAmount ELSE -BalanceEffectAmount END) AS Bakiye
-            var devredenBalance = dataBalance
-                .GroupBy(x => (x.BalanceUnit ?? string.Empty).Trim())
-                .Select(g => new EkstreBakiyeViewModel
-                {
-                    CurrencyCode = g.Key,
-                    Balance = g.Sum(item => (item.IsEntry ? item.BalanceEffectAmount : -item.BalanceEffectAmount))
-                })
-                .ToList();
 
-            ekstre.DevredenBakiyeler = devredenBalance;
+
+
+            ekstre.DevredenBakiyeler = devredenBalance.Select(b => new EkstreBakiyeViewModel
+            {
+                CurrencyCode = b.DovizKodu,
+                Balance = b.Balance
+            }).ToList();
+
+
+            totalBalance = await _accountStatementQuery.GetAsync(cancellationToken);
+
+
+
 
             var filteredEkstre = new List<AccountStatementViewResponseModel>();
 
-            try
-            {
-                filteredEkstre = await _accountStatementQuery.GetViewByAccountIdaAndStartBetweenEndDate(request.CustomerId, baslangic, bitis, cancellationToken);
 
-            }
-            catch (Exception)
-            {
+            filteredEkstre = await _accountStatementQuery.GetViewByAccountIdaAndStartBetweenEndDate(request.CustomerId, baslangic, bitis, cancellationToken);
 
-                throw;
-            }
+            var s = filteredEkstre.ToList();
 
 
             var listEkstre = new List<EkstreSatirViewModel>();
+
             foreach (var item in filteredEkstre)
             {
 
@@ -104,8 +90,9 @@ namespace KuyumHesap.Application.Features.ReceiptFeature.Queries.GetEkstreByCust
                 });
             }
 
-            var bakiyeTakip = devredenBalance.ToDictionary(b => b.CurrencyCode, b => b.Balance);
+            var bakiyeTakip = devredenBalance.ToDictionary(b => b.DovizKodu, b => b.Balance);
 
+            listEkstre = listEkstre.OrderByDescending(x => x.ReceiptDate).ToList();
             foreach (var hareket in listEkstre)
             {
                 string bakiyeBirimi = hareket.Unit;
@@ -121,7 +108,6 @@ namespace KuyumHesap.Application.Features.ReceiptFeature.Queries.GetEkstreByCust
 
                 hareket.OldBalance = eskiBakiye;
                 hareket.FinalBalance = yeniBakiye;
-
                 ekstre.Hareketler.Add(hareket);
             }
 
@@ -135,11 +121,7 @@ namespace KuyumHesap.Application.Features.ReceiptFeature.Queries.GetEkstreByCust
             /// <summary>
             /// Döviz kodu (ör. HAS, USD, EUR)
             /// </summary>
-            public string CurrencyCode { get; set; } = "";
-
-            /// <summary>
-            /// Döviz cinsinden bakiye
-            /// </summary>
+            public string CurrencyCode { get; set; }
             public decimal Balance { get; set; }
         }
 
@@ -149,6 +131,8 @@ namespace KuyumHesap.Application.Features.ReceiptFeature.Queries.GetEkstreByCust
         /// </summary>
         public class EkstreSatirViewModel
         {
+            public int DetailAccountId { get; set; }
+            public string DetailTypeName { get; set; }
             /// <summary>
             /// Cari Hesap Id
             /// </summary>

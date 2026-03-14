@@ -1,5 +1,6 @@
 ﻿using KuyumHesap.Api.Common.Cont;
 using KuyumHesap.Application.Common.Models;
+using KuyumHesap.Application.Common.Models.Dtos;
 using KuyumHesap.Application.Features.ReportFeature.Queries.GetAccountStatement;
 using KuyumHesap.Application.Features.ReportFeature.Queries.GetAllReports;
 using KuyumHesap.Application.Features.ReportFeature.Queries.GetBankBalance;
@@ -35,9 +36,9 @@ namespace KuyumHesap.Api.Controllers.ReportCont
             return await _mediator.Send(new GetAllReportQueryRequest(hesapId));
         }
         [HttpGet]
-        public async Task<ResponseDto<GetCashReportQueryResponse>> GetCashReportAsync(int? hesapId)
+        public async Task<ResponseDto<CashReportModelResponseDto>> GetCashReportAsync(int? accountId)
         {
-            return await _mediator.Send(new GetCashReportQueryRequest(hesapId));
+            return await _mediator.Send(new GetCashReportQueryRequest(accountId));
         }
         [HttpGet("bankalar-bakiye")]
         public async Task<ResponseDto<GetBankBalanceQueryResponse>> GetBankBalanceAsync(CancellationToken token)

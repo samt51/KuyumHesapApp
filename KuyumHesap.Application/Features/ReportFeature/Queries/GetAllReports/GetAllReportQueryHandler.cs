@@ -21,15 +21,15 @@ namespace KuyumHesap.Application.Features.ReportFeature.Queries.GetAllReports
         {
             var result = new GetAllReportQueryResponse();
 
-            var data = await _accountBalanceQuery.GetAsync("KASALAR", request.AccountId, cancellationToken);
+            var data = await _accountBalanceQuery.GetReportByAccountTypeNameAsync("KASALAR", request.AccountId, cancellationToken);
 
             var bankBalance = await _totalHasBalanceQuery.GetTotalHasAsync("BANKALAR", cancellationToken);
 
             var posBalance = await _totalHasBalanceQuery.GetTotalHasAsync("POSLAR", cancellationToken);
 
-            result.ToplamBakiyeHas = Math.Abs(data.ToplamBakiyeHas);
+            result.ToplamBakiyeHas = Math.Abs(data.TotalBalanceHas);
 
-            result.Detaylar = data.Detaylar;
+            result.Detaylar = data.Details;
 
             result.BankBalanceTotal = bankBalance;
 

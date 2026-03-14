@@ -62,6 +62,21 @@ ORDER BY ReceiptDate, MovementId;
             return rows;
         }
 
+        public async Task<List<GetBalanceAndCurrencyCodeFromView>> GetBalanceAndCurrencyCodeByAccountId(int accountId, DateTime start, CancellationToken ct)
+        {
+            var sql = @"
+						 SELECT 
+    BalanceUnit AS DovizKodu,
+    SUM(CASE WHEN IsEntry = 1 THEN BalanceEffectAmount ELSE -BalanceEffectAmount END) AS Balance
+FROM vw_HesapEkstresi
+WHERE AccountId = {0} AND ReceiptDate < {1}
+GROUP BY BalanceUnit;";
+
+            var rows = await _context.Database.SqlQueryRaw<GetBalanceAndCurrencyCodeFromView>(sql, accountId, start).ToListAsync(ct);
+
+            return rows;
+        }
+
         public async Task<List<AccountStatementViewResponseModel>> GetViewByAccountIdaAndStartBetweenEndDate(int accountId, DateTime start, DateTime end, CancellationToken ct)
         {
             var sql = @"SELECT

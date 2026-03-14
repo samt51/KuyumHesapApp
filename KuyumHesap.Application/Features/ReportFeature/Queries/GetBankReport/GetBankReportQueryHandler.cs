@@ -19,10 +19,10 @@ namespace KuyumHesap.Application.Features.ReportFeature.Queries.GetBankReport
         {
             var rsp = new GetBankReportQueryResponse();
 
-            var data = await _accountBalanceQuery.GetAsync("BANKALAR", request.AccountId, cancellationToken);
+            var data = await _accountBalanceQuery.GetReportByAccountTypeNameAsync("BANKALAR", request.AccountId, cancellationToken);
 
-            rsp.Detaylar = data.Detaylar;
-            rsp.ToplamBakiyeHas = data.ToplamBakiyeHas;
+            rsp.Detaylar = data.Details;
+            rsp.ToplamBakiyeHas = data.TotalBalanceHas;
 
             return new ResponseDto<GetBankReportQueryResponse>().Success(rsp);
         }

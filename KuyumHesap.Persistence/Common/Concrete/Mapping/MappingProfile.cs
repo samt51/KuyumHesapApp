@@ -21,6 +21,7 @@ using KuyumHesap.Application.Features.CurrecyFeature.Queries.GetAll;
 using KuyumHesap.Application.Features.ExchangeFeature.Dtos;
 using KuyumHesap.Application.Features.ExchangeFeature.Queries.GetAll;
 using KuyumHesap.Application.Features.ExchangeFeature.Queries.GetById;
+using KuyumHesap.Application.Features.MovementFeature.Dtos;
 using KuyumHesap.Application.Features.MovementFeature.Queries.GetAll;
 using KuyumHesap.Application.Features.MovementFeature.Queries.GetById;
 using KuyumHesap.Application.Features.ProductTypeFeature.Queries.GetAll;
@@ -28,6 +29,9 @@ using KuyumHesap.Application.Features.ProductTypeFeature.Queries.GetById;
 using KuyumHesap.Application.Features.ReceiptFeature.Commands.Create;
 using KuyumHesap.Application.Features.ReceiptFeature.Queries.GetAll.Dtos;
 using KuyumHesap.Application.Features.ReceiptFeature.Queries.GetById;
+using KuyumHesap.Application.Features.ReceiptFeature.Queries.GetEkstreByCustomerId;
+// Added namespaces for the target response types
+using KuyumHesap.Application.Features.ReceiptFeature.Queries.GetReceiptByCustomerIdAndDates;
 using KuyumHesap.Application.Features.StockFeature.Commands.Create;
 using KuyumHesap.Application.Features.StockFeature.Commands.Update;
 using KuyumHesap.Application.Features.StockFeature.Queries.GetAll;
@@ -148,6 +152,26 @@ namespace KuyumHesap.Persistence.Common.Concrete.Mapping
 
             CreateMap<Movements, Movements>().ReverseMap();
 
+            // --- ADDED: mapping for Movements -> GetMovementByCustomerIdResponse
+            CreateMap<Movements, GetMovementByCustomerIdResponse>()
+                    .ForMember(d => d.TransactionCode, opt => opt.MapFrom(s => s.TransactionType != null ? s.TransactionType.TransactionCode : null))
+                    .ForMember(d => d.TransactionName, opt => opt.MapFrom(s => s.TransactionType != null ? s.TransactionType.TransactionName : null))
+                    .ForMember(d => d.AccountName, opt => opt.MapFrom(s => s.Account != null ? s.Account.AccountName : null))
+                    .ForMember(d => d.AccountTypeId, opt => opt.MapFrom(s => s.Account != null ? s.Account.AccountTypeId : 0))
+                    .ForMember(d => d.AccountTypeName, opt => opt.MapFrom(s => s.Account != null && s.Account.AccountType != null ? s.Account.AccountType.AccountTypeName : null))
+                    // If you don't have currency navigation on Movements, leave the codes empty or map appropriately.
+                    .ForMember(d => d.ForeignCurrencyCode, opt => opt.NullSubstitute(string.Empty))
+                    .ForMember(d => d.CounterCurrencyCode, opt => opt.NullSubstitute(string.Empty))
+                    .ReverseMap();
+
+            // --- ADDED: mapping for Receipt -> GetReceiptByCustomerIdAndDatesResponse
+            // Receipt -> GetReceiptByCustomerIdAndDatesResponse
+            CreateMap<Receipt, GetReceiptByCustomerIdAndDatesResponse>()
+                .ForMember(d => d.AccountName, opt => opt.MapFrom(s => s.Account != null ? s.Account.AccountName : null))
+                .ForMember(d => d.AccountTypeId, opt => opt.MapFrom(s => s.Account != null ? s.Account.AccountTypeId : 0))
+                .ForMember(d => d.AccountTypeName, opt => opt.MapFrom(s => s.Account != null && s.Account.AccountType != null ? s.Account.AccountType.AccountTypeName : null))
+                .ForMember(d => d.Movements, opt => opt.MapFrom(s => s.Movements))
+                .ReverseMap();
 
             CreateMap<GetUpdatedDailyCureResponse, DailyCureDataDto.Data>().ReverseMap();
         }

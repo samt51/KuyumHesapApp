@@ -1,6 +1,6 @@
 ﻿using KuyumHesap.Application.Common.Abstractions.SqlViewAndFuncQuery;
 using KuyumHesap.Application.Common.Models.Dtos;
-using KuyumHesap.Application.Features.ReportFeature.Queries.GetCashReport;
+using KuyumHesap.Application.Common.Models.Dtos.SqlResponse;
 using KuyumHesap.Persistence.Common.Context;
 using Microsoft.EntityFrameworkCore;
 
@@ -14,88 +14,83 @@ namespace KuyumHesap.Persistence.Common.Concrete.SqlFunctions.AccountBalanceFunc
         {
             _context = context;
         }
-        private sealed class DashboardRowDto
+        public async Task<CashReportModelResponseDto> GetReportByAccountTypeNameAsync(string accountTypeName, int? accountId, CancellationToken ct)
         {
-            public string DovizKodu { get; set; } = null!;
-            public decimal Devreden { get; set; }
-            public decimal GunlukGiris { get; set; }
-            public decimal GunlukCikis { get; set; }
-            public decimal Bakiye { get; set; }
-            public decimal HasKarsiligi { get; set; }
-        }
-
-
-        public async Task<KasaRaporuViewModelDto> GetAsync(string hesapTipiAdi, int? hesapId, CancellationToken ct)
-        {
-            var bugun = DateTime.Today;
+            var today = DateTime.Today;
 
             var sql = @"
 SELECT 
-    h.BakiyeBirimi AS DovizKodu,
-    ISNULL(SUM(CASE 
-        WHEN CAST(h.Tarih AS DATE) < {0} 
-        THEN CASE WHEN h.GirisMi = 1 THEN h.BakiyeEtkiMiktari ELSE -h.BakiyeEtkiMiktari END 
-        ELSE 0 
-    END), 0) AS Devreden,
-
-    ISNULL(SUM(CASE 
-        WHEN CAST(h.Tarih AS DATE) = {0} AND h.GirisMi = 1 
-        THEN h.BakiyeEtkiMiktari ELSE 0 
-    END), 0) AS GunlukGiris,
-
-    ISNULL(SUM(CASE 
-        WHEN CAST(h.Tarih AS DATE) = {0} AND h.GirisMi = 0 
-        THEN h.BakiyeEtkiMiktari ELSE 0 
-    END), 0) AS GunlukCikis,
-
-    ISNULL(SUM(CASE 
-        WHEN CAST(h.Tarih AS DATE) <= {0} 
-        THEN CASE WHEN h.GirisMi = 1 THEN h.BakiyeEtkiMiktari ELSE -h.BakiyeEtkiMiktari END 
-        ELSE 0 
-    END), 0) AS Bakiye,
-
+    ISNULL(h.BalanceUnit, '') AS CurrencyCode,
+    ISNULL(SUM(
+        CASE 
+            WHEN CAST(h.ReceiptDate AS DATE) < {0} 
+                THEN CASE WHEN h.IsEntry = 1 THEN h.BalanceEffectAmount ELSE -h.BalanceEffectAmount END
+            ELSE 0
+        END
+    ), 0) AS OpeningBalance,
+    ISNULL(SUM(
+        CASE 
+            WHEN CAST(h.ReceiptDate AS DATE) = {0} AND h.IsEntry = 1 
+                THEN h.BalanceEffectAmount 
+            ELSE 0
+        END
+    ), 0) AS DailyCredit,
+    ISNULL(SUM(
+        CASE 
+            WHEN CAST(h.ReceiptDate AS DATE) = {0} AND h.IsEntry = 0 
+                THEN h.BalanceEffectAmount 
+            ELSE 0
+        END
+    ), 0) AS DailyDebit,
+    ISNULL(SUM(
+        CASE 
+            WHEN CAST(h.ReceiptDate AS DATE) <= {0} 
+                THEN CASE WHEN h.IsEntry = 1 THEN h.BalanceEffectAmount ELSE -h.BalanceEffectAmount END
+            ELSE 0
+        END
+    ), 0) AS Balance,
     dbo.fn_KurCevir(
-        {0}, 
-        h.BakiyeBirimi, 
+        {0},
+        h.BalanceUnit,
         'HAS',
-        ISNULL(SUM(CASE 
-            WHEN CAST(h.Tarih AS DATE) <= {0} 
-            THEN CASE WHEN h.GirisMi = 1 THEN h.BakiyeEtkiMiktari ELSE -h.BakiyeEtkiMiktari END 
-            ELSE 0 
-        END), 0)
-    ) AS HasKarsiligi
+        ISNULL(SUM(
+            CASE 
+                WHEN CAST(h.ReceiptDate AS DATE) <= {0} 
+                    THEN CASE WHEN h.IsEntry = 1 THEN h.BalanceEffectAmount ELSE -h.BalanceEffectAmount END
+                ELSE 0
+            END
+        ), 0)
+    ) AS HasEquivalent
 FROM vw_HesapEkstresi h
-WHERE h.HesapTipiAdi = {1}
-  AND ({2} IS NULL OR h.HesapID = {2})
-GROUP BY h.BakiyeBirimi
-ORDER BY h.BakiyeBirimi;
-";
+WHERE ({1} IS NULL OR h.AccountTypeName = {1})
+  AND ({2} IS NULL OR h.AccountId = {2})
+GROUP BY h.BalanceUnit
+ORDER BY h.BalanceUnit;";
 
             var rows = await _context.Database
-                .SqlQueryRaw<DashboardRowDto>(sql, bugun.Date, hesapTipiAdi, hesapId)
+                .SqlQueryRaw<CashRegisterStatusResponse>(sql, today, accountTypeName, accountId)
                 .ToListAsync(ct);
 
-            // ADO.NET kodundaki mapping + Math.Abs + toplam mantığı birebir
-            var rapor = new KasaRaporuViewModelDto();
+            var rapor = new CashReportModelResponseDto();
 
             decimal toplamHasOrijinal = 0m;
 
             foreach (var r in rows)
             {
-                toplamHasOrijinal += r.HasKarsiligi;
+                toplamHasOrijinal += r.HasEquivalent;
 
-                rapor.Detaylar.Add(new KasaDetayViewModel
+                rapor.Details.Add(new CashRegisterStatusResponse
                 {
-                    DovizKodu = r.DovizKodu ?? "",
-                    Devreden = r.Devreden,
-                    GunlukGiris = r.GunlukGiris,
-                    GunlukCikis = r.GunlukCikis,
-                    Bakiye = Math.Abs(r.Bakiye),
-                    HasKarsiligi = Math.Abs(r.HasKarsiligi)
+                    CurrencyCode = r.CurrencyCode ?? "",
+                    OpeningBalance = r.OpeningBalance,
+                    DailyCredit = r.DailyCredit,
+                    DailyDebit = r.DailyDebit,
+                    Balance = Math.Abs(r.Balance),
+                    HasEquivalent = Math.Abs(r.HasEquivalent)
                 });
             }
 
-            rapor.ToplamBakiyeHas = toplamHasOrijinal;
+            rapor.TotalBalanceHas = toplamHasOrijinal;
             return rapor;
         }
     }
