@@ -95,7 +95,7 @@ namespace KuyumHesap.Application.Features.ReceiptFeature.Queries.GetEkstreByCust
             listEkstre = listEkstre.OrderByDescending(x => x.ReceiptDate).ToList();
             foreach (var hareket in listEkstre)
             {
-                string bakiyeBirimi = hareket.Unit;
+                string bakiyeBirimi = hareket.CounterUnit;
                 decimal bakiyeEtkiMiktari = hareket.BalanceEffectAmount;
 
                 if (string.IsNullOrEmpty(bakiyeBirimi)) continue;

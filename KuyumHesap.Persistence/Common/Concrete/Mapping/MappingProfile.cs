@@ -24,6 +24,7 @@ using KuyumHesap.Application.Features.ExchangeFeature.Queries.GetById;
 using KuyumHesap.Application.Features.MovementFeature.Dtos;
 using KuyumHesap.Application.Features.MovementFeature.Queries.GetAll;
 using KuyumHesap.Application.Features.MovementFeature.Queries.GetById;
+using KuyumHesap.Application.Features.MovementFeature.Queries.GetMovementByReceiptId;
 using KuyumHesap.Application.Features.ProductTypeFeature.Queries.GetAll;
 using KuyumHesap.Application.Features.ProductTypeFeature.Queries.GetById;
 using KuyumHesap.Application.Features.ReceiptFeature.Commands.Create;
@@ -163,6 +164,28 @@ namespace KuyumHesap.Persistence.Common.Concrete.Mapping
                     .ForMember(d => d.ForeignCurrencyCode, opt => opt.NullSubstitute(string.Empty))
                     .ForMember(d => d.CounterCurrencyCode, opt => opt.NullSubstitute(string.Empty))
                     .ReverseMap();
+
+            CreateMap<Movements, GetMovementByReceiptIdResponse>()
+              // Properties that should come from Receipt per your instruction
+              .ForMember(d => d.ReceiptId, opt => opt.MapFrom(s => s.Receipt != null ? s.Receipt.Id : s.ReceiptId))
+              .ForMember(d => d.ReceiptAccountId, opt => opt.MapFrom(s => s.Receipt != null ? s.Receipt.AccountId : 0))
+              // Receipt doesn't have a CurrencyId property in domain model (only CurrencyCode). If you have a Receipt.CurrencyId, change the map to that.
+              .ForMember(d => d.ReceiptCurrencyId, opt => opt.MapFrom(s => s.Receipt != null ? s.Receipt.CurrencyCode : ""))
+
+              // Movement / nested mappings
+              .ForMember(d => d.TransactionCode, opt => opt.MapFrom(s => s.TransactionType != null ? s.TransactionType.TransactionCode : null))
+              .ForMember(d => d.TransactionName, opt => opt.MapFrom(s => s.TransactionType != null ? s.TransactionType.TransactionName : null))
+              .ForMember(d => d.AccountId, opt => opt.MapFrom(s => s.AccountId))
+              .ForMember(d => d.AccountName, opt => opt.MapFrom(s => s.Account != null ? s.Account.AccountName : null))
+              .ForMember(d => d.AccountTypeId, opt => opt.MapFrom(s => s.Account != null ? s.Account.AccountTypeId : 0))
+              .ForMember(d => d.AccountTypeName, opt => opt.MapFrom(s => s.Account != null && s.Account.AccountType != null ? s.Account.AccountType.AccountTypeName : null))
+
+              // currencies & codes - keep empty if navigation not available
+              .ForMember(d => d.ForeignCurrencyCode, opt => opt.NullSubstitute(string.Empty))
+              .ForMember(d => d.CounterCurrencyCode, opt => opt.NullSubstitute(string.Empty))
+
+              // remaining simple properties map automatically by name -> let AutoMapper handle them
+              .ReverseMap();
 
             // --- ADDED: mapping for Receipt -> GetReceiptByCustomerIdAndDatesResponse
             // Receipt -> GetReceiptByCustomerIdAndDatesResponse
