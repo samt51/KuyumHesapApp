@@ -1,4 +1,5 @@
-﻿using AutoMapper;
+﻿
+using AutoMapper;
 using KuyumHesap.Application.Common.Models;
 using KuyumHesap.Application.Common.Models.Dtos;
 using KuyumHesap.Application.Common.Models.Dtos.ResponseDtos;
@@ -24,10 +25,10 @@ using KuyumHesap.Application.Features.ExchangeFeature.Queries.GetById;
 using KuyumHesap.Application.Features.MovementFeature.Dtos;
 using KuyumHesap.Application.Features.MovementFeature.Queries.GetAll;
 using KuyumHesap.Application.Features.MovementFeature.Queries.GetById;
-using KuyumHesap.Application.Features.MovementFeature.Queries.GetMovementByReceiptId;
 using KuyumHesap.Application.Features.ProductTypeFeature.Queries.GetAll;
 using KuyumHesap.Application.Features.ProductTypeFeature.Queries.GetById;
 using KuyumHesap.Application.Features.ReceiptFeature.Commands.Create;
+using KuyumHesap.Application.Features.ReceiptFeature.Queries.GetAll;
 using KuyumHesap.Application.Features.ReceiptFeature.Queries.GetAll.Dtos;
 using KuyumHesap.Application.Features.ReceiptFeature.Queries.GetById;
 using KuyumHesap.Application.Features.ReceiptFeature.Queries.GetEkstreByCustomerId;
@@ -72,6 +73,7 @@ namespace KuyumHesap.Persistence.Common.Concrete.Mapping
             CreateMap<StockType, GetStockTypeQueryResponse>().ReverseMap();
             CreateMap<Stock, GetStockQueryResponse>().ReverseMap();
             CreateMap<ProductType, GetProductTypeQueryResponse>().ReverseMap();
+            CreateMap<ProductType, GetProductTypeQueryResponse>().ReverseMap();
             CreateMap<Account, GetPackerQueryResponse>().ReverseMap();
             CreateMap<BarcodeDetail, BarcodeDetailResponseDto>().ReverseMap();
             CreateMap<BarcodeHeader, GetByIdBarcodeHeaderQueryResponse>().ReverseMap();
@@ -81,14 +83,17 @@ namespace KuyumHesap.Persistence.Common.Concrete.Mapping
             CreateMap<ProductType, GetAllProductTypeQueryResponse>().ReverseMap();
             CreateMap<ProductType, GetByIdProductTypeQueryResponse>().ReverseMap();
             CreateMap<Movements, GetAllReceiptMovementDto>().ReverseMap();
-            CreateMap<Receipt, GetByIdReceiptQueryResponse>()
-      .ForMember(d => d.AccountName, opt => opt.MapFrom(s => s.Account != null ? s.Account.AccountName : null))
-      .ForMember(d => d.AccountTypeId, opt => opt.MapFrom(s => s.Account != null ? s.Account.AccountTypeId : 0))
-      .ForMember(d => d.AccountTypeName, opt => opt.MapFrom(s => s.Account != null && s.Account.AccountType != null ? s.Account.AccountType.AccountTypeName : null))
-      .ForMember(d => d.Movements, opt => opt.MapFrom(s => s.Movements))
-      // diğer alanlar isimle aynı olduğu için AutoMapper otomatik eşleyecektir
-      .ReverseMap();
-            CreateMap<Stock, GetAllStockQueryResponse>().ReverseMap();
+            // Receipt -> GetByIdReceiptQueryResponse mapping removed generic ReverseMap; replaced below with explicit mappings.
+            CreateMap<Stock, GetAllStockQueryResponse>()
+                    .ForMember(d => d.StockTypeName, opt => opt.MapFrom(s => s.StockType != null ? s.StockType.StockTypeName : string.Empty))
+                    .ForMember(d => d.StockGroupName, opt => opt.MapFrom(s => s.StockGroup != null ? s.StockGroup.StockGroupName : string.Empty))
+                    .ForMember(d => d.UnitName, opt => opt.MapFrom(s => s.UnitName))
+                    .ForMember(d => d.StockUnitId, opt => opt.MapFrom(s => s.StockUnitId))
+                    .ForMember(d => d.LaborUnitId, opt => opt.MapFrom(s => s.LaborUnitId))
+                    // LaborUnit (string) alınacak: StockType -> Currency -> CurrencyCode
+                    .ForMember(d => d.LaborUnit, opt => opt.MapFrom(s => s.StockType != null && s.StockType.Currency != null ? s.StockType.Currency.CurrencyCode : string.Empty))
+                    .ForMember(d => d.MillRate, opt => opt.MapFrom(s => s.MillRate))
+                    .ForMember(d => d.IsActive, opt => opt.MapFrom(s => s.IsActive));
             CreateMap<Stock, GetByIdStockQueryResponse>().ReverseMap();
             CreateMap<StockGroup, GetAllStockGroupQueryResponse>().ReverseMap();
             CreateMap<StockGroup, GetByIdStockGroupQueryResponse>().ReverseMap();
@@ -127,9 +132,8 @@ namespace KuyumHesap.Persistence.Common.Concrete.Mapping
             CreateMap<Users, GetByIdUserQueryResponse>()
 .ForMember(d => d.RoleResponseDto, opt => opt.MapFrom(s => s.Role));
 
-            CreateMap<Stock, GetAllStockQueryResponse>()
-                .ForMember(d => d.stockTypeResponseDto, opt => opt.MapFrom(s => s.StockType))
-                .ForMember(d => d.groupResponseDto, opt => opt.MapFrom(s => s.StockGroup));
+    
+
 
             CreateMap<StockType, StockTypeResponseDto>()
          .ForMember(d => d.stockGroupsResponseDto, opt => opt.MapFrom(s => s.StockGroup))
@@ -149,51 +153,43 @@ namespace KuyumHesap.Persistence.Common.Concrete.Mapping
 
             CreateMap<BarcodeDetail, BarcodeDetailResponseDto>().ReverseMap();
 
-            CreateMap<BarcodeHeader, GetByIdBarcodeHeaderQueryResponse>()
-.ForMember(d => d.barcodeDetails, opt => opt.MapFrom(s => s.BarcodeDetails));
+//            CreateMap<BarcodeHeader, GetByIdBarcodeHeaderQueryResponse>()
+//.ForMember(d => d.barcodedetails, opt => opt.MapFrom(s => s.BarcodeDetails));
 
+            // Receipt mappings
             CreateMap<Receipt, CreateReceiptCommandRequest>().ReverseMap();
-
 
             CreateMap<Movements, CreateMovementReceiptRequestDto>().ReverseMap();
 
             CreateMap<Movements, Movements>().ReverseMap();
 
-            // --- ADDED: mapping for Movements -> GetMovementByCustomerIdResponse
+            // Movements -> GetMovementByCustomerIdResponse (existing)
             CreateMap<Movements, GetMovementByCustomerIdResponse>()
                     .ForMember(d => d.TransactionCode, opt => opt.MapFrom(s => s.TransactionType != null ? s.TransactionType.TransactionCode : null))
                     .ForMember(d => d.TransactionName, opt => opt.MapFrom(s => s.TransactionType != null ? s.TransactionType.TransactionName : null))
                     .ForMember(d => d.AccountName, opt => opt.MapFrom(s => s.Account != null ? s.Account.AccountName : null))
                     .ForMember(d => d.AccountTypeId, opt => opt.MapFrom(s => s.Account != null ? s.Account.AccountTypeId : 0))
                     .ForMember(d => d.AccountTypeName, opt => opt.MapFrom(s => s.Account != null && s.Account.AccountType != null ? s.Account.AccountType.AccountTypeName : null))
-                    // If you don't have currency navigation on Movements, leave the codes empty or map appropriately.
                     .ForMember(d => d.ForeignCurrencyCode, opt => opt.NullSubstitute(string.Empty))
                     .ForMember(d => d.CounterCurrencyCode, opt => opt.NullSubstitute(string.Empty))
                     .ReverseMap();
 
-            CreateMap<Movements, GetMovementByReceiptIdResponse>()
-              // Properties that should come from Receipt per your instruction
-              .ForMember(d => d.ReceiptId, opt => opt.MapFrom(s => s.Receipt != null ? s.Receipt.Id : s.ReceiptId))
-              .ForMember(d => d.ReceiptAccountId, opt => opt.MapFrom(s => s.Receipt != null ? s.Receipt.AccountId : 0))
-              // Receipt doesn't have a CurrencyId property in domain model (only CurrencyCode). If you have a Receipt.CurrencyId, change the map to that.
-              .ForMember(d => d.ReceiptCurrencyId, opt => opt.MapFrom(s => s.Receipt != null ? s.Receipt.CurrencyCode : ""))
+            // Receipt -> GetAllReceiptQueryResponse
+            CreateMap<Receipt, GetAllReceiptQueryResponse>()
+                .ForMember(d => d.AccountName, opt => opt.MapFrom(s => s.Account != null ? s.Account.AccountName : null))
+                .ForMember(d => d.AccountTypeId, opt => opt.MapFrom(s => s.Account != null ? s.Account.AccountTypeId : 0))
+                .ForMember(d => d.AccountTypeName, opt => opt.MapFrom(s => s.Account != null && s.Account.AccountType != null ? s.Account.AccountType.AccountTypeName : null))
+                // map Movements to GetAllReceiptMovementDto if property exists on response
+                .ForMember(d => d.Movements, opt => opt.MapFrom(s => s.Movements))
+                .ReverseMap();
 
-              // Movement / nested mappings
-              .ForMember(d => d.TransactionCode, opt => opt.MapFrom(s => s.TransactionType != null ? s.TransactionType.TransactionCode : null))
-              .ForMember(d => d.TransactionName, opt => opt.MapFrom(s => s.TransactionType != null ? s.TransactionType.TransactionName : null))
-              .ForMember(d => d.AccountId, opt => opt.MapFrom(s => s.AccountId))
-              .ForMember(d => d.AccountName, opt => opt.MapFrom(s => s.Account != null ? s.Account.AccountName : null))
-              .ForMember(d => d.AccountTypeId, opt => opt.MapFrom(s => s.Account != null ? s.Account.AccountTypeId : 0))
-              .ForMember(d => d.AccountTypeName, opt => opt.MapFrom(s => s.Account != null && s.Account.AccountType != null ? s.Account.AccountType.AccountTypeName : null))
+            // Receipt -> GetByIdReceiptQueryResponse (explicit)
+            CreateMap<Receipt, GetByIdReceiptQueryResponse>()
+                .ForMember(d => d.AccountName, opt => opt.MapFrom(s => s.Account != null ? s.Account.AccountName : null))
+                .ForMember(d => d.AccountTypeId, opt => opt.MapFrom(s => s.Account != null ? s.Account.AccountTypeId : 0))
+                .ForMember(d => d.AccountTypeName, opt => opt.MapFrom(s => s.Account != null && s.Account.AccountType != null ? s.Account.AccountType.AccountTypeName : null))
+                .ForMember(d => d.Movements, opt => opt.MapFrom(s => s.Movements));
 
-              // currencies & codes - keep empty if navigation not available
-              .ForMember(d => d.ForeignCurrencyCode, opt => opt.NullSubstitute(string.Empty))
-              .ForMember(d => d.CounterCurrencyCode, opt => opt.NullSubstitute(string.Empty))
-
-              // remaining simple properties map automatically by name -> let AutoMapper handle them
-              .ReverseMap();
-
-            // --- ADDED: mapping for Receipt -> GetReceiptByCustomerIdAndDatesResponse
             // Receipt -> GetReceiptByCustomerIdAndDatesResponse
             CreateMap<Receipt, GetReceiptByCustomerIdAndDatesResponse>()
                 .ForMember(d => d.AccountName, opt => opt.MapFrom(s => s.Account != null ? s.Account.AccountName : null))
