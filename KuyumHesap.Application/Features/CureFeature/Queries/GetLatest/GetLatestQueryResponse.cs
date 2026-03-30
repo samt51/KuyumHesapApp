@@ -17,5 +17,9 @@
         /// Satış kuru
         /// </summary>
         public decimal SellRate { get; set; }
+        /// <summary>
+        /// Önceki Kapanış Kuru
+        /// </summary>       
+        public decimal PreviousClosingRate { get; set; }
     }
 }

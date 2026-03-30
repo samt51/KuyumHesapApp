@@ -2,9 +2,10 @@
 using KuyumHesap.Application.Common.Abstractions.Mapper;
 using KuyumHesap.Application.Common.Abstractions.UnitOfWorks;
 using KuyumHesap.Application.Common.Models;
+using KuyumHesap.Application.Features.MovementFeature.Dtos;
 using KuyumHesap.Domain.Entities;
-using KuyumHesap.Domain.Entities.VwModels;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 
 namespace KuyumHesap.Application.Features.ReceiptFeature.Queries.GetById
 {
@@ -16,32 +17,31 @@ namespace KuyumHesap.Application.Features.ReceiptFeature.Queries.GetById
 
         public async Task<ResponseDto<GetByIdReceiptQueryResponse>> Handle(GetByIdReceiptQueryRequest request, CancellationToken cancellationToken)
         {
-            var receipt = await unitOfWork.GetReadRepository<Receipt>().GetAsync(x => !x.IsDeleted && x.Id == request.Id);
+            // Include ile Receipt, Account, Account.AccountType ve Movements -> (Account, AccountType, TransactionType) yüklüyoruz
+            var receipt = await unitOfWork.GetReadRepository<Receipt>().GetAsync(
+                x => !x.IsDeleted && x.Id == request.Id,
+                include: q => q
+                    .Include(r => r.Account)
+                        .ThenInclude(a => a.AccountType)
+                    .Include(r => r.Movements)
+                        .ThenInclude(m => m.Account)
+                            .ThenInclude(a => a.AccountType)
+                    .Include(r => r.Movements)
+                        .ThenInclude(m => m.TransactionType)
+            );
 
+            if (receipt == null)
+                return new ResponseDto<GetByIdReceiptQueryResponse>().Success(null);
+
+            // Receipt -> GetByIdReceiptQueryResponse map (AutoMapper mapping'leri kullanılır)
             var mapReceipt = mapper.Map<GetByIdReceiptQueryResponse, Receipt>(receipt);
 
-            var viewModel = await unitOfWork.GetReadRepository<EkstreSatirViewModel>().GetAllAsync(x => x.FisID == request.Id, orderBy: y => y.OrderBy(x => x.HareketID));
-
-            mapReceipt.EkstreSatirViews = viewModel.ToList();
-
-            if (mapReceipt.EkstreSatirViews.Any())
+            // Garantili olarak Movements map'ini sağlamak için, eğer mapper otomatik atamadıysa elle map et
+            if ((mapReceipt.Movements == null || !mapReceipt.Movements.Any()) && receipt.Movements != null)
             {
-                var hareketIDs = mapReceipt.EkstreSatirViews.Select(x => x.HareketID).ToList();
-
-                var ekBilgiler = await unitOfWork.GetReadRepository<Movements>().GetAllAsync(x => hareketIDs.Contains(x.Id));
-
-                foreach (var item in mapReceipt.EkstreSatirViews)
-                {
-                    var movementId = item.HareketID;
-                    var movementData = mapReceipt.EkstreSatirViews.FirstOrDefault(y => y.HareketID == movementId);
-                    if (movementData != null)
-                    {
-                        movementData.HareketTipID = item.HareketTipID;
-                        movementData.KarsiHareketID = item.KarsiHareketID;
-                    }
-                }
-
+                mapReceipt.Movements = mapper.Map<GetMovementByCustomerIdResponse, Movements>(receipt.Movements);
             }
+
             return new ResponseDto<GetByIdReceiptQueryResponse>().Success(mapReceipt);
         }
     }

@@ -21,7 +21,7 @@ namespace KuyumHesap.Api.Controllers.ExchangeCont
             return await _mediator.Send(request, token);
         }
         [HttpGet]
-        public async Task<ResponseDto<List<GetLatestQueryResponse>>> GetLatest(CancellationToken token)
+        public async Task<ResponseDto<List<GetLatestQueryResponse>>> GetLatestAsync(CancellationToken token)
         {
             return await _mediator.Send(new GetLatestQueryRequest(), token);
         }

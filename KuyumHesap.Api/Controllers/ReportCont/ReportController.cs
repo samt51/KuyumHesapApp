@@ -10,6 +10,7 @@ using KuyumHesap.Application.Features.ReportFeature.Queries.GetPosBalance;
 using KuyumHesap.Application.Features.ReportFeature.Queries.GetPosReport;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using static KuyumHesap.Application.Features.ReceiptFeature.Queries.GetEkstreByCustomerId.GetEkstreByCustomerIdHandler;
 
 namespace KuyumHesap.Api.Controllers.ReportCont
 {
@@ -36,9 +37,9 @@ namespace KuyumHesap.Api.Controllers.ReportCont
             return await _mediator.Send(new GetAllReportQueryRequest(hesapId));
         }
         [HttpGet]
-        public async Task<ResponseDto<CashReportModelResponseDto>> GetCashReportAsync(int? accountId)
+        public async Task<ResponseDto<EkstreViewModel>> GetCashReportAsync()
         {
-            return await _mediator.Send(new GetCashReportQueryRequest(accountId));
+            return await _mediator.Send(new GetCashReportQueryRequest());
         }
         [HttpGet("bankalar-bakiye")]
         public async Task<ResponseDto<GetBankBalanceQueryResponse>> GetBankBalanceAsync(CancellationToken token)

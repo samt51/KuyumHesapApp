@@ -6,7 +6,6 @@ namespace KuyumHesap.Application.Features.ReceiptFeature.Commands.Create
 {
     public class CreateReceiptCommandRequest : IRequest<ResponseDto<CreateReceiptCommandResponse>>
     {
-        public int AccountId { get; set; }
         /// <summary>
         /// Fiş Numarası Otomatik Atama
         /// </summary>
@@ -18,7 +17,7 @@ namespace KuyumHesap.Application.Features.ReceiptFeature.Commands.Create
         /// <summary>
         /// Cari Hesap Id
         /// </summary>
-        public int CurrentAccountId { get; set; }
+        public int AccountId { get; set; }
         /// <summary>
         /// Personel Id Bilgisi
         /// </summary>

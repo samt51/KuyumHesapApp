@@ -81,7 +81,13 @@ namespace KuyumHesap.Persistence.Common.Concrete.Mapping
             CreateMap<ProductType, GetAllProductTypeQueryResponse>().ReverseMap();
             CreateMap<ProductType, GetByIdProductTypeQueryResponse>().ReverseMap();
             CreateMap<Movements, GetAllReceiptMovementDto>().ReverseMap();
-            CreateMap<Receipt, GetByIdReceiptQueryResponse>().ReverseMap();
+            CreateMap<Receipt, GetByIdReceiptQueryResponse>()
+      .ForMember(d => d.AccountName, opt => opt.MapFrom(s => s.Account != null ? s.Account.AccountName : null))
+      .ForMember(d => d.AccountTypeId, opt => opt.MapFrom(s => s.Account != null ? s.Account.AccountTypeId : 0))
+      .ForMember(d => d.AccountTypeName, opt => opt.MapFrom(s => s.Account != null && s.Account.AccountType != null ? s.Account.AccountType.AccountTypeName : null))
+      .ForMember(d => d.Movements, opt => opt.MapFrom(s => s.Movements))
+      // diğer alanlar isimle aynı olduğu için AutoMapper otomatik eşleyecektir
+      .ReverseMap();
             CreateMap<Stock, GetAllStockQueryResponse>().ReverseMap();
             CreateMap<Stock, GetByIdStockQueryResponse>().ReverseMap();
             CreateMap<StockGroup, GetAllStockGroupQueryResponse>().ReverseMap();
