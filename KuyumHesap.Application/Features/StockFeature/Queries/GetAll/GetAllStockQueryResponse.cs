@@ -1,4 +1,4 @@
-﻿namespace KuyumHesap.Application.Features.StockFeature.Queries.GetAll
+namespace KuyumHesap.Application.Features.StockFeature.Queries.GetAll
 {
     public class GetAllStockQueryResponse
     {
@@ -14,6 +14,15 @@
         // Burayı string yaptık — Currency.CurrencyCode gelecek
         public string LaborUnit { get; set; } = string.Empty;
         public decimal MillRate { get; set; }
+
+        /// <summary>
+        /// Stok miktarı
+        /// </summary>
+        public decimal Quantity { get; set; }
+
+        /// <summary>
+        /// Stok aktiflik durumu
+        /// </summary>
         public bool IsActive { get; set; }
     }
 }

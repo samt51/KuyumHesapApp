@@ -1,4 +1,4 @@
-﻿using KuyumHesap.Application.Features.MovementFeature.Dtos;
+using KuyumHesap.Application.Features.MovementFeature.Dtos;
 using KuyumHesap.Domain.Entities;
 using KuyumHesap.Domain.Entities.VwModels;
 

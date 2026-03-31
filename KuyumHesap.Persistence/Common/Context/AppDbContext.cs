@@ -1,4 +1,4 @@
-﻿using KuyumHesap.Domain.Entities;
+using KuyumHesap.Domain.Entities;
 using KuyumHesap.Domain.Entities.VwModels;
 using Microsoft.EntityFrameworkCore;
 
@@ -58,6 +58,7 @@ namespace KuyumHesap.Persistence.Common.Context
         public DbSet<StockType> StockTypes { get; set; }
         public DbSet<TaskItem> TaskItems { get; set; }
         public DbSet<Users> Users { get; set; }
+        public DbSet<Setting> Settings { get; set; }
         public DbSet<EkstreSatirViewModel> ReceiptViews => Set<EkstreSatirViewModel>();
 
     }
