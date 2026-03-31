@@ -11,7 +11,7 @@ namespace KuyumHesap.Domain.Entities
         {
 
         }
-        public ExchangeRate(DateTime rateDate, int currrencyId, decimal buyRATE, decimal sellRate, decimal? previosCloseRate)
+        public ExchangeRate(DateTime rateDate, int currrencyId,  decimal sellRate, decimal buyRATE, decimal? previosCloseRate)
         {
             this.RateDate = rateDate;
             this.CurrencyId = currrencyId;
