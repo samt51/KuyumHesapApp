@@ -1,4 +1,4 @@
-﻿using KuyumHesap.Domain.Entities;
+using KuyumHesap.Domain.Entities;
 using KuyumHesap.Domain.Entities.VwModels;
 
 namespace KuyumHesap.Application.Features.ReceiptFeature.Queries.GetById
@@ -18,7 +18,7 @@ namespace KuyumHesap.Application.Features.ReceiptFeature.Queries.GetById
         /// Cari Hesap Id
         /// </summary>
         public int CurrentAccountId { get; set; }
-        public Account Account { get; set; }
+        public int AccountId { get; set; }
         /// <summary>
         /// Personel Id Bilgisi
         /// </summary>
@@ -40,6 +40,6 @@ namespace KuyumHesap.Application.Features.ReceiptFeature.Queries.GetById
         /// </summary>
         public decimal? OpenBalanceAmount { get; set; }
 
-        public List<EkstreSatirViewModel> EkstreSatirViews { get; set; }
+        public List<Movements> Movements { get; set; }
     }
 }

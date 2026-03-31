@@ -1,4 +1,4 @@
-﻿using KuyumHesap.Application.Common.Abstractions;
+using KuyumHesap.Application.Common.Abstractions;
 using KuyumHesap.Application.Common.Abstractions.Mapper;
 using KuyumHesap.Application.Common.Abstractions.UnitOfWorks;
 using KuyumHesap.Application.Common.Models;
@@ -19,29 +19,12 @@ namespace KuyumHesap.Application.Features.ReceiptFeature.Queries.GetById
             var receipt = await unitOfWork.GetReadRepository<Receipt>().GetAsync(x => !x.IsDeleted && x.Id == request.Id);
 
             var mapReceipt = mapper.Map<GetByIdReceiptQueryResponse, Receipt>(receipt);
+            mapReceipt.AccountId = receipt.AccountId;
 
-            var viewModel = await unitOfWork.GetReadRepository<EkstreSatirViewModel>().GetAllAsync(x => x.FisID == request.Id, orderBy: y => y.OrderBy(x => x.HareketID));
+            var movements = await unitOfWork.GetReadRepository<Movements>().GetAllAsync(x => !x.IsDeleted && x.ReceiptId == request.Id);
 
-            mapReceipt.EkstreSatirViews = viewModel.ToList();
+            mapReceipt.Movements = movements.ToList();
 
-            if (mapReceipt.EkstreSatirViews.Any())
-            {
-                var hareketIDs = mapReceipt.EkstreSatirViews.Select(x => x.HareketID).ToList();
-
-                var ekBilgiler = await unitOfWork.GetReadRepository<Movements>().GetAllAsync(x => hareketIDs.Contains(x.Id));
-
-                foreach (var item in mapReceipt.EkstreSatirViews)
-                {
-                    var movementId = item.HareketID;
-                    var movementData = mapReceipt.EkstreSatirViews.FirstOrDefault(y => y.HareketID == movementId);
-                    if (movementData != null)
-                    {
-                        movementData.HareketTipID = item.HareketTipID;
-                        movementData.KarsiHareketID = item.KarsiHareketID;
-                    }
-                }
-
-            }
             return new ResponseDto<GetByIdReceiptQueryResponse>().Success(mapReceipt);
         }
     }

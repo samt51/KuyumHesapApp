@@ -1,4 +1,4 @@
-﻿using KuyumHesap.Application.Common.Abstractions.Aut.Jwt;
+using KuyumHesap.Application.Common.Abstractions.Aut.Jwt;
 using KuyumHesap.Application.Common.Abstractions.Mapper;
 using KuyumHesap.Application.Common.Abstractions.Repositories;
 using KuyumHesap.Application.Common.Abstractions.SqlViewAndFuncQuery;
@@ -51,6 +51,8 @@ namespace KuyumHesap.Persistence
             services.AddScoped<ITotalHasBalanceQuery, TotalHasBalanceQuery>();
 
             services.AddScoped<IAccountStatementQuery, AccountStatementQuery>();
+
+            services.AddScoped<ISettingTableCheckService, SettingTableCheckService>();
 
 
 

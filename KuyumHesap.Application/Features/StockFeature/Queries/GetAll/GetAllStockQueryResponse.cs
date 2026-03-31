@@ -1,4 +1,4 @@
-﻿using KuyumHesap.Application.Common.Models.Dtos;
+using KuyumHesap.Application.Common.Models.Dtos;
 using KuyumHesap.Application.Common.Models.Dtos.ResponseDtos;
 
 namespace KuyumHesap.Application.Features.StockFeature.Queries.GetAll
@@ -40,6 +40,11 @@ namespace KuyumHesap.Application.Features.StockFeature.Queries.GetAll
         /// Ürünün milyem değeri
         /// </summary>
         public decimal MillRate { get; set; }
+
+        /// <summary>
+        /// Stok miktarı
+        /// </summary>
+        public decimal Quantity { get; set; }
 
         /// <summary>
         /// Stok aktiflik durumu

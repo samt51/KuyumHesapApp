@@ -59,7 +59,15 @@ builder.Services.AddHttpLogging(logging =>
     logging.ResponseBodyLogLimit = 4096;
 });
 
-
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowAll", policy =>
+    {
+        policy.AllowAnyOrigin()
+              .AllowAnyHeader()
+              .AllowAnyMethod();
+    });
+});
 
 
 builder.Services.AddControllers();
@@ -111,7 +119,7 @@ builder.Services.AddHangfire(config =>
 builder.Services.AddHangfireServer(options =>
 {
     options.ServerName = $"{Environment.MachineName}:{Guid.NewGuid()}";
-    options.WorkerCount = 1; // debug için 1 iyi
+    options.WorkerCount = 1; // debug iÃ§in 1 iyi
     options.Queues = new[] { "default" };
 });
 builder.Services.AddMemoryCache();
@@ -127,6 +135,7 @@ var app = builder.Build();
  
 
 app.UseHttpsRedirection();
+app.UseCors("AllowAll");
 app.ConfigureExceptionHandlingMiddleware();
 app.UseHangfireDashboard("/hangfire");
 app.UseAuthentication();

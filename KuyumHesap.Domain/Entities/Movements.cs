@@ -1,4 +1,4 @@
-﻿using KuyumHesap.Domain.Command;
+using KuyumHesap.Domain.Command;
 
 namespace KuyumHesap.Domain.Entities
 {
@@ -134,5 +134,10 @@ namespace KuyumHesap.Domain.Entities
         /// Toplam işçilik tutarı
         /// </summary>
         public decimal? TotalLaborCost { get; set; }
+
+        /// <summary>
+        /// Döviz kimliği
+        /// </summary>
+        public int? CurrencyId { get; set; }
     }
 }

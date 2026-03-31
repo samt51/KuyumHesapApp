@@ -1,4 +1,4 @@
-﻿using AutoMapper;
+using AutoMapper;
 using KuyumHesap.Application.Common.Models;
 using KuyumHesap.Application.Common.Models.Dtos;
 using KuyumHesap.Application.Common.Models.Dtos.ResponseDtos;
@@ -47,6 +47,7 @@ using KuyumHesap.Application.Features.TaskItemFeature.Queries.GetById;
 using KuyumHesap.Application.Features.UserFeature.Dtos;
 using KuyumHesap.Application.Features.UserFeature.Queries.GetAll;
 using KuyumHesap.Application.Features.UserFeature.Queries.GetById;
+using KuyumHesap.Application.Features.SettingFeature.Queries.GetAll;
 using KuyumHesap.Domain.Entities;
 
 namespace KuyumHesap.Persistence.Common.Concrete.Mapping
@@ -197,6 +198,7 @@ namespace KuyumHesap.Persistence.Common.Concrete.Mapping
                 .ReverseMap();
 
             CreateMap<GetUpdatedDailyCureResponse, DailyCureDataDto.Data>().ReverseMap();
+            CreateMap<Setting, GetAllSettingQueryResponse>().ReverseMap();
         }
     }
 }
