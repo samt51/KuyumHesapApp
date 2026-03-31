@@ -1,5 +1,6 @@
 ﻿using KuyumHesap.Application.Common.Abstractions;
 using KuyumHesap.Application.Common.Abstractions.Mapper;
+using KuyumHesap.Application.Common.Abstractions.SqlViewAndFuncQuery;
 using KuyumHesap.Application.Common.Abstractions.UnitOfWorks;
 using KuyumHesap.Application.Common.Models;
 using KuyumHesap.Domain.Entities.VwModels;
@@ -9,8 +10,10 @@ namespace KuyumHesap.Application.Features.ReportFeature.Queries.GetAccountStatem
 {
     public class GetAccountStatementQueryHandler : BaseHandler, IRequestHandler<GetAccountStatementQueryRequest, ResponseDto<GetAccountStatementQueryResponse>>
     {
-        public GetAccountStatementQueryHandler(IMapper mapper, IUnitOfWork unitOfWork) : base(mapper, unitOfWork)
+        private readonly IAccountStatementQuery _accountStatementQuery;
+        public GetAccountStatementQueryHandler(IAccountStatementQuery accountStatementQuery, IMapper mapper, IUnitOfWork unitOfWork) : base(mapper, unitOfWork)
         {
+            _accountStatementQuery = accountStatementQuery;
         }
 
         public async Task<ResponseDto<GetAccountStatementQueryResponse>> Handle(

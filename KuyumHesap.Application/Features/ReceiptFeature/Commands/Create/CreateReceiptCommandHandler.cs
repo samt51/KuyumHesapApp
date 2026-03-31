@@ -1,7 +1,6 @@
 using KuyumHesap.Application.Common.Abstractions;
 using KuyumHesap.Application.Common.Abstractions.Mapper;
 using KuyumHesap.Application.Common.Abstractions.UnitOfWorks;
-using KuyumHesap.Application.Common.Extensions;
 using KuyumHesap.Application.Common.Models;
 using KuyumHesap.Application.Common.Models.Dtos;
 using KuyumHesap.Domain.Entities;
@@ -11,9 +10,6 @@ namespace KuyumHesap.Application.Features.ReceiptFeature.Commands.Create
 {
     public class CreateReceiptCommandHandler : BaseHandler, IRequestHandler<CreateReceiptCommandRequest, ResponseDto<CreateReceiptCommandResponse>>
     {
-        int cashLastId = 0;
-        int accounId;
-        int currentAccounId = 0;
         public CreateReceiptCommandHandler(IMapper mapper, IUnitOfWork unitOfWork) : base(mapper, unitOfWork)
         {
         }
@@ -44,18 +40,11 @@ namespace KuyumHesap.Application.Features.ReceiptFeature.Commands.Create
 
                 var receipt = mapper.Map<Receipt, CreateReceiptCommandRequest>(request);
 
-                await unitOfWork.OpenTransactionAsync(cancellationToken);
+            await unitOfWork.OpenTransactionAsync(cancellationToken);
 
-                receipt.AccountId = request.CurrentAccountId;
+            await unitOfWork.GetWriteRepository<Receipt>().AddAsync(receipt);
 
-                receipt.CreatedByUserId = 1;
-
-                // Add receipt and save to get generated Id
-                await unitOfWork.GetWriteRepository<Receipt>().AddAsync(receipt);
-                await unitOfWork.SaveAsync(cancellationToken);
-
-                // Map incoming DTOs to Movements (assumes mapper generic signature as in original)
-                var movements = mapper.Map<Movements, CreateMovementReceiptRequestDto>(request.CreateMovementReceiptRequestDtos);
+            await unitOfWork.SaveAsync();
 
                 foreach (var movement in movements)
                 {
@@ -92,9 +81,7 @@ namespace KuyumHesap.Application.Features.ReceiptFeature.Commands.Create
                     // ignore rollback failures, preserve original exception
                 }
 
-                throw;
-            }
-        }
+            await unitOfWork.GetWriteRepository<Movements>().AddRangeAsync(receipt.Movements);
 
         private async Task ProcessMovementPairAsync(Movements movement, CreateReceiptCommandRequest request, Receipt receipt, IEnumerable<Movements> allMovements, int defaultDiscountAccountId, CancellationToken cancellationToken)
         {
@@ -197,14 +184,9 @@ namespace KuyumHesap.Application.Features.ReceiptFeature.Commands.Create
                 await unitOfWork.GetWriteRepository<Movements>().AddAsync(counterDefinition);
                 await unitOfWork.SaveAsync(ct);
 
-                // Link both sides
-                counterDefinition.CounterTransactionId = counter.Id;
-                counter.CounterTransactionId = counterDefinition.Id;
+            await unitOfWork.CommitAsync();
 
-                await unitOfWork.GetWriteRepository<Movements>().UpdateAsync(counter);
-                await unitOfWork.GetWriteRepository<Movements>().UpdateAsync(counterDefinition);
-                await unitOfWork.SaveAsync(ct);
-            }
+            return new ResponseDto<CreateReceiptCommandResponse>().Success();
         }
     }
 }

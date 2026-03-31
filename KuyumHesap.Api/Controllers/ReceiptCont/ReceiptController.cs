@@ -21,10 +21,10 @@ namespace KuyumHesap.Api.Controllers.ReceiptCont
         {
             _mediator = mediator;
         }
-        [HttpGet("{isCari}")]
-        public Task<ResponseDto<List<GetAllReceiptQueryResponse>>> GetAllAsync(bool isCari, CancellationToken token)
+        [HttpPost]
+        public Task<ResponseDto<List<GetAllReceiptQueryResponse>>> GetAllAsync(GetAllReceiptQueryRequest request, CancellationToken token)
         {
-            return _mediator.Send(new GetAllReceiptQueryRequest { IsCari = isCari }, token);
+            return _mediator.Send(request, token);
         }
         [HttpPost]
         public async Task<ResponseDto<CreateReceiptCommandResponse>> CreateAsync(CreateReceiptCommandRequest request, CancellationToken token)

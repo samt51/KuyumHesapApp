@@ -43,10 +43,10 @@ namespace KuyumHesap.Api.Controllers.ExchangeCont
         {
             return await _mediator.Send(new DeleteExchangeCommandRequest(id), token);
         }
-        [HttpGet("{currencyId}")]
-        public Task<ResponseDto<GetExchangeRateByCurrencyCodeResponse>> GetExchangeRateByCurrencyCodeAsync(int currencyId, CancellationToken token)
+        [HttpGet("{currencyId}/{isEntry}")]
+        public Task<ResponseDto<GetExchangeRateByCurrencyCodeResponse>> GetExchangeRateByCurrencyCodeAsync(int currencyId, bool isEntry,CancellationToken token)
         {
-            return _mediator.Send(new GetExchangeRateByCurrencyCodeRequest { CurrencyId = currencyId }, token);
+            return _mediator.Send(new GetExchangeRateByCurrencyCodeRequest { CurrencyId = currencyId,IsEntry=isEntry }, token);
         }
     }
 }

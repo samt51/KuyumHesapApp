@@ -274,6 +274,7 @@ namespace KuyumHesap.Application.Features.ReceiptFeature.Queries.GetEkstreByCust
 
         public class EkstreViewModel
         {
+            public decimal? TotalHas { get; set; }
             public List<EkstreBakiyeViewModel> DevredenBakiyeler { get; set; } = new();
             public List<EkstreSatirViewModel> Hareketler { get; set; } = new();
         }

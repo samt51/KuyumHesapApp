@@ -15,10 +15,11 @@ namespace KuyumHesap.Application.Features.ExchangeFeature.Queries.GetExchangeRat
 
         public async Task<ResponseDto<GetExchangeRateByCurrencyCodeResponse>> Handle(GetExchangeRateByCurrencyCodeRequest request, CancellationToken cancellationToken)
         {
+
             var data = await unitOfWork.GetReadRepository<ExchangeRate>().GetAsync(x => x.CurrencyId == request.CurrencyId,
                 orderBy: y => y.OrderByDescending(c => c.CreatedDate));
 
-            var rst = new GetExchangeRateByCurrencyCodeResponse { Result = data?.BuyRate ?? 0 };
+            var rst = new GetExchangeRateByCurrencyCodeResponse { Result = request.IsEntry ? data?.BuyRate ?? 0 : data.SellRate };
             return new ResponseDto<GetExchangeRateByCurrencyCodeResponse>().Success(rst);
         }
     }

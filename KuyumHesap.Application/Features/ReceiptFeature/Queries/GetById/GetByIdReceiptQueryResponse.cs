@@ -1,3 +1,4 @@
+using KuyumHesap.Application.Features.MovementFeature.Dtos;
 using KuyumHesap.Domain.Entities;
 using KuyumHesap.Domain.Entities.VwModels;
 
@@ -17,8 +18,17 @@ namespace KuyumHesap.Application.Features.ReceiptFeature.Queries.GetById
         /// <summary>
         /// Cari Hesap Id
         /// </summary>
-        public int CurrentAccountId { get; set; }
         public int AccountId { get; set; }
+        /// <summary>
+        /// Hesap adı (firma, kişi veya kurum adı)
+        /// </summary>
+        public string AccountName { get; set; } = null!;
+
+        /// <summary>
+        /// Hesap tipi kimliği (Foreign Key -> AccountTypes)
+        /// </summary>
+        public int AccountTypeId { get; set; }
+        public string AccountTypeName { get; set; }
         /// <summary>
         /// Personel Id Bilgisi
         /// </summary>
@@ -40,6 +50,7 @@ namespace KuyumHesap.Application.Features.ReceiptFeature.Queries.GetById
         /// </summary>
         public decimal? OpenBalanceAmount { get; set; }
 
-        public List<Movements> Movements { get; set; }
+
+        public List<GetMovementByCustomerIdResponse> Movements { get; set; }
     }
 }

@@ -1,5 +1,4 @@
-﻿using KuyumHesap.Application.Features.ReceiptFeature.Queries.GetAll.Dtos;
-using KuyumHesap.Domain.Entities;
+﻿using KuyumHesap.Application.Features.MovementFeature.Dtos;
 
 namespace KuyumHesap.Application.Features.ReceiptFeature.Queries.GetAll
 {
@@ -17,8 +16,17 @@ namespace KuyumHesap.Application.Features.ReceiptFeature.Queries.GetAll
         /// <summary>
         /// Cari Hesap Id
         /// </summary>
-        public int CurrentAccountId { get; set; }
-        public Account Account { get; set; }
+        public int AccountId { get; set; }
+        /// <summary>
+        /// Hesap adı (firma, kişi veya kurum adı)
+        /// </summary>
+        public string AccountName { get; set; } = null!;
+
+        /// <summary>
+        /// Hesap tipi kimliği (Foreign Key -> AccountTypes)
+        /// </summary>
+        public int AccountTypeId { get; set; }
+        public string AccountTypeName { get; set; }
         /// <summary>
         /// Personel Id Bilgisi
         /// </summary>
@@ -40,6 +48,7 @@ namespace KuyumHesap.Application.Features.ReceiptFeature.Queries.GetAll
         /// </summary>
         public decimal? OpenBalanceAmount { get; set; }
 
-        public List<GetAllReceiptMovementDto> Movements { get; set; }
+
+        public List<GetMovementByCustomerIdResponse> Movements { get; set; }
     }
 }

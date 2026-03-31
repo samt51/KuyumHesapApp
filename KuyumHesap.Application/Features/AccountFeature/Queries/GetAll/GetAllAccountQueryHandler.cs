@@ -6,6 +6,7 @@ using KuyumHesap.Domain.Entities;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
+using System.Text.Json;
 
 namespace KuyumHesap.Application.Features.AccountFeature.Queries.GetAll
 {
@@ -17,7 +18,6 @@ namespace KuyumHesap.Application.Features.AccountFeature.Queries.GetAll
 
         public async Task<ResponseDto<List<GetAllAccountQueryResponse>>> Handle(GetAllAccountQueryRequest request, CancellationToken cancellationToken)
         {
-
             Expression<Func<Account, bool>> predicate = x => !x.IsDeleted;
 
             if (!string.IsNullOrWhiteSpace(request.AccountTypeName))

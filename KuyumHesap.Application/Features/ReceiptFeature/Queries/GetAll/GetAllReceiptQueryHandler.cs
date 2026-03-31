@@ -2,7 +2,6 @@
 using KuyumHesap.Application.Common.Abstractions.Mapper;
 using KuyumHesap.Application.Common.Abstractions.UnitOfWorks;
 using KuyumHesap.Application.Common.Models;
-using KuyumHesap.Application.Features.ReceiptFeature.Queries.GetAll.Dtos;
 using KuyumHesap.Domain.Entities;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -19,35 +18,32 @@ namespace KuyumHesap.Application.Features.ReceiptFeature.Queries.GetAll
        GetAllReceiptQueryRequest request,
        CancellationToken cancellationToken)
         {
-            var receipts = await unitOfWork
-                .GetReadRepository<Receipt>()
-                .GetAllAsync(
-                    x => !x.IsDeleted,
-                    include: q => q.Include(r => r.Movements),
-                    orderBy: q => q.OrderByDescending(r => r.ReceiptDate)
-                );
+            // get receipts with navigation properties included
+            var receipts = await unitOfWork.GetReadRepository<Receipt>().GetAllAsync(
+                x => !x.IsDeleted
+                     && x.AccountId == request.AccountId
+                     && x.IsCustomerReceipt == request.IsCari
+                     && x.ReceiptDate >= request.StartDate
+                     && x.ReceiptDate <= request.EndDate,
+                include: q => q
+                    .Include(r => r.Account)
+                        .ThenInclude(a => a.AccountType)
+                    .Include(r => r.Movements)
+                        .ThenInclude(m => m.Account)
+                            .ThenInclude(a => a.AccountType)
+                    .Include(r => r.Movements)
+                        .ThenInclude(m => m.TransactionType),
+                orderBy: q => q.OrderByDescending(r => r.ReceiptDate),
+                enableTracking: false,
+                ct: cancellationToken);
 
-            var rsp = new List<GetAllReceiptQueryResponse>();
+            // ensure non-null list
+            receipts = receipts ?? new List<Receipt>();
 
-            foreach (var item in receipts)
-            {
-                rsp.Add(new GetAllReceiptQueryResponse
-                {
-                    Id = item.Id,
-                    ReceiptNumber = item.ReceiptNumber,
-                    ReceiptDate = item.ReceiptDate,
-                    CurrentAccountId = item.AccountId,
-                    EmployeeId = item.EmployeeId,
-                    Description = item.Description,
-                    IsCustomerReceipt = item.IsCustomerReceipt,
+            // map list of receipts to list of response DTOs
+            var mapped = mapper.Map<GetAllReceiptQueryResponse, Receipt>(receipts);
 
-                    // Eğer response içinde hareketler de lazım ise:
-                    Movements = mapper.Map< GetAllReceiptMovementDto ,
-                    Movements >(item.Movements)
-                });
-            }
-
-            return new ResponseDto<List<GetAllReceiptQueryResponse>>().Success(rsp);
+            return new ResponseDto<List<GetAllReceiptQueryResponse>>().Success(mapped);
         }
 
     }
