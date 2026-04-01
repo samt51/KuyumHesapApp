@@ -91,7 +91,7 @@ namespace KuyumHesap.Application.Features.ReportFeature.Queries.GetCashReport
                 if (!bakiyeTakip.ContainsKey(bakiyeBirimi)) { bakiyeTakip[bakiyeBirimi] = 0; }
 
                 decimal eskiBakiye = bakiyeTakip[bakiyeBirimi];
-                decimal yeniBakiye = eskiBakiye + (hareket.IsEntry ? bakiyeEtkiMiktari : -bakiyeEtkiMiktari);
+                decimal yeniBakiye = eskiBakiye + (!hareket.IsEntry ? bakiyeEtkiMiktari : -bakiyeEtkiMiktari);
                 bakiyeTakip[bakiyeBirimi] = yeniBakiye;
 
                 hareket.OldBalance = eskiBakiye;

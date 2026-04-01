@@ -115,10 +115,5 @@ namespace KuyumHesap.Application.Common.Models.Dtos
         /// Toplam işçilik tutarı
         /// </summary>
         public decimal? TotalLaborCost { get; set; }
-
-        /// <summary>
-        /// Belgenin/hareketin dövizId kimliği (isteğe bağlı)
-        /// </summary>
-        public int? CurrencyId { get; set; }
     }
 }

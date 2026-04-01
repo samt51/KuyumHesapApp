@@ -54,3 +54,4 @@ namespace KuyumHesap.Application.Features.ReceiptFeature.Queries.GetById
         public List<GetMovementByCustomerIdResponse> Movements { get; set; }
     }
 }
+

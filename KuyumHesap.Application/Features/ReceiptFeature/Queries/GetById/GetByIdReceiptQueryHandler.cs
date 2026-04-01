@@ -35,7 +35,6 @@ namespace KuyumHesap.Application.Features.ReceiptFeature.Queries.GetById
 
             // Receipt -> GetByIdReceiptQueryResponse map (AutoMapper mapping'leri kullanılır)
             var mapReceipt = mapper.Map<GetByIdReceiptQueryResponse, Receipt>(receipt);
-            mapReceipt.AccountId = receipt.AccountId;
 
             // Garantili olarak Movements map'ini sağlamak için, eğer mapper otomatik atamadıysa elle map et
             if ((mapReceipt.Movements == null || !mapReceipt.Movements.Any()) && receipt.Movements != null)
@@ -47,3 +46,7 @@ namespace KuyumHesap.Application.Features.ReceiptFeature.Queries.GetById
         }
     }
 }
+
+
+
+

@@ -11,18 +11,9 @@ namespace KuyumHesap.Application.Features.StockFeature.Queries.GetAll
         public string UnitName { get; set; } = null!;
         public int StockUnitId { get; set; }
         public int LaborUnitId { get; set; }
-        // Burayı string yaptık — Currency.CurrencyCode gelecek
         public string LaborUnit { get; set; } = string.Empty;
         public decimal MillRate { get; set; }
-
-        /// <summary>
-        /// Stok miktarı
-        /// </summary>
-        public decimal Quantity { get; set; }
-
-        /// <summary>
-        /// Stok aktiflik durumu
-        /// </summary>
         public bool IsActive { get; set; }
     }
 }
+

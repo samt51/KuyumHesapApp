@@ -52,11 +52,6 @@ namespace KuyumHesap.Persistence
 
             services.AddScoped<IAccountStatementQuery, AccountStatementQuery>();
 
-            services.AddScoped<ISettingTableCheckService, SettingTableCheckService>();
-
-
-
-
 
             services.AddAuthentication(opt =>
             {

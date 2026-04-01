@@ -146,30 +146,34 @@ GROUP BY BalanceUnit;";
 
             return rows;
         }
-        public async Task<List<AccountStatementViewResponseModel>> GetViewByAccountIdsBetweenDate(int[] accountId, DateTime start, DateTime end, CancellationToken ct)
+        public async Task<List<AccountStatementViewResponseModel>> GetViewByAccountIdsBetweenDate(
+       int[] accountId,
+       DateTime start,
+       DateTime end,
+       CancellationToken ct)
         {
             if (accountId == null || accountId.Length == 0)
                 return new List<AccountStatementViewResponseModel>();
 
-            // placeholder oluştur (ör: {0}, {1}, {2}, ...)
-            var idsPlaceholders = string.Join(", ", accountId.Select((a, i) => $"{{{i}}}"));
+            // AccountId placeholderları: {0}, {1}, {2} ...
+            // accountId int[] sunucu tarafından geldiği varsayılarak güvenli şekilde virgülle birleştiriyoruz.
+            // Eğer bu input dış kaynaklı ise SQL injection riski açısından TVP veya parametrized approach kullanın.
+            var ids = string.Join(",", accountId.Select(i => i.ToString()));
 
-            // start ve end parametrelerinin indeksleri
-            var startIndex = accountId.Length;
-            var endIndex = startIndex + 1;
 
-            var sql = $@"SELECT
+            var sql = $@"
+SELECT
     MovementId,
     ReceiptId,
     ReceiptDate,
     AccountId,
     TransactionName,
-    ISNULL(Quantity, 0)          AS Quantity,
-    ISNULL(Unit, '')             AS Unit,
-    ISNULL(Rate, 0)              AS Rate,
-    ISNULL(CounterQuantity, 0)   AS CounterQuantity,
-    ISNULL(CounterUnit, '')      AS CounterUnit,
-    ISNULL(CounterRate, 0)       AS CounterRate,
+    ISNULL(Quantity, 0) AS Quantity,
+    ISNULL(Unit, '') AS Unit,
+    ISNULL(Rate, 0) AS Rate,
+    ISNULL(CounterQuantity, 0) AS CounterQuantity,
+    ISNULL(CounterUnit, '') AS CounterUnit,
+    ISNULL(CounterRate, 0) AS CounterRate,
     StockId,
     StockName,
     MillRate,
@@ -180,28 +184,27 @@ GROUP BY BalanceUnit;";
     NetProductValue,
     TotalLaborCost,
     ISNULL(BalanceEffectAmount, 0) AS BalanceEffectAmount,
-    ISNULL(BalanceUnit, '')       AS BalanceUnit,
+    ISNULL(BalanceUnit, '') AS BalanceUnit,
     Description,
-    CAST(ISNULL(IsReconciled, 0) AS bit)    AS IsReconciled,
-    CAST(ISNULL(IsEntry, 0) AS bit)         AS IsEntry,
-    ISNULL(StockUnit, '')         AS StockUnit,
+    CAST(ISNULL(IsReconciled, 0) AS bit) AS IsReconciled,
+    CAST(ISNULL(IsEntry, 0) AS bit) AS IsEntry,
+    ISNULL(StockUnit, '') AS StockUnit,
     AccountTypeId,
     AccountTypeName,
-ReceiptAccounId,
-ReceiptAccountName,
-ReceiptAccounTypeName,
-TransactionTypeId
+    ReceiptAccounId,
+    ReceiptAccountName,
+    ReceiptAccounTypeName,
+    TransactionTypeId
 FROM dbo.vw_HesapEkstresi
-WHERE AccountId IN (" + idsPlaceholders + $@") AND ReceiptDate BETWEEN {{{startIndex}}} AND {{{endIndex}}}
+WHERE AccountId IN (" + ids + @")
+  AND ReceiptDate BETWEEN @start AND @end
 ORDER BY ReceiptDate, MovementId;";
 
-            // parametreleri sırasıyla ekle: accountId[0], accountId[1], ..., start, end
-            var parameters = accountId.Cast<object>()
-                                      .Concat(new object[] { start, end })
-                                      .ToArray();
+            var paramStart = new SqlParameter("@start", SqlDbType.DateTime) { Value = start };
+            var paramEnd = new SqlParameter("@end", SqlDbType.DateTime) { Value = end };
 
             var rows = await _context.Database
-                .SqlQueryRaw<AccountStatementViewResponseModel>(sql, parameters)
+                .SqlQueryRaw<AccountStatementViewResponseModel>(sql, paramStart, paramEnd)
                 .ToListAsync(ct);
 
             return rows;

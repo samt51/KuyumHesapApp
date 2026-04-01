@@ -28,19 +28,6 @@ namespace KuyumHesap.Application.Features.StockFeature.Queries.GetAll
          );
 
             var mappedData = mapper.Map<List<GetAllStockQueryResponse>>(data);
-
-            var movements = await unitOfWork.GetReadRepository<Movements>()
-                .GetAllAsync(x => !x.IsDeleted);
-
-            foreach (var stock in mappedData)
-            {
-                var stockMovements = movements.Where(x => x.StockId == stock.Id).ToList();
-                stock.Quantity = stockMovements.Sum(x =>
-                    (x.TransactionTypeId == 1 || x.TransactionTypeId == 2 || x.TransactionTypeId == 3 ? (x.Quantity ?? 0m) : 0m)
-                  - (x.TransactionTypeId == 4 || x.TransactionTypeId == 5 || x.TransactionTypeId == 6 ? (x.Quantity ?? 0m) : 0m)
-                );
-            }
-
             return new ResponseDto<List<GetAllStockQueryResponse>>().Success(mappedData);
         }
     }

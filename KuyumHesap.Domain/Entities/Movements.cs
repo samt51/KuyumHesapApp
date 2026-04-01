@@ -9,31 +9,31 @@ namespace KuyumHesap.Domain.Entities
     {
         public Movements()
         {
-            
+
         }
         /// <summary>
         /// Bağlı olduğu fişin kimliği (Foreign Key -> Receipts)
         /// </summary>
         public int ReceiptId { get; set; }
-        public  Receipt Receipt { get; set; }
+        public Receipt Receipt { get; set; }
 
         /// <summary>
         /// Hareket tipi kimliği (Foreign Key -> TransactionTypes)
         /// </summary>
         public int TransactionTypeId { get; set; }
-        public  MovementType TransactionType { get; set; }
+        public MovementType TransactionType { get; set; }
 
         /// <summary>
         /// İşlemin ait olduğu hesap kimliği (Foreign Key -> Accounts)
         /// </summary>
         public int AccountId { get; set; }
-        public  Account Account { get; set; }
+        public Account Account { get; set; }
 
         /// <summary>
         /// İşleme konu olan stok kimliği (Foreign Key -> Stocks)
         /// </summary>
         public int? StockId { get; set; }
-        public  Stock Stock { get; set; }
+        public Stock Stock { get; set; }
 
         /// <summary>
         /// Hareket açıklaması
@@ -134,10 +134,5 @@ namespace KuyumHesap.Domain.Entities
         /// Toplam işçilik tutarı
         /// </summary>
         public decimal? TotalLaborCost { get; set; }
-
-        /// <summary>
-        /// Döviz kimliği
-        /// </summary>
-        public int? CurrencyId { get; set; }
     }
 }
