@@ -34,5 +34,6 @@
         public string ReceiptAccountName { get; set; }
         public string ReceiptAccounTypeName { get; set; }
         public int TransactionTypeId { get; set; }
+        public bool? IsCustomerReceipt { get; set; }
     }
 }

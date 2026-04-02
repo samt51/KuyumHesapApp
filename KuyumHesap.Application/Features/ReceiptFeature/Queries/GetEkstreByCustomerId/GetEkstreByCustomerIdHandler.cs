@@ -28,6 +28,8 @@ namespace KuyumHesap.Application.Features.ReceiptFeature.Queries.GetEkstreByCust
             var baslangic = request.StartDate.Date;
             var bitis = request.EndDate.Date.AddDays(1).AddTicks(-1); // Bitiş tarihini gün sonu olarak ayarla
 
+            var isCari = request.IsCustomerReceipt == true ? 1 : 0;
+
             // Hesap ve tarih filtresi: istenen müşterinin, endDate öncesi kayıtları
             var devredenBalance = await _accountStatementQuery.GetBalanceAndCurrencyCodeByAccountId(request.CustomerId, baslangic, cancellationToken);
 
@@ -40,8 +42,17 @@ namespace KuyumHesap.Application.Features.ReceiptFeature.Queries.GetEkstreByCust
                 Balance = b.Balance
             }).ToList();
 
+            try
+            {
 
-            totalBalance = await _accountStatementQuery.GetAsync(cancellationToken);
+                totalBalance = await _accountStatementQuery.GetAsync(cancellationToken);
+            }
+            catch (Exception ex)
+            {
+
+                throw;
+            }
+
 
 
 
@@ -49,10 +60,9 @@ namespace KuyumHesap.Application.Features.ReceiptFeature.Queries.GetEkstreByCust
             var filteredEkstre = new List<AccountStatementViewResponseModel>();
 
 
-            filteredEkstre = await _accountStatementQuery.GetViewByAccountIdaAndStartBetweenEndDate(request.CustomerId, baslangic, bitis, cancellationToken);
+            filteredEkstre = await _accountStatementQuery.GetViewByAccountIdaAndStartBetweenEndDate(request.CustomerId, baslangic, bitis, isCari, cancellationToken);
 
-            var s = filteredEkstre.ToList();
-
+ 
 
             var listEkstre = new List<EkstreSatirViewModel>();
 

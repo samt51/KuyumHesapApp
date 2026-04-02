@@ -10,6 +10,7 @@ using KuyumHesap.Application.Features.ReceiptFeature.Queries.GetEkstreByCustomer
 using KuyumHesap.Application.Features.ReceiptFeature.Queries.GetReceiptByCustomerIdAndDates;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using System.Text.Json;
 using static KuyumHesap.Application.Features.ReceiptFeature.Queries.GetEkstreByCustomerId.GetEkstreByCustomerIdHandler;
 
 namespace KuyumHesap.Api.Controllers.ReceiptCont
@@ -55,7 +56,10 @@ namespace KuyumHesap.Api.Controllers.ReceiptCont
         [HttpPost]
         public async Task<ResponseDto<EkstreViewModel>> GetEkstreByCustomerIdAsync(GetEkstreByCustomerIdRequest request, CancellationToken token)
         {
-            return await _mediator.Send(request, token);
+
+            var data = await _mediator.Send(request, token);
+            var json = JsonSerializer.Serialize(data);
+            return data;
         }
         [HttpPost]
         public async Task<ResponseDto<List<GetReceiptByCustomerIdAndDatesResponse>>> GetReceiptByCustomerAndDate(GetReceiptByCustomerIdAndDatesRequest request, CancellationToken token)

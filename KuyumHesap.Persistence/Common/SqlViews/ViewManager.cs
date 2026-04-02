@@ -16,7 +16,7 @@ SELECT        h.Id as MovementId, f.Id as ReceiptId, f.ReceiptDate as ReceiptDat
                          END AS BalanceEffectAmount, CASE WHEN h.StockId IS NOT NULL THEN 'HAS' ELSE ISNULL(kd.CurrencyCode, d .CurrencyCode) END AS BalanceUnit, h.Description, h.IsReconciled, CASE WHEN h.TransactionTypeId IN (1, 3, 5, 7, 9) 
                          THEN 1 ELSE 0 END AS IsEntry, s.UnitName AS StockUnit, hstip.Id as AccountTypeId, hstip.AccountTypeName as AccountTypeName,
 						 acc.Id as ReceiptAccounId, acc.AccountName as ReceiptAccountName, tip.AccountTypeName as ReceiptAccounTypeName,
-						 ht.Id as TransactionTypeId
+						 ht.Id as TransactionTypeId, f.IsCustomerReceipt
 
 FROM            dbo.Movements AS h INNER JOIN
                          dbo.Receipts AS f ON h.ReceiptId = f.Id INNER JOIN

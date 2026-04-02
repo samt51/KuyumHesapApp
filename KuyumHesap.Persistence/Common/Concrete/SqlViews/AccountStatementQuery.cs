@@ -51,7 +51,8 @@ SELECT
 ReceiptAccounId,
 ReceiptAccountName,
 ReceiptAccounTypeName,
-TransactionTypeId
+TransactionTypeId,
+ CAST(ISNULL(IsCustomerReceipt, 0) AS bit)    AS IsCustomerReceipt
 FROM dbo.vw_HesapEkstresi
 ORDER BY ReceiptDate, MovementId;
 
@@ -79,7 +80,7 @@ GROUP BY BalanceUnit;";
             return rows;
         }
 
-        public async Task<List<AccountStatementViewResponseModel>> GetViewByAccountIdaAndStartBetweenEndDate(int accountId, DateTime start, DateTime end, CancellationToken ct)
+        public async Task<List<AccountStatementViewResponseModel>> GetViewByAccountIdaAndStartBetweenEndDate(int accountId, DateTime start, DateTime end, int isCustomerReceipt, CancellationToken ct)
         {
             var sql = @"SELECT
     MovementId,
@@ -113,12 +114,13 @@ GROUP BY BalanceUnit;";
 ReceiptAccounId,
 ReceiptAccountName,
 ReceiptAccounTypeName,
-TransactionTypeId
+TransactionTypeId,
+ CAST(ISNULL(IsCustomerReceipt, 0) AS bit)    AS IsCustomerReceipt
 FROM dbo.vw_HesapEkstresi
-WHERE AccountId = {0} AND ReceiptDate BETWEEN {1} AND {2}
+WHERE AccountId = {0} AND ReceiptDate BETWEEN {1} AND {2} AND IsCustomerReceipt ={3}
 ORDER BY ReceiptDate, MovementId;";
 
-            var rows = await _context.Database.SqlQueryRaw<AccountStatementViewResponseModel>(sql, accountId, start, end).ToListAsync(ct);
+            var rows = await _context.Database.SqlQueryRaw<AccountStatementViewResponseModel>(sql, accountId, start, end, isCustomerReceipt).ToListAsync(ct);
 
             return rows;
         }
@@ -194,7 +196,8 @@ SELECT
     ReceiptAccounId,
     ReceiptAccountName,
     ReceiptAccounTypeName,
-    TransactionTypeId
+    TransactionTypeId,
+ CAST(ISNULL(IsCustomerReceipt, 0) AS bit)    AS IsCustomerReceipt
 FROM dbo.vw_HesapEkstresi
 WHERE AccountId IN (" + ids + @")
   AND ReceiptDate BETWEEN @start AND @end

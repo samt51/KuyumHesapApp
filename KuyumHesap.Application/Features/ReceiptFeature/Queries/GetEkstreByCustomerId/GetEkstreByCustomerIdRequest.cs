@@ -9,5 +9,6 @@ namespace KuyumHesap.Application.Features.ReceiptFeature.Queries.GetEkstreByCust
         public int CustomerId { get; set; }
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
+        public bool? IsCustomerReceipt { get; set; }
     }
 }
