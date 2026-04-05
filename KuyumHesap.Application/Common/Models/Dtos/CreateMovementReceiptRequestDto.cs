@@ -2,6 +2,7 @@ namespace KuyumHesap.Application.Common.Models.Dtos
 {
     public class CreateMovementReceiptRequestDto
     {
+        public int MovementId { get; set; }
         /// <summary>
         /// Hareket tipi kimliği (Foreign Key -> TransactionTypes)
         /// </summary>

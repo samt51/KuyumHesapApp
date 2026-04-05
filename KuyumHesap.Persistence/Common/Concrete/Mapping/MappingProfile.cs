@@ -28,6 +28,7 @@ using KuyumHesap.Application.Features.MovementFeature.Queries.GetById;
 using KuyumHesap.Application.Features.ProductTypeFeature.Queries.GetAll;
 using KuyumHesap.Application.Features.ProductTypeFeature.Queries.GetById;
 using KuyumHesap.Application.Features.ReceiptFeature.Commands.Create;
+using KuyumHesap.Application.Features.ReceiptFeature.Commands.Update;
 using KuyumHesap.Application.Features.ReceiptFeature.Queries.GetAll;
 using KuyumHesap.Application.Features.ReceiptFeature.Queries.GetAll.Dtos;
 using KuyumHesap.Application.Features.ReceiptFeature.Queries.GetById;
@@ -160,7 +161,17 @@ namespace KuyumHesap.Persistence.Common.Concrete.Mapping
             // Receipt mappings
             CreateMap<Receipt, CreateReceiptCommandRequest>().ReverseMap();
 
-            CreateMap<Movements, CreateMovementReceiptRequestDto>().ReverseMap();
+            // Map UpdateReceiptCommandRequest -> Receipt but ignore Movements here because movements
+            // are handled explicitly in the update handler to avoid EF tracking issues.
+            CreateMap<UpdateReceiptCommandRequest, Receipt>()
+                .ForMember(d => d.Movements, opt => opt.Ignore())
+                .ReverseMap();
+
+            // Explicit mapping between DTO.MovementId and entity.Id to preserve incoming IDs on update
+            CreateMap<CreateMovementReceiptRequestDto, Movements>()
+                .ForMember(d => d.Id, opt => opt.MapFrom(s => s.MovementId))
+                .ReverseMap()
+                .ForMember(d => d.MovementId, opt => opt.MapFrom(s => s.Id));
 
             CreateMap<Movements, Movements>().ReverseMap();
 

@@ -1,6 +1,5 @@
 using KuyumHesap.Application.Common.Models;
 using KuyumHesap.Application.Common.Models.Dtos;
-using KuyumHesap.Domain.Entities;
 using MediatR;
 
 namespace KuyumHesap.Application.Features.ReceiptFeature.Commands.Update
@@ -19,8 +18,7 @@ namespace KuyumHesap.Application.Features.ReceiptFeature.Commands.Update
         /// <summary>
         /// Cari Hesap Id
         /// </summary>
-        public int CurrentAccountId { get; set; }
-
+        public int AccountId { get; set; }
         /// <summary>
         /// Personel Id Bilgisi
         /// </summary>
@@ -41,12 +39,6 @@ namespace KuyumHesap.Application.Features.ReceiptFeature.Commands.Update
         /// Açık Hesap Tutarı
         /// </summary>
         public decimal? OpenBalanceAmount { get; set; }
-        
-        /// <summary>
-        /// Ana Hesap ID
-        /// </summary>
-        public int AccountId { get; set; }
-
-        public List<CreateMovementReceiptRequestDto> UpdateMovementReceiptRequestDtos { get; set; }
+        public List<CreateMovementReceiptRequestDto> CreateMovementReceiptRequestDtos { get; set; }
     }
 }

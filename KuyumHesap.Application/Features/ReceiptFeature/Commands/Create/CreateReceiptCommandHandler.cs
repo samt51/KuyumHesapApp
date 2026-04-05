@@ -17,10 +17,12 @@ namespace KuyumHesap.Application.Features.ReceiptFeature.Commands.Create
 
         public async Task<ResponseDto<CreateReceiptCommandResponse>> Handle(CreateReceiptCommandRequest request, CancellationToken cancellationToken)
         {
+
+            await unitOfWork.OpenTransactionAsync(cancellationToken);
+        
             // Request'i tek çaðrýda Receipt entity'sine map et
             var receipt = mapper.Map<Receipt, CreateReceiptCommandRequest>(request);
 
-            await unitOfWork.OpenTransactionAsync(cancellationToken);
 
             receipt.CreatedByUserId = 1;
 
