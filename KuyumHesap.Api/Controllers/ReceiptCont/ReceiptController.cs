@@ -42,11 +42,6 @@ namespace KuyumHesap.Api.Controllers.ReceiptCont
         {
             return await _mediator.Send(request, token);
         }
-        [HttpDelete("{id}")]
-        public async Task<ResponseDto<DeleteReceiptCommandResponse>> DeleteAsync(int id, CancellationToken token)
-        {
-            return await _mediator.Send(new DeleteReceiptCommandRequest(id), token);
-        }
 
         [HttpGet("{id}")]
         public async Task<ResponseDto<GetByIdReceiptQueryResponse>> GetByIdAsync(int id, CancellationToken token)
@@ -65,6 +60,11 @@ namespace KuyumHesap.Api.Controllers.ReceiptCont
         public async Task<ResponseDto<List<GetReceiptByCustomerIdAndDatesResponse>>> GetReceiptByCustomerAndDate(GetReceiptByCustomerIdAndDatesRequest request, CancellationToken token)
         {
             return await _mediator.Send(request, token);
+        }
+        [HttpDelete("{receiptId}")]
+        public async Task<ResponseDto<DeleteReceiptCommandResponse>> DeleteAsync(int receiptId, CancellationToken token)
+        {
+            return await _mediator.Send(new DeleteReceiptCommandRequest(receiptId), token);
         }
     }
 }

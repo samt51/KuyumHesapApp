@@ -116,5 +116,7 @@ namespace KuyumHesap.Application.Common.Models.Dtos
         /// Toplam işçilik tutarı
         /// </summary>
         public decimal? TotalLaborCost { get; set; }
+
+        public bool IsDeleted { get; set; }
     }
 }

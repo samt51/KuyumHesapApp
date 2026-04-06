@@ -51,6 +51,7 @@ using KuyumHesap.Application.Features.UserFeature.Queries.GetAll;
 using KuyumHesap.Application.Features.UserFeature.Queries.GetById;
 using KuyumHesap.Application.Features.SettingFeature.Queries.GetAll;
 using KuyumHesap.Domain.Entities;
+using KuyumHesap.Application.Features.AccountTypeFeature.Command.Create;
 
 namespace KuyumHesap.Persistence.Common.Concrete.Mapping
 {
@@ -64,6 +65,8 @@ namespace KuyumHesap.Persistence.Common.Concrete.Mapping
 
             CreateMap<Currency, CurrencyResponseDto>().ReverseMap();
             CreateMap<StockGroup, StockGroupResponseDto>().ReverseMap();
+            // Mapping for creating AccountType from request
+            CreateMap<CreateAccountTypeCommandRequest, AccountType>().ReverseMap();
             CreateMap<AccountType, GetAllAccountTypeQueryResponse>().ReverseMap();
             CreateMap<AccountType, GetByIdAccountTypeQueryResponse>().ReverseMap();
             CreateMap<Account, CreateAccountCommandRequest>().ReverseMap();

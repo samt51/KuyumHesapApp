@@ -6,6 +6,7 @@ using KuyumHesap.Application.Features.MovementFeature.Dtos;
 using KuyumHesap.Domain.Entities;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using System.Linq;
 
 namespace KuyumHesap.Application.Features.ReceiptFeature.Queries.GetById
 {
@@ -23,7 +24,7 @@ namespace KuyumHesap.Application.Features.ReceiptFeature.Queries.GetById
                 include: q => q
                     .Include(r => r.Account)
                         .ThenInclude(a => a.AccountType)
-                    .Include(r => r.Movements)
+                    .Include(r => r.Movements.Where(y=>!y.IsDeleted))
                         .ThenInclude(m => m.Account)
                             .ThenInclude(a => a.AccountType)
                     .Include(r => r.Movements)

@@ -4,6 +4,7 @@ using KuyumHesap.Application.Common.Abstractions.UnitOfWorks;
 using KuyumHesap.Application.Common.Models;
 using KuyumHesap.Domain.Entities;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 
 namespace KuyumHesap.Application.Features.ReceiptFeature.Commands.Delete
 {
@@ -15,21 +16,17 @@ namespace KuyumHesap.Application.Features.ReceiptFeature.Commands.Delete
 
         public async Task<ResponseDto<DeleteReceiptCommandResponse>> Handle(DeleteReceiptCommandRequest request, CancellationToken cancellationToken)
         {
-            var movementData = await unitOfWork.GetReadRepository<Movements>().GetAllAsync(y => !y.IsDeleted && y.ReceiptId == request.Id);
+            var data = await unitOfWork.GetReadRepository<Receipt>().GetAsync(c => !c.IsDeleted && c.Id == request.Id,
+                include: y => y.Include(y => y.Movements));
 
-            foreach (var item in movementData)
-            {
-                item.IsDeleted = true;
-                await unitOfWork.GetWriteRepository<Movements>().UpdateAsync(item);
-            }
 
-            var receiptData = await unitOfWork.GetReadRepository<Receipt>().GetAsync(x => !x.IsDeleted && x.Id == request.Id);
+            data.IsDeleted = true;
 
-            receiptData.IsDeleted = true;
-
-            await unitOfWork.GetWriteRepository<Receipt>().UpdateAsync(receiptData);
+            data.Movements.ForEach(m => m.IsDeleted = true);
 
             await unitOfWork.OpenTransactionAsync(cancellationToken);
+
+            await unitOfWork.GetWriteRepository<Receipt>().UpdateAsync(data);
 
             await unitOfWork.SaveAsync(cancellationToken);
 
