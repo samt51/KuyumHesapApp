@@ -8,6 +8,7 @@ using KuyumHesap.Application.Features.AccountFeature.Command.Update;
 using KuyumHesap.Application.Features.AccountFeature.Queries.CheckSoftDuplicate;
 using KuyumHesap.Application.Features.AccountFeature.Queries.GetAll;
 using KuyumHesap.Application.Features.AccountFeature.Queries.GetById;
+using KuyumHesap.Application.Features.AccountTypeFeature.Command.Create;
 using KuyumHesap.Application.Features.AccountTypeFeature.Queries.GetAll;
 using KuyumHesap.Application.Features.AccountTypeFeature.Queries.GetById;
 using KuyumHesap.Application.Features.BarcodeFeature.Queries.GetPacker;
@@ -35,6 +36,7 @@ using KuyumHesap.Application.Features.ReceiptFeature.Queries.GetById;
 using KuyumHesap.Application.Features.ReceiptFeature.Queries.GetEkstreByCustomerId;
 // Added namespaces for the target response types
 using KuyumHesap.Application.Features.ReceiptFeature.Queries.GetReceiptByCustomerIdAndDates;
+using KuyumHesap.Application.Features.SettingFeature.Queries.GetAll;
 using KuyumHesap.Application.Features.StockFeature.Commands.Create;
 using KuyumHesap.Application.Features.StockFeature.Commands.Update;
 using KuyumHesap.Application.Features.StockFeature.Queries.GetAll;
@@ -46,12 +48,14 @@ using KuyumHesap.Application.Features.StockTypeFeature.Queries.GetById;
 using KuyumHesap.Application.Features.TaskItemFeature.Queries.GetAll;
 using KuyumHesap.Application.Features.TaskItemFeature.Queries.GetAllMyTask;
 using KuyumHesap.Application.Features.TaskItemFeature.Queries.GetById;
+using KuyumHesap.Application.Features.UserFeature.Commands.Create;
+using KuyumHesap.Application.Features.UserFeature.Commands.Roles.Update;
 using KuyumHesap.Application.Features.UserFeature.Dtos;
 using KuyumHesap.Application.Features.UserFeature.Queries.GetAll;
 using KuyumHesap.Application.Features.UserFeature.Queries.GetById;
-using KuyumHesap.Application.Features.SettingFeature.Queries.GetAll;
+using KuyumHesap.Application.Features.UserFeature.Queries.Roles.GetAll;
+using KuyumHesap.Application.Features.UserFeature.Queries.Roles.GetById;
 using KuyumHesap.Domain.Entities;
-using KuyumHesap.Application.Features.AccountTypeFeature.Command.Create;
 
 namespace KuyumHesap.Persistence.Common.Concrete.Mapping
 {
@@ -137,7 +141,7 @@ namespace KuyumHesap.Persistence.Common.Concrete.Mapping
             CreateMap<Users, GetByIdUserQueryResponse>()
 .ForMember(d => d.RoleResponseDto, opt => opt.MapFrom(s => s.Role));
 
-    
+
 
 
             CreateMap<StockType, StockTypeResponseDto>()
@@ -158,8 +162,8 @@ namespace KuyumHesap.Persistence.Common.Concrete.Mapping
 
             CreateMap<BarcodeDetail, BarcodeDetailResponseDto>().ReverseMap();
 
-//            CreateMap<BarcodeHeader, GetByIdBarcodeHeaderQueryResponse>()
-//.ForMember(d => d.barcodedetails, opt => opt.MapFrom(s => s.BarcodeDetails));
+            //            CreateMap<BarcodeHeader, GetByIdBarcodeHeaderQueryResponse>()
+            //.ForMember(d => d.barcodedetails, opt => opt.MapFrom(s => s.BarcodeDetails));
 
             // Receipt mappings
             CreateMap<Receipt, CreateReceiptCommandRequest>().ReverseMap();
@@ -215,6 +219,13 @@ namespace KuyumHesap.Persistence.Common.Concrete.Mapping
 
             CreateMap<GetUpdatedDailyCureResponse, DailyCureDataDto.Data>().ReverseMap();
             CreateMap<Setting, GetAllSettingQueryResponse>().ReverseMap();
+
+            CreateMap<GetAllRolesQueryResponse, Roles>().ReverseMap();
+
+            CreateMap<GetByIdRolesQueryResponse, Roles>().ReverseMap();
+
+            CreateMap<UpdateRolesCommandRequest, Roles>().ReverseMap();
+            CreateMap<CreateUserCommandRequest, Roles>().ReverseMap();
         }
     }
 }

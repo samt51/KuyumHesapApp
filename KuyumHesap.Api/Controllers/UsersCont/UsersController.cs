@@ -1,9 +1,13 @@
 ﻿using KuyumHesap.Api.Common.Cont;
 using KuyumHesap.Application.Common.Models;
 using KuyumHesap.Application.Features.UserFeature.Commands.Create;
+using KuyumHesap.Application.Features.UserFeature.Commands.Roles.Create;
+using KuyumHesap.Application.Features.UserFeature.Commands.Roles.Update;
 using KuyumHesap.Application.Features.UserFeature.Commands.Update;
 using KuyumHesap.Application.Features.UserFeature.Queries.GetAll;
 using KuyumHesap.Application.Features.UserFeature.Queries.GetById;
+using KuyumHesap.Application.Features.UserFeature.Queries.Roles.GetAll;
+using KuyumHesap.Application.Features.UserFeature.Queries.Roles.GetById;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -36,5 +40,27 @@ namespace KuyumHesap.Api.Controllers.UsersCont
         {
             return await _mediator.Send(request, token);
         }
+
+        [HttpGet]
+        public async Task<ResponseDto<List<GetAllRolesQueryResponse>>> GetAllRolesAsync(CancellationToken cancellationToken)
+        {
+            return await _mediator.Send(new GetAllRolesQueryRequest(), cancellationToken);
+        }
+        [HttpGet("{id}")]
+        public async Task<ResponseDto<GetByIdRolesQueryResponse>> GetByIdRoleAsync(int id, CancellationToken token)
+        {
+            return await _mediator.Send(new GetByIdRolesQueryRequest(id), token);
+        }
+        [HttpPost]
+        public async Task<ResponseDto<CreateRolesCommandResponse>> CreateRoleAsync(CreateRolesCommandRequest request, CancellationToken token)
+        {
+            return await _mediator.Send(request, token);
+        }
+        [HttpPut]
+        public async Task<ResponseDto<UpdateRolesCommandResponse>> UpdateRoleAsync(UpdateRolesCommandRequest request, CancellationToken token)
+        {
+            return await _mediator.Send(request, token);
+        }
+
     }
 }

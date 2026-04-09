@@ -52,7 +52,8 @@ ReceiptAccounId,
 ReceiptAccountName,
 ReceiptAccounTypeName,
 TransactionTypeId,
- CAST(ISNULL(IsCustomerReceipt, 0) AS bit)    AS IsCustomerReceipt
+ CAST(ISNULL(IsCustomerReceipt, 0) AS bit)    AS IsCustomerReceipt,
+AccountName
 FROM dbo.vw_HesapEkstresi
 ORDER BY ReceiptDate, MovementId;
 
@@ -65,24 +66,37 @@ ORDER BY ReceiptDate, MovementId;
             return rows;
         }
 
-        public async Task<List<GetBalanceAndCurrencyCodeFromView>> GetBalanceAndCurrencyCodeByAccountId(int accountId, DateTime start, CancellationToken ct)
+        public async Task<List<GetBalanceAndCurrencyCodeFromView>> GetBalanceAndCurrencyCodeByAccountId(
+      int accountId,
+      DateTime start,
+      CancellationToken ct)
         {
             var sql = @"
-						 SELECT 
+SELECT 
     BalanceUnit AS DovizKodu,
-    SUM(CASE WHEN IsEntry = 1 THEN BalanceEffectAmount ELSE -BalanceEffectAmount END) AS Balance
+    SUM(CASE WHEN IsEntry = 1 THEN BalanceEffectAmount ELSE -BalanceEffectAmount END) AS Balance,
+    AccountId
 FROM vw_HesapEkstresi
-WHERE AccountId = {0} AND ReceiptDate < {1}
-GROUP BY BalanceUnit;";
+WHERE AccountId = @accountId AND ReceiptDate < @start
+GROUP BY BalanceUnit, AccountId;";
 
-            var rows = await _context.Database.SqlQueryRaw<GetBalanceAndCurrencyCodeFromView>(sql, accountId, start).ToListAsync(ct);
+            var param1 = new SqlParameter("@accountId", SqlDbType.Int) { Value = accountId };
+            var param2 = new SqlParameter("@start", SqlDbType.DateTime) { Value = start };
+
+            var rows = await _context.Database
+                .SqlQueryRaw<GetBalanceAndCurrencyCodeFromView>(sql, param1, param2)
+                .ToListAsync(ct);
 
             return rows;
         }
 
         public async Task<List<AccountStatementViewResponseModel>> GetViewByAccountIdaAndStartBetweenEndDate(int accountId, DateTime start, DateTime end, int isCustomerReceipt, CancellationToken ct)
         {
-            var sql = @"SELECT
+            try
+            {
+
+
+                var sql = @"SELECT
     MovementId,
     ReceiptId,
     ReceiptDate,
@@ -115,53 +129,79 @@ ReceiptAccounId,
 ReceiptAccountName,
 ReceiptAccounTypeName,
 TransactionTypeId,
- CAST(ISNULL(IsCustomerReceipt, 0) AS bit)    AS IsCustomerReceipt
+ CAST(ISNULL(IsCustomerReceipt, 0) AS bit)    AS IsCustomerReceipt,
+ AccountName
 FROM dbo.vw_HesapEkstresi
 WHERE AccountId = {0} AND ReceiptDate BETWEEN {1} AND {2} AND IsCustomerReceipt ={3}
 ORDER BY ReceiptDate, MovementId;";
 
-            var rows = await _context.Database.SqlQueryRaw<AccountStatementViewResponseModel>(sql, accountId, start, end, isCustomerReceipt).ToListAsync(ct);
+                var rows = await _context.Database.SqlQueryRaw<AccountStatementViewResponseModel>(sql, accountId, start, end, isCustomerReceipt).ToListAsync(ct);
 
-            return rows;
+                return rows;
+            }
+            catch (Exception ex)
+            {
+
+                throw;
+            }
         }
-        public async Task<List<GetBalanceAndCurrencyCodeFromView>> GetViewByAccountIds(int[] accountId, DateTime start, DateTime end, CancellationToken ct)
-        {
-            // Eğer accountId boş ise boş liste döndür
-            if (accountId == null || accountId.Length == 0)
-                return new List<GetBalanceAndCurrencyCodeFromView>();
-
-            // accountId int[] sunucu tarafından geldiği varsayılarak güvenli şekilde virgülle birleştiriyoruz.
-            // Eğer bu input dış kaynaklı ise SQL injection riski açısından TVP veya parametrized approach kullanın.
-            var ids = string.Join(",", accountId.Select(i => i.ToString()));
-
-            var sql = $@"
-						 SELECT 
-    BalanceUnit AS DovizKodu,
-    SUM(CASE WHEN IsEntry = 1 THEN BalanceEffectAmount ELSE -BalanceEffectAmount END) AS Balance
-FROM vw_HesapEkstresi
-WHERE AccountId IN ({ids}) AND ReceiptDate < @start
-GROUP BY BalanceUnit;";
-
-            var param = new SqlParameter("@start", SqlDbType.DateTime) { Value = start };
-
-            var rows = await _context.Database.SqlQueryRaw<GetBalanceAndCurrencyCodeFromView>(sql, param).ToListAsync(ct);
-
-            return rows;
-        }
-        public async Task<List<AccountStatementViewResponseModel>> GetViewByAccountIdsBetweenDate(
-       int[] accountId,
+        public async Task<List<GetBalanceAndCurrencyCodeFromView>> GetViewByAccountIds(
+       int[] accountIds,
        DateTime start,
        DateTime end,
        CancellationToken ct)
         {
-            if (accountId == null || accountId.Length == 0)
+            if (accountIds == null || accountIds.Length == 0)
+                return new List<GetBalanceAndCurrencyCodeFromView>();
+
+            var accountIdParameters = accountIds
+                .Select((id, index) => new SqlParameter($"@accountId{index}", SqlDbType.Int) { Value = id })
+                .ToArray();
+
+            var inClause = string.Join(", ", accountIdParameters.Select(p => p.ParameterName));
+
+            var sql = $@"
+        SELECT 
+            BalanceUnit AS DovizKodu,
+            SUM(CASE WHEN IsEntry = 1 THEN BalanceEffectAmount ELSE -BalanceEffectAmount END) AS Balance,
+            AccountId
+        FROM vw_HesapEkstresi
+        WHERE AccountId IN ({inClause})
+          AND ReceiptDate < @start
+        GROUP BY BalanceUnit, AccountId;";
+
+            var startParameter = new SqlParameter("@start", SqlDbType.DateTime)
+            {
+                Value = start
+            };
+
+            var parameters = accountIdParameters
+                .Cast<object>()
+                .Append(startParameter)
+                .ToArray();
+
+            var rows = await _context.Database
+                .SqlQueryRaw<GetBalanceAndCurrencyCodeFromView>(sql, parameters)
+                .ToListAsync(ct);
+
+            return rows;
+        }
+
+
+        public async Task<List<AccountStatementViewResponseModel>> GetViewByAccountIdsBetweenDate(
+    int[] accountIds,
+    DateTime start,
+    DateTime end,
+    CancellationToken ct)
+        {
+            if (accountIds == null || accountIds.Length == 0)
                 return new List<AccountStatementViewResponseModel>();
 
-            // AccountId placeholderları: {0}, {1}, {2} ...
-            // accountId int[] sunucu tarafından geldiği varsayılarak güvenli şekilde virgülle birleştiriyoruz.
-            // Eğer bu input dış kaynaklı ise SQL injection riski açısından TVP veya parametrized approach kullanın.
-            var ids = string.Join(",", accountId.Select(i => i.ToString()));
+            var accountIdParameters = accountIds
+                .Select((id, index) => new SqlParameter($"@accountId{index}", SqlDbType.Int) { Value = id })
+                .ToArray();
 
+            var inClause = string.Join(", ", accountIdParameters.Select(p => p.ParameterName));
 
             var sql = $@"
 SELECT
@@ -197,20 +237,29 @@ SELECT
     ReceiptAccountName,
     ReceiptAccounTypeName,
     TransactionTypeId,
- CAST(ISNULL(IsCustomerReceipt, 0) AS bit)    AS IsCustomerReceipt
+    CAST(ISNULL(IsCustomerReceipt, 0) AS bit) AS IsCustomerReceipt,
+    AccountName
 FROM dbo.vw_HesapEkstresi
-WHERE AccountId IN (" + ids + @")
+WHERE AccountId IN ({inClause})
   AND ReceiptDate BETWEEN @start AND @end
 ORDER BY ReceiptDate, MovementId;";
 
             var paramStart = new SqlParameter("@start", SqlDbType.DateTime) { Value = start };
             var paramEnd = new SqlParameter("@end", SqlDbType.DateTime) { Value = end };
 
+            var parameters = accountIdParameters
+                .Cast<object>()
+                .Append(paramStart)
+                .Append(paramEnd)
+                .ToArray();
+
             var rows = await _context.Database
-                .SqlQueryRaw<AccountStatementViewResponseModel>(sql, paramStart, paramEnd)
+                .SqlQueryRaw<AccountStatementViewResponseModel>(sql, parameters)
                 .ToListAsync(ct);
 
             return rows;
         }
+
+
     }
 }

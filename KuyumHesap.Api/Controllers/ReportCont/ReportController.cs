@@ -1,16 +1,12 @@
 ﻿using KuyumHesap.Api.Common.Cont;
 using KuyumHesap.Application.Common.Models;
-using KuyumHesap.Application.Common.Models.Dtos;
 using KuyumHesap.Application.Features.ReportFeature.Queries.GetAccountStatement;
 using KuyumHesap.Application.Features.ReportFeature.Queries.GetAllReports;
-using KuyumHesap.Application.Features.ReportFeature.Queries.GetBankBalance;
 using KuyumHesap.Application.Features.ReportFeature.Queries.GetBankReport;
 using KuyumHesap.Application.Features.ReportFeature.Queries.GetCashReport;
-using KuyumHesap.Application.Features.ReportFeature.Queries.GetPosBalance;
 using KuyumHesap.Application.Features.ReportFeature.Queries.GetPosReport;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using static KuyumHesap.Application.Features.ReceiptFeature.Queries.GetEkstreByCustomerId.GetEkstreByCustomerIdHandler;
 
 namespace KuyumHesap.Api.Controllers.ReportCont
 {
@@ -37,29 +33,19 @@ namespace KuyumHesap.Api.Controllers.ReportCont
             return await _mediator.Send(new GetAllReportQueryRequest(hesapId));
         }
         [HttpGet]
-        public async Task<ResponseDto<EkstreViewModel>> GetCashReportAsync()
+        public async Task<ResponseDto<GetCashReportQueryResponse>> GetCashReportAsync()
         {
             return await _mediator.Send(new GetCashReportQueryRequest());
         }
-        [HttpGet("bankalar-bakiye")]
-        public async Task<ResponseDto<GetBankBalanceQueryResponse>> GetBankBalanceAsync(CancellationToken token)
+        [HttpGet]
+        public async Task<ResponseDto<GetPosReportQueryResponse>> GetPosReportAsync()
         {
-            return await _mediator.Send(new GetBankBalanceQueryRequest(), token);
+            return await _mediator.Send(new GetPosReportQueryRequest());
         }
-        [HttpGet("poslar-bakiye")]
-        public async Task<ResponseDto<GetPosBalanceQueryResponse>> GetPoslarBakiye(CancellationToken token)
+        [HttpGet]
+        public async Task<ResponseDto<GetBankReportQueryResponse>> GetBankReportAsync()
         {
-            return await _mediator.Send(new GetPosBalanceQueryRequest(), token);
-        }
-        [HttpGet("bankalar-raporu")]
-        public async Task<ResponseDto<GetBankReportQueryResponse>> GetBankRaporu([FromQuery] int hesapId, CancellationToken token)
-        {
-            return await _mediator.Send(new GetBankReportQueryRequest(hesapId), token);
-        }
-        [HttpGet("poslar-raporu")]
-        public async Task<ResponseDto<GetPosReportQueryResponse>> GetPoslarRaporu([FromQuery] int hesapId, CancellationToken token)
-        {
-            return await _mediator.Send(new GetPosReportQueryRequest(hesapId), token);
+            return await _mediator.Send(new GetBankReportQueryRequest());
         }
 
     }

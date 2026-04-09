@@ -15,9 +15,11 @@ SELECT
     f.Id as ReceiptId,
     f.ReceiptDate as ReceiptDate,
     h.AccountId as AccountId,
+    hs.AccountName as AccountName,
     ht.TransactionName AS TransactionName,
     ISNULL(CASE 
-        WHEN h.StockId IS NOT NULL THEN h.Quantity 
+        WHEN h.StockId IS NOT
+        NULL THEN h.Quantity 
         ELSE h.ForeignCurrencyAmount 
     END, 0) AS Quantity,
     ISNULL(d.CurrencyCode, '') AS Unit,

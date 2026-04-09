@@ -7,6 +7,7 @@
         public DateTime ReceiptDate { get; set; }
         public int AccountId { get; set; }
         public string TransactionName { get; set; } = string.Empty;
+        public string AccountName { get; set; }
         public decimal Quantity { get; set; }
         public string Unit { get; set; } = string.Empty;
         public decimal Rate { get; set; }

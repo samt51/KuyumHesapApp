@@ -41,17 +41,7 @@ namespace KuyumHesap.Application.Features.ReceiptFeature.Queries.GetEkstreByCust
                 CurrencyCode = b.DovizKodu,
                 Balance = b.Balance
             }).ToList();
-
-            try
-            {
-
-                totalBalance = await _accountStatementQuery.GetAsync(cancellationToken);
-            }
-            catch (Exception ex)
-            {
-
-                throw;
-            }
+ 
 
 
 
@@ -101,8 +91,8 @@ namespace KuyumHesap.Application.Features.ReceiptFeature.Queries.GetEkstreByCust
             }
 
             var bakiyeTakip = devredenBalance.ToDictionary(b => b.DovizKodu, b => b.Balance);
-
-            listEkstre = listEkstre.OrderByDescending(x => x.ReceiptDate).ToList();
+            filteredEkstre = filteredEkstre.OrderBy(c=>c.MovementId).ToList();
+    
             foreach (var hareket in listEkstre)
             {
                 string bakiyeBirimi = hareket.CounterUnit;

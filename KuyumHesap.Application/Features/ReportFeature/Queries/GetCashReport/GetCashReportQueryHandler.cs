@@ -3,14 +3,13 @@ using KuyumHesap.Application.Common.Abstractions.Mapper;
 using KuyumHesap.Application.Common.Abstractions.SqlViewAndFuncQuery;
 using KuyumHesap.Application.Common.Abstractions.UnitOfWorks;
 using KuyumHesap.Application.Common.Models;
-using KuyumHesap.Application.Common.Models.Dtos.SqlResponse;
 using KuyumHesap.Domain.Entities;
 using MediatR;
 using static KuyumHesap.Application.Features.ReceiptFeature.Queries.GetEkstreByCustomerId.GetEkstreByCustomerIdHandler;
 
 namespace KuyumHesap.Application.Features.ReportFeature.Queries.GetCashReport
 {
-    public class GetCashReportQueryHandler : BaseHandler, IRequestHandler<GetCashReportQueryRequest, ResponseDto<EkstreViewModel>>
+    public class GetCashReportQueryHandler : BaseHandler, IRequestHandler<GetCashReportQueryRequest, ResponseDto<GetCashReportQueryResponse>>
     {
         private readonly IAccountStatementQuery _accountStatementQuery;
         public GetCashReportQueryHandler(IAccountStatementQuery accountStatementQuery, IMapper mapper, IUnitOfWork unitOfWork) : base(mapper, unitOfWork)
@@ -18,11 +17,11 @@ namespace KuyumHesap.Application.Features.ReportFeature.Queries.GetCashReport
             _accountStatementQuery = accountStatementQuery;
         }
 
-        public async Task<ResponseDto<EkstreViewModel>> Handle(GetCashReportQueryRequest request, CancellationToken cancellationToken)
+        public async Task<ResponseDto<GetCashReportQueryResponse>> Handle(GetCashReportQueryRequest request, CancellationToken cancellationToken)
         {
-            var ekstre = new EkstreViewModel();
-            // Önce view'den extre verilerini çek
-            List<AccountStatementViewResponseModel> totalBalance;
+            var ekstre = new GetCashReportQueryResponse();
+            var responseItem = new List<GetCashReportItemResponse>();
+            var items = new GetCashReportItemResponse();
 
             var baslangic = Convert.ToDateTime("1970-01-01");
             var bitis = Convert.ToDateTime("31.12.9999 00:00:00");// Bitiş tarihini gün sonu olarak ayarla
@@ -30,15 +29,21 @@ namespace KuyumHesap.Application.Features.ReportFeature.Queries.GetCashReport
             var cachAccoundIds = accountByCach.Select(x => x.Id).ToArray();
             // Hesap ve tarih filtresi: istenen müşterinin, endDate öncesi kayıtları
             var devredenBalance = await _accountStatementQuery.GetViewByAccountIds(cachAccoundIds, baslangic, bitis, cancellationToken);
-            ekstre.DevredenBakiyeler = devredenBalance.Select(b => new EkstreBakiyeViewModel
+            foreach (var item in accountByCach)
             {
-                CurrencyCode = b.DovizKodu,
-                Balance = b.Balance
-            }).ToList();
+                items = new();
+                items.AccountId = item.Id;
+                items.AccountName = item.AccountName;
+                items.DevredenBakiyeler = devredenBalance.Where(c => c.AccountId == item.Id).Select(b => new EkstreBakiyeViewModel
+                {
+                    CurrencyCode = b.DovizKodu,
+                    Balance = b.Balance
+                }).ToList();
+                items.Hareketler = new List<EkstreSatirViewModel>();
+                responseItem.Add(items);
+            }
 
-            totalBalance = await _accountStatementQuery.GetAsync(cancellationToken);
-            var filteredEkstre = new List<AccountStatementViewResponseModel>();
-            filteredEkstre = await _accountStatementQuery.GetViewByAccountIdsBetweenDate(cachAccoundIds, baslangic, bitis, cancellationToken);
+            var filteredEkstre = await _accountStatementQuery.GetViewByAccountIdsBetweenDate(cachAccoundIds, baslangic, bitis, cancellationToken);
             var listEkstre = new List<EkstreSatirViewModel>();
 
             var hasQuantity = await unitOfWork.GetReadRepository<ExchangeRate>().GetAsync(c => c.CurrencyId == 1, orderBy: y => y.OrderByDescending(y => y.RateDate));
@@ -70,60 +75,66 @@ namespace KuyumHesap.Application.Features.ReportFeature.Queries.GetCashReport
                     BalanceEffectAmount = item.BalanceEffectAmount,
                     BalanceCurrency = item.BalanceUnit,
                     StockUnit = item.StockUnit,
-                    AccountId = item.ReceiptAccounId,
-                    AccountName = item.ReceiptAccountName,
-                    AccountTypeName = item.ReceiptAccounTypeName,
+                    AccountId = item.AccountId,
+                    AccountName = item.AccountName,
+                    AccountTypeName = item.AccountTypeName,
                     TransactionTypeId = item.TransactionTypeId
                 });
             }
-
-            var bakiyeTakip = devredenBalance.ToDictionary(b => b.DovizKodu, b => b.Balance);
-
-            listEkstre = listEkstre.OrderByDescending(x => x.ReceiptDate).ToList();
-            var hasQuantityRate = hasQuantity.BuyRate;
-            foreach (var hareket in listEkstre)
-            {
-                string bakiyeBirimi = hareket.CounterUnit;
-                decimal bakiyeEtkiMiktari = hareket.BalanceEffectAmount;
-
-                if (string.IsNullOrEmpty(bakiyeBirimi)) continue;
-
-                if (!bakiyeTakip.ContainsKey(bakiyeBirimi)) { bakiyeTakip[bakiyeBirimi] = 0; }
-
-                decimal eskiBakiye = bakiyeTakip[bakiyeBirimi];
-                decimal yeniBakiye = eskiBakiye + (!hareket.IsEntry ? bakiyeEtkiMiktari : -bakiyeEtkiMiktari);
-                bakiyeTakip[bakiyeBirimi] = yeniBakiye;
-
-                hareket.OldBalance = eskiBakiye;
-                hareket.FinalBalance = yeniBakiye;
-                ekstre.Hareketler.Add(hareket);
-            }
             decimal totalHas = 0;
-            // Hareketler bittikten sonra güncel bakiyelerden TotalHas hesapla
-            foreach (var bakiye in bakiyeTakip)
+            foreach (var item in responseItem)
             {
-                if (bakiye.Value < 0)
-                    continue;
-                string dovizKodu = bakiye.Key;
-                decimal tutar = bakiye.Value;
 
-                decimal hasValue = 0;
 
-                if (dovizKodu == "HAS")
+                var dataEkstre = listEkstre.Where(c => c.AccountId == item.AccountId).ToList();
+
+                var bakiyeTakip = item.DevredenBakiyeler.ToDictionary(b => b.CurrencyCode, b => b.Balance);
+                var hasQuantityRate = hasQuantity.BuyRate;
+                foreach (var hareket in dataEkstre)
                 {
-                    hasValue = tutar;
+                    string bakiyeBirimi = hareket.CounterUnit;
+                    decimal bakiyeEtkiMiktari = hareket.BalanceEffectAmount;
+
+                    if (string.IsNullOrEmpty(bakiyeBirimi)) continue;
+
+                    if (!bakiyeTakip.ContainsKey(bakiyeBirimi)) { bakiyeTakip[bakiyeBirimi] = 0; }
+
+                    decimal eskiBakiye = bakiyeTakip[bakiyeBirimi];
+                    decimal yeniBakiye = eskiBakiye + (!hareket.IsEntry ? bakiyeEtkiMiktari : -bakiyeEtkiMiktari);
+                    bakiyeTakip[bakiyeBirimi] = yeniBakiye;
+
+                    hareket.OldBalance = eskiBakiye;
+                    hareket.FinalBalance = yeniBakiye;
+
+                    item.Hareketler.Add(hareket);
                 }
-                else
+                foreach (var bakiye in bakiyeTakip)
                 {
-                    hasValue = (tutar * await GetRate(dovizKodu)) / hasQuantityRate;
+                    if (bakiye.Value < 0)
+                        continue;
+                    string dovizKodu = bakiye.Key;
+                    decimal tutar = bakiye.Value;
+
+                    decimal hasValue = 0;
+
+                    if (dovizKodu == "HAS")
+                    {
+                        hasValue = tutar;
+                    }
+                    else
+                    {
+                        hasValue = (tutar * await GetRate(dovizKodu)) / hasQuantityRate;
+                    }
+
+                    totalHas += hasValue;
+                    item.TotalHas += hasValue;
                 }
 
-                totalHas += hasValue;
             }
-
+            ekstre.Items = responseItem;
             ekstre.TotalHas = Math.Round(totalHas, 2, MidpointRounding.AwayFromZero);
 
-            return new ResponseDto<EkstreViewModel>().Success(ekstre);
+            return new ResponseDto<GetCashReportQueryResponse>().Success(ekstre);
         }
         public async Task<decimal> GetRate(string currencyCode)
         {
