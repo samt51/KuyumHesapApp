@@ -6,6 +6,7 @@ using KuyumHesap.Application.Features.SettingFeature.Queries.GetAll;
 using KuyumHesap.Application.Features.SettingFeature.Queries.CheckTable;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using KuyumHesap.Application.Features.SettingFeature.Command.DeleteAllSystem;
 
 namespace KuyumHesap.Api.Controllers.SettingCont
 {
@@ -39,6 +40,11 @@ namespace KuyumHesap.Api.Controllers.SettingCont
         public async Task<ResponseDto<CheckSettingTableQueryResponse>> CheckTable(CancellationToken token)
         {
             return await _mediator.Send(new CheckSettingTableQueryRequest(), token);
+        }
+        [HttpGet]
+        public async Task<ResponseDto<DeleteAllSystemCommandResponse>> DeleteAllSystem(CancellationToken token)
+        {
+            return await _mediator.Send(new DeleteAllSystemCommandRequest(), token);
         }
     }
 }
