@@ -19,7 +19,7 @@ namespace KuyumHesap.Application.Features.ExchangeFeature.Queries.GetExchangeRat
             var data = await unitOfWork.GetReadRepository<ExchangeRate>().GetAsync(x => x.CurrencyId == request.CurrencyId,
                 orderBy: y => y.OrderByDescending(c => c.CreatedDate));
 
-            var rst = new GetExchangeRateByCurrencyCodeResponse { Result = request.IsEntry ? data?.BuyRate ?? 0 : data.SellRate };
+            var rst = new GetExchangeRateByCurrencyCodeResponse { Result = request.IsEntry ? data?.SellRate ?? 0 : data.BuyRate };
             return new ResponseDto<GetExchangeRateByCurrencyCodeResponse>().Success(rst);
         }
     }
