@@ -9,7 +9,7 @@ namespace KuyumHesap.Domain.Entities
     {
         public Roles()
         {
-            
+
         }
         /// <summary>
         /// Role Name
@@ -24,6 +24,7 @@ namespace KuyumHesap.Domain.Entities
         /// </summary>
         public string Type { get; set; } = string.Empty;
         public List<Users> Users { get; set; }
+        public List<RolePermission> RolePermissions { get; set; }
 
         public Roles(List<Users> users)
         {

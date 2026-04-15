@@ -25,10 +25,12 @@ namespace KuyumHesap.Domain.Entities
         public string? VarsayilanYaziciAdi { get; set; }
         public List<TaskItem> AssignedTasks { get; set; }
         public List<TaskItem> CreatedTasks { get; set; }
-        public Users(List<TaskItem> askItems, List<TaskItem> bskItems)
+        public List<UserPermission> UserPermissions { get; set; }
+        public Users(List<TaskItem> askItems, List<TaskItem> bskItems, List<UserPermission> userPermissions)
         {
             AssignedTasks = askItems;
             CreatedTasks = bskItems;
+            UserPermissions = userPermissions;
         }
     }
 }

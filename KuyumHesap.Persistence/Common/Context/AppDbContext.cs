@@ -39,6 +39,13 @@ namespace KuyumHesap.Persistence.Common.Context
             });
 
 
+            b.Entity<UserPermission>()
+    .HasIndex(x => new { x.UserId, x.PermissionId })
+    .IsUnique();
+
+
+
+
 
         }
         public DbSet<Account> Accounts { get; set; }
@@ -60,6 +67,10 @@ namespace KuyumHesap.Persistence.Common.Context
         public DbSet<Users> Users { get; set; }
         public DbSet<Setting> Settings { get; set; }
         public DbSet<EkstreSatirViewModel> ReceiptViews => Set<EkstreSatirViewModel>();
+        public DbSet<UserPermission> UserPermissions { get; set; }
+        public DbSet<RolePermission> RolePermissions { get; set; }
+        public DbSet<Menu> Menus { get; set; }
+        public DbSet<Permission> Permissions { get; set; }
 
     }
 }
