@@ -17,10 +17,10 @@ namespace KuyumHesap.Application.Features.AuthFeature.Commands.Login
         public async Task<ResponseDto<LoginCommandResponse>> Handle(LoginCommandRequest request, CancellationToken cancellationToken)
         {
 
-            var user = await unitOfWork.GetReadRepository<Users>().GetAsync(x => x.Email == request.Email && x.Password == PasswordHashExtension.HashPassword(request.Password) && !x.IsDeleted,
+            var user = await unitOfWork.GetReadRepository<Users>().GetAsync(x => x.CompanyCode == request.BranchCode && x.UserName == request.UserName && x.Password == PasswordHashExtension.HashPassword(request.Password) && !x.IsDeleted,
                 y => y.Include(x => x.Role));
 
-            var token = await tokenService.GenerateToken(new GenerateTokenRequest(user.Id, user.Email, user.Role.Name));
+            var token = await tokenService.GenerateToken(new GenerateTokenRequest(user.Id, user.UserName, user.RoleId, user.CompanyCode, user.BranchCode));
 
             var tkn = new LoginCommandResponse(token.Token, token.TokenExpireDate);
 

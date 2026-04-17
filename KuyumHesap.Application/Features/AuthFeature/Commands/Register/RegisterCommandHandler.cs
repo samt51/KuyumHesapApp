@@ -15,9 +15,9 @@ namespace KuyumHesap.Application.Features.AuthFeature.Commands.Register
         {
             var user = mapper.Map<Users, RegisterCommandRequest>(request);
 
-            user.RoleId = 1;
+         
 
-            await unitOfWork.GetReadRepository<Users>().GetAsync(y => y.Email == request.Email && !y.IsDeleted);
+            await unitOfWork.GetReadRepository<Users>().FindAsync(y => y.UserName == request.UserName && !y.IsDeleted);
 
             user.Password = PasswordHashExtension.HashPassword(request.Password);
 

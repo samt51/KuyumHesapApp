@@ -28,8 +28,9 @@ namespace KuyumHesap.Persistence.Common.Concrete.Auth
             {
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
                 new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
-                new Claim(JwtRegisteredClaimNames.Email, user.Email),
-                 new Claim(ClaimTypes.Name, user.Email.ToString()),
+                new Claim("userName", user.UserName),
+                 new Claim("companyCode", user.CompanyCode),
+                 new Claim("branchCode", user.BranchCode),
             };
 
             foreach (var role in roles)
@@ -96,10 +97,11 @@ namespace KuyumHesap.Persistence.Common.Concrete.Auth
                 issuer: configuration["JWT:Issuer"],
                 audience: configuration["JWT:Audience"],
                 claims: new List<Claim> {
-                    new Claim("role", roleRequest.Role),
-                    new Claim(ClaimTypes.Email,roleRequest.Email),
+                    new Claim("roleId", roleRequest.RoleId.ToString()),
+                    new Claim("userName",roleRequest.UserName),
                     new Claim("Id",roleRequest.Id.ToString()),
-                    new Claim(ClaimTypes.Name,roleRequest.Email.ToString())
+                    new Claim("companyCode",roleRequest.CompanyCode),
+                    new Claim("branchCode",roleRequest.BranchCode)
 
                 },
                 expires: expiresTime,

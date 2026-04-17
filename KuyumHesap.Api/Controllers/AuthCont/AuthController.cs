@@ -3,6 +3,7 @@ using KuyumHesap.Api.Common.Filters;
 using KuyumHesap.Application.Common.Models;
 using KuyumHesap.Application.Features.AuthFeature.Commands.Login;
 using KuyumHesap.Application.Features.AuthFeature.Commands.Register;
+using KuyumHesap.Application.Features.UserFeature.Commands.Update;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -21,11 +22,17 @@ namespace KuyumHesap.Api.Controllers.AuthCont
         {
             return await _mediator.Send(request);
         }
-        [HttpPost("register")]
+        [HttpPost]
         [SwaggerDescriptionAttirbute("Register")]
         public async Task<ResponseDto<RegisterCommandResponse>> RegisterAsync(RegisterCommandRequest request)
         {
             return await _mediator.Send(request);
+        }
+        [HttpPut]
+        [SwaggerDescriptionAttirbute("Update")]
+        public async Task<ResponseDto<UpdateUserCommandResponse>> UpdateAsync(UpdateUserCommandRequest request, CancellationToken token)
+        {
+            return await _mediator.Send(request, token);
         }
     }
 }

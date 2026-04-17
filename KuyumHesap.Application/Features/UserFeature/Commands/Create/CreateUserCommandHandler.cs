@@ -16,7 +16,7 @@ namespace KuyumHesap.Application.Features.UserFeature.Commands.Create
 
         public async Task<ResponseDto<CreateUserCommandResponse>> Handle(CreateUserCommandRequest request, CancellationToken cancellationToken)
         {
-            var userNotFound = await unitOfWork.GetReadRepository<Users>().FindAsync(x => !x.IsDeleted && x.Email == request.Email);
+            var userNotFound = await unitOfWork.GetReadRepository<Users>().FindAsync(x => !x.IsDeleted && x.UserName == request.UserName);
             if (userNotFound is not null)
             {
                 throw new Exception("Mail adrese uygun hesap bulunmaktadır.");

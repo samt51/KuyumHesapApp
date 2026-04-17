@@ -152,7 +152,7 @@ namespace KuyumHesap.Persistence.Migrations
                             AccountTypeName = "SERMAYELER",
                             BalanceOrder = 100,
                             CreatedByUserId = 1,
-                            CreatedDate = new DateTime(2026, 4, 10, 0, 52, 29, 372, DateTimeKind.Local).AddTicks(9515),
+                            CreatedDate = new DateTime(2026, 4, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             IsActive = true,
                             IsDeleted = false,
                             IsSubBalanceCalculated = true
@@ -163,7 +163,7 @@ namespace KuyumHesap.Persistence.Migrations
                             AccountTypeName = "MÜŞTERİLER",
                             BalanceOrder = 1,
                             CreatedByUserId = 0,
-                            CreatedDate = new DateTime(2026, 4, 10, 0, 52, 29, 372, DateTimeKind.Local).AddTicks(9519),
+                            CreatedDate = new DateTime(2026, 4, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             IsActive = true,
                             IsDeleted = false,
                             IsSubBalanceCalculated = false
@@ -174,7 +174,7 @@ namespace KuyumHesap.Persistence.Migrations
                             AccountTypeName = "TOPTANCILAR",
                             BalanceOrder = 2,
                             CreatedByUserId = 0,
-                            CreatedDate = new DateTime(2026, 4, 10, 0, 52, 29, 372, DateTimeKind.Local).AddTicks(9521),
+                            CreatedDate = new DateTime(2026, 4, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             IsActive = true,
                             IsDeleted = false,
                             IsSubBalanceCalculated = false
@@ -185,7 +185,7 @@ namespace KuyumHesap.Persistence.Migrations
                             AccountTypeName = "ATÖLYELER",
                             BalanceOrder = 3,
                             CreatedByUserId = 0,
-                            CreatedDate = new DateTime(2026, 4, 10, 0, 52, 29, 372, DateTimeKind.Local).AddTicks(9522),
+                            CreatedDate = new DateTime(2026, 4, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             IsActive = true,
                             IsDeleted = false,
                             IsSubBalanceCalculated = false
@@ -196,7 +196,7 @@ namespace KuyumHesap.Persistence.Migrations
                             AccountTypeName = "BANKALAR",
                             BalanceOrder = 4,
                             CreatedByUserId = 0,
-                            CreatedDate = new DateTime(2026, 4, 10, 0, 52, 29, 372, DateTimeKind.Local).AddTicks(9524),
+                            CreatedDate = new DateTime(2026, 4, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             IsActive = true,
                             IsDeleted = false,
                             IsSubBalanceCalculated = false
@@ -207,7 +207,7 @@ namespace KuyumHesap.Persistence.Migrations
                             AccountTypeName = "POSLAR",
                             BalanceOrder = 5,
                             CreatedByUserId = 0,
-                            CreatedDate = new DateTime(2026, 4, 10, 0, 52, 29, 372, DateTimeKind.Local).AddTicks(9525),
+                            CreatedDate = new DateTime(2026, 4, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             IsActive = true,
                             IsDeleted = false,
                             IsSubBalanceCalculated = false
@@ -218,7 +218,7 @@ namespace KuyumHesap.Persistence.Migrations
                             AccountTypeName = "KASALAR",
                             BalanceOrder = 6,
                             CreatedByUserId = 0,
-                            CreatedDate = new DateTime(2026, 4, 10, 0, 52, 29, 372, DateTimeKind.Local).AddTicks(9526),
+                            CreatedDate = new DateTime(2026, 4, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             IsActive = true,
                             IsDeleted = false,
                             IsSubBalanceCalculated = false
@@ -229,7 +229,7 @@ namespace KuyumHesap.Persistence.Migrations
                             AccountTypeName = "GİDER/GELİR",
                             BalanceOrder = 7,
                             CreatedByUserId = 0,
-                            CreatedDate = new DateTime(2026, 4, 10, 0, 52, 29, 372, DateTimeKind.Local).AddTicks(9527),
+                            CreatedDate = new DateTime(2026, 4, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             IsActive = true,
                             IsDeleted = false,
                             IsSubBalanceCalculated = true
@@ -240,7 +240,7 @@ namespace KuyumHesap.Persistence.Migrations
                             AccountTypeName = "İSKONTOLAR",
                             BalanceOrder = 8,
                             CreatedByUserId = 0,
-                            CreatedDate = new DateTime(2026, 4, 10, 0, 52, 29, 372, DateTimeKind.Local).AddTicks(9528),
+                            CreatedDate = new DateTime(2026, 4, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             IsActive = true,
                             IsDeleted = false,
                             IsSubBalanceCalculated = true
@@ -251,7 +251,7 @@ namespace KuyumHesap.Persistence.Migrations
                             AccountTypeName = "KAR/ZARAR",
                             BalanceOrder = 9,
                             CreatedByUserId = 0,
-                            CreatedDate = new DateTime(2026, 4, 10, 0, 52, 29, 372, DateTimeKind.Local).AddTicks(9529),
+                            CreatedDate = new DateTime(2026, 4, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             IsActive = true,
                             IsDeleted = false,
                             IsSubBalanceCalculated = true
@@ -262,7 +262,7 @@ namespace KuyumHesap.Persistence.Migrations
                             AccountTypeName = "DEMİRBAŞLAR",
                             BalanceOrder = 10,
                             CreatedByUserId = 0,
-                            CreatedDate = new DateTime(2026, 4, 10, 0, 52, 29, 372, DateTimeKind.Local).AddTicks(9530),
+                            CreatedDate = new DateTime(2026, 4, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             IsActive = true,
                             IsDeleted = false,
                             IsSubBalanceCalculated = false
@@ -273,7 +273,7 @@ namespace KuyumHesap.Persistence.Migrations
                             AccountTypeName = "ÖZELHESAPLAR",
                             BalanceOrder = 11,
                             CreatedByUserId = 0,
-                            CreatedDate = new DateTime(2026, 4, 10, 0, 52, 29, 372, DateTimeKind.Local).AddTicks(9532),
+                            CreatedDate = new DateTime(2026, 4, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             IsActive = true,
                             IsDeleted = false,
                             IsSubBalanceCalculated = false
@@ -284,7 +284,7 @@ namespace KuyumHesap.Persistence.Migrations
                             AccountTypeName = "PERSONEL",
                             BalanceOrder = 12,
                             CreatedByUserId = 0,
-                            CreatedDate = new DateTime(2026, 4, 10, 0, 52, 29, 372, DateTimeKind.Local).AddTicks(9533),
+                            CreatedDate = new DateTime(2026, 4, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             IsActive = true,
                             IsDeleted = false,
                             IsSubBalanceCalculated = false
@@ -295,7 +295,7 @@ namespace KuyumHesap.Persistence.Migrations
                             AccountTypeName = "STOKLAR",
                             BalanceOrder = 13,
                             CreatedByUserId = 0,
-                            CreatedDate = new DateTime(2026, 4, 10, 0, 52, 29, 372, DateTimeKind.Local).AddTicks(9534),
+                            CreatedDate = new DateTime(2026, 4, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             IsActive = true,
                             IsDeleted = false,
                             IsSubBalanceCalculated = false
@@ -422,9 +422,6 @@ namespace KuyumHesap.Persistence.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<decimal>("BuyRate")
-                        .HasColumnType("decimal(18,2)");
-
                     b.Property<string>("Country")
                         .HasColumnType("nvarchar(max)");
 
@@ -460,9 +457,6 @@ namespace KuyumHesap.Persistence.Migrations
                     b.Property<DateTime?>("ModifyDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<decimal>("SellRate")
-                        .HasColumnType("decimal(18,2)");
-
                     b.Property<string>("Symbol")
                         .HasColumnType("nvarchar(max)");
 
@@ -477,10 +471,9 @@ namespace KuyumHesap.Persistence.Migrations
                         new
                         {
                             Id = 1,
-                            BuyRate = 0.995m,
                             Country = "GLOBAL",
                             CreatedByUserId = 1,
-                            CreatedDate = new DateTime(2026, 4, 10, 0, 52, 29, 373, DateTimeKind.Local).AddTicks(1058),
+                            CreatedDate = new DateTime(2026, 4, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             CurrencyCode = "HAS",
                             CurrencyName = "ALTIN 1000",
                             IsActive = true,
@@ -488,16 +481,14 @@ namespace KuyumHesap.Persistence.Migrations
                             IsDeleted = false,
                             IsNationalCurrency = false,
                             MetaCode = "ALTIN",
-                            SellRate = 1.005m,
                             Symbol = "HAS"
                         },
                         new
                         {
                             Id = 2,
-                            BuyRate = 0.99m,
                             Country = "AMERİKA BİRLEŞİK DEVLETLERİ",
                             CreatedByUserId = 1,
-                            CreatedDate = new DateTime(2026, 4, 10, 0, 52, 29, 373, DateTimeKind.Local).AddTicks(1082),
+                            CreatedDate = new DateTime(2026, 4, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             CurrencyCode = "USD",
                             CurrencyName = "AMERİKAN DOLARI",
                             IsActive = true,
@@ -505,16 +496,14 @@ namespace KuyumHesap.Persistence.Migrations
                             IsDeleted = false,
                             IsNationalCurrency = false,
                             MetaCode = "USDTRY",
-                            SellRate = 1.01m,
                             Symbol = "$"
                         },
                         new
                         {
                             Id = 3,
-                            BuyRate = 1m,
                             Country = "TÜRKİYE",
                             CreatedByUserId = 1,
-                            CreatedDate = new DateTime(2026, 4, 10, 0, 52, 29, 373, DateTimeKind.Local).AddTicks(1087),
+                            CreatedDate = new DateTime(2026, 4, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             CurrencyCode = "TRY",
                             CurrencyName = "TÜRK LİRASI",
                             IsActive = true,
@@ -522,16 +511,14 @@ namespace KuyumHesap.Persistence.Migrations
                             IsDeleted = false,
                             IsNationalCurrency = true,
                             MetaCode = "",
-                            SellRate = 1m,
                             Symbol = "₺"
                         },
                         new
                         {
                             Id = 4,
-                            BuyRate = 0.99m,
                             Country = "AVRUPA BİRLİĞİ",
                             CreatedByUserId = 1,
-                            CreatedDate = new DateTime(2026, 4, 10, 0, 52, 29, 373, DateTimeKind.Local).AddTicks(1089),
+                            CreatedDate = new DateTime(2026, 4, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             CurrencyCode = "EUR",
                             CurrencyName = "AVRUPA PARA BİRİMİ",
                             IsActive = true,
@@ -539,16 +526,14 @@ namespace KuyumHesap.Persistence.Migrations
                             IsDeleted = false,
                             IsNationalCurrency = false,
                             MetaCode = "EURTRY",
-                            SellRate = 1.01m,
                             Symbol = "€"
                         },
                         new
                         {
                             Id = 5,
-                            BuyRate = 0.99m,
                             Country = "İSVİÇRE",
                             CreatedByUserId = 1,
-                            CreatedDate = new DateTime(2026, 4, 10, 0, 52, 29, 373, DateTimeKind.Local).AddTicks(1092),
+                            CreatedDate = new DateTime(2026, 4, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             CurrencyCode = "CHF",
                             CurrencyName = "İSVİÇRE FRANGI",
                             IsActive = true,
@@ -556,16 +541,14 @@ namespace KuyumHesap.Persistence.Migrations
                             IsDeleted = false,
                             IsNationalCurrency = false,
                             MetaCode = "CHFTRY",
-                            SellRate = 1.01m,
                             Symbol = "CHF"
                         },
                         new
                         {
                             Id = 6,
-                            BuyRate = 1m,
                             Country = "AMERİKA BİRLEŞİK DEVLETLERİ",
                             CreatedByUserId = 1,
-                            CreatedDate = new DateTime(2026, 4, 10, 0, 52, 29, 373, DateTimeKind.Local).AddTicks(1095),
+                            CreatedDate = new DateTime(2026, 4, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             CurrencyCode = "SAR",
                             CurrencyName = "SUUDİ ARABİSTAN RİYALİ",
                             IsActive = true,
@@ -573,16 +556,14 @@ namespace KuyumHesap.Persistence.Migrations
                             IsDeleted = false,
                             IsNationalCurrency = false,
                             MetaCode = "SARTRY",
-                            SellRate = 1m,
                             Symbol = "SAR"
                         },
                         new
                         {
                             Id = 7,
-                            BuyRate = 0.99m,
                             Country = "AMERİKA BİRLEŞİK DEVLETLERİ",
                             CreatedByUserId = 1,
-                            CreatedDate = new DateTime(2026, 4, 10, 0, 52, 29, 373, DateTimeKind.Local).AddTicks(1098),
+                            CreatedDate = new DateTime(2026, 4, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             CurrencyCode = "GHS",
                             CurrencyName = "GÜMÜŞ HASI",
                             IsActive = true,
@@ -590,7 +571,6 @@ namespace KuyumHesap.Persistence.Migrations
                             IsDeleted = false,
                             IsNationalCurrency = false,
                             MetaCode = "GUMUSTRY",
-                            SellRate = 1.01m,
                             Symbol = "GHS"
                         });
                 });
@@ -678,6 +658,61 @@ namespace KuyumHesap.Persistence.Migrations
                     b.ToTable("ExchangeRateTickers");
                 });
 
+            modelBuilder.Entity("KuyumHesap.Domain.Entities.Menu", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Code")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("CreatedByUserId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("IconUrl")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime?>("ModifyDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("OrderNo")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("ParentId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("RequeiredPermissionCode")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("UpdatedByUserId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Url")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ParentId");
+
+                    b.ToTable("Menus");
+                });
+
             modelBuilder.Entity("KuyumHesap.Domain.Entities.MovementType", b =>
                 {
                     b.Property<int>("Id")
@@ -736,7 +771,7 @@ namespace KuyumHesap.Persistence.Migrations
                             Id = 1,
                             AutoGeneratedTransactionTypeId = 2,
                             CreatedByUserId = 1,
-                            CreatedDate = new DateTime(2026, 4, 10, 0, 52, 29, 373, DateTimeKind.Local).AddTicks(2279),
+                            CreatedDate = new DateTime(2026, 4, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Description = "NAKİT GİRİŞ İŞLEMLERİ İÇİN KULLANILIR",
                             GC = "G",
                             IsActive = true,
@@ -750,7 +785,7 @@ namespace KuyumHesap.Persistence.Migrations
                             Id = 2,
                             AutoGeneratedTransactionTypeId = 1,
                             CreatedByUserId = 1,
-                            CreatedDate = new DateTime(2026, 4, 10, 0, 52, 29, 373, DateTimeKind.Local).AddTicks(2295),
+                            CreatedDate = new DateTime(2026, 4, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Description = "NAKİT ÇIKIŞ İŞLEMLERİ İÇİN KULLANILIR",
                             GC = "C",
                             IsActive = true,
@@ -764,7 +799,7 @@ namespace KuyumHesap.Persistence.Migrations
                             Id = 3,
                             AutoGeneratedTransactionTypeId = 4,
                             CreatedByUserId = 1,
-                            CreatedDate = new DateTime(2026, 4, 10, 0, 52, 29, 373, DateTimeKind.Local).AddTicks(2297),
+                            CreatedDate = new DateTime(2026, 4, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Description = "ÜRÜN GİRİŞ İŞLEMLERİ İÇİN KULLANILIR",
                             GC = "G",
                             IsActive = true,
@@ -778,7 +813,7 @@ namespace KuyumHesap.Persistence.Migrations
                             Id = 4,
                             AutoGeneratedTransactionTypeId = 3,
                             CreatedByUserId = 1,
-                            CreatedDate = new DateTime(2026, 4, 10, 0, 52, 29, 373, DateTimeKind.Local).AddTicks(2342),
+                            CreatedDate = new DateTime(2026, 4, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Description = "ÜRÜN ÇIKIŞ İŞLEMLERİ İÇİN KULLANILIR",
                             GC = "C",
                             IsActive = true,
@@ -792,7 +827,7 @@ namespace KuyumHesap.Persistence.Migrations
                             Id = 5,
                             AutoGeneratedTransactionTypeId = 6,
                             CreatedByUserId = 1,
-                            CreatedDate = new DateTime(2026, 4, 10, 0, 52, 29, 373, DateTimeKind.Local).AddTicks(2344),
+                            CreatedDate = new DateTime(2026, 4, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Description = "HESABIN ALACAĞINA İSKONTO YAZMAK İÇİN",
                             GC = "G",
                             IsActive = true,
@@ -806,7 +841,7 @@ namespace KuyumHesap.Persistence.Migrations
                             Id = 6,
                             AutoGeneratedTransactionTypeId = 5,
                             CreatedByUserId = 1,
-                            CreatedDate = new DateTime(2026, 4, 10, 0, 52, 29, 373, DateTimeKind.Local).AddTicks(2346),
+                            CreatedDate = new DateTime(2026, 4, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Description = "HESABIN BORCUNA İSKONTO YAZMAK İÇİN",
                             GC = "C",
                             IsActive = true,
@@ -820,7 +855,7 @@ namespace KuyumHesap.Persistence.Migrations
                             Id = 7,
                             AutoGeneratedTransactionTypeId = 8,
                             CreatedByUserId = 1,
-                            CreatedDate = new DateTime(2026, 4, 10, 0, 52, 29, 373, DateTimeKind.Local).AddTicks(2347),
+                            CreatedDate = new DateTime(2026, 4, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Description = "VİRMAN(HAVALE) GİRİŞ İŞLEMLERİ İÇİN KULLANILIR",
                             GC = "G",
                             IsActive = true,
@@ -834,7 +869,7 @@ namespace KuyumHesap.Persistence.Migrations
                             Id = 8,
                             AutoGeneratedTransactionTypeId = 7,
                             CreatedByUserId = 1,
-                            CreatedDate = new DateTime(2026, 4, 10, 0, 52, 29, 373, DateTimeKind.Local).AddTicks(2349),
+                            CreatedDate = new DateTime(2026, 4, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Description = "VİRMAN(HAVALE) ÇIKIŞ İŞLEMLERİ İÇİN KULLANILIR",
                             GC = "C",
                             IsActive = true,
@@ -848,7 +883,7 @@ namespace KuyumHesap.Persistence.Migrations
                             Id = 9,
                             AutoGeneratedTransactionTypeId = 10,
                             CreatedByUserId = 1,
-                            CreatedDate = new DateTime(2026, 4, 10, 0, 52, 29, 373, DateTimeKind.Local).AddTicks(2351),
+                            CreatedDate = new DateTime(2026, 4, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Description = "ÇEVİRME GİRİŞ İŞLEMLERİ İÇİN KULLANILIR",
                             GC = "G",
                             IsActive = true,
@@ -862,7 +897,7 @@ namespace KuyumHesap.Persistence.Migrations
                             Id = 10,
                             AutoGeneratedTransactionTypeId = 9,
                             CreatedByUserId = 1,
-                            CreatedDate = new DateTime(2026, 4, 10, 0, 52, 29, 373, DateTimeKind.Local).AddTicks(2352),
+                            CreatedDate = new DateTime(2026, 4, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Description = "ÇEVİRME ÇIKIŞ İŞLEMLERİ İÇİN KULLANILIR",
                             GC = "C",
                             IsActive = true,
@@ -975,7 +1010,11 @@ namespace KuyumHesap.Persistence.Migrations
 
                     b.HasIndex("AccountId");
 
+                    b.HasIndex("CounterCurrencyId");
+
                     b.HasIndex("CurrencyId");
+
+                    b.HasIndex("ForeignCurrencyId");
 
                     b.HasIndex("ReceiptId");
 
@@ -984,6 +1023,92 @@ namespace KuyumHesap.Persistence.Migrations
                     b.HasIndex("TransactionTypeId");
 
                     b.ToTable("Movements");
+                });
+
+            modelBuilder.Entity("KuyumHesap.Domain.Entities.PageAction", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Code")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("CreatedByUserId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("IconUrl")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime?>("ModifyDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("OrderNo")
+                        .HasColumnType("int");
+
+                    b.Property<string>("PageCode")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("RequiredPermissionCode")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("UpdatedByUserId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("PageActions");
+                });
+
+            modelBuilder.Entity("KuyumHesap.Domain.Entities.Permission", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Code")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("CreatedByUserId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime?>("ModifyDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("UpdatedByUserId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Permissions");
                 });
 
             modelBuilder.Entity("KuyumHesap.Domain.Entities.ProductType", b =>
@@ -1022,7 +1147,7 @@ namespace KuyumHesap.Persistence.Migrations
                         {
                             Id = 1,
                             CreatedByUserId = 1,
-                            CreatedDate = new DateTime(2026, 4, 10, 0, 52, 29, 373, DateTimeKind.Local).AddTicks(3428),
+                            CreatedDate = new DateTime(2026, 4, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             IsDeleted = false,
                             ProductTypeName = "YÜZÜK"
                         },
@@ -1030,7 +1155,7 @@ namespace KuyumHesap.Persistence.Migrations
                         {
                             Id = 2,
                             CreatedByUserId = 1,
-                            CreatedDate = new DateTime(2026, 4, 10, 0, 52, 29, 373, DateTimeKind.Local).AddTicks(3432),
+                            CreatedDate = new DateTime(2026, 4, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             IsDeleted = false,
                             ProductTypeName = "KÜPE"
                         },
@@ -1038,7 +1163,7 @@ namespace KuyumHesap.Persistence.Migrations
                         {
                             Id = 3,
                             CreatedByUserId = 1,
-                            CreatedDate = new DateTime(2026, 4, 10, 0, 52, 29, 373, DateTimeKind.Local).AddTicks(3433),
+                            CreatedDate = new DateTime(2026, 4, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             IsDeleted = false,
                             ProductTypeName = "ALYANS"
                         },
@@ -1046,7 +1171,7 @@ namespace KuyumHesap.Persistence.Migrations
                         {
                             Id = 4,
                             CreatedByUserId = 1,
-                            CreatedDate = new DateTime(2026, 4, 10, 0, 52, 29, 373, DateTimeKind.Local).AddTicks(3434),
+                            CreatedDate = new DateTime(2026, 4, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             IsDeleted = false,
                             ProductTypeName = "BİLEKLİK"
                         },
@@ -1054,7 +1179,7 @@ namespace KuyumHesap.Persistence.Migrations
                         {
                             Id = 5,
                             CreatedByUserId = 1,
-                            CreatedDate = new DateTime(2026, 4, 10, 0, 52, 29, 373, DateTimeKind.Local).AddTicks(3435),
+                            CreatedDate = new DateTime(2026, 4, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             IsDeleted = false,
                             ProductTypeName = "KELEPÇE"
                         });
@@ -1115,6 +1240,45 @@ namespace KuyumHesap.Persistence.Migrations
                     b.ToTable("Receipts");
                 });
 
+            modelBuilder.Entity("KuyumHesap.Domain.Entities.RolePermission", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("CreatedByUserId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime?>("ModifyDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("PermissionId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("RoleId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("UpdatedByUserId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("PermissionId");
+
+                    b.HasIndex("RoleId", "PermissionId")
+                        .IsUnique();
+
+                    b.ToTable("RolePermissions");
+                });
+
             modelBuilder.Entity("KuyumHesap.Domain.Entities.Roles", b =>
                 {
                     b.Property<int>("Id")
@@ -1160,7 +1324,7 @@ namespace KuyumHesap.Persistence.Migrations
                             Id = 1,
                             Code = "ADMIN",
                             CreatedByUserId = 0,
-                            CreatedDate = new DateTime(2026, 4, 10, 0, 52, 29, 373, DateTimeKind.Local).AddTicks(4436),
+                            CreatedDate = new DateTime(2026, 4, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             IsDeleted = false,
                             Name = "Admin",
                             Type = "System"
@@ -1170,9 +1334,19 @@ namespace KuyumHesap.Persistence.Migrations
                             Id = 2,
                             Code = "USER",
                             CreatedByUserId = 0,
-                            CreatedDate = new DateTime(2026, 4, 10, 0, 52, 29, 373, DateTimeKind.Local).AddTicks(4442),
+                            CreatedDate = new DateTime(2026, 4, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             IsDeleted = false,
                             Name = "User",
+                            Type = "System"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Code = "SYSTEMADMIN",
+                            CreatedByUserId = 0,
+                            CreatedDate = new DateTime(2026, 4, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            IsDeleted = false,
+                            Name = "SystemAdmin",
                             Type = "System"
                         });
                 });
@@ -1224,7 +1398,7 @@ namespace KuyumHesap.Persistence.Migrations
                         {
                             Id = 1,
                             CreatedByUserId = 1,
-                            CreatedDate = new DateTime(2026, 4, 10, 0, 52, 29, 373, DateTimeKind.Local).AddTicks(7986),
+                            CreatedDate = new DateTime(2026, 4, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Description = "Nakit tahsilat/ödeme işlemlerinde kullanılacak kasa hesabının AccountType ID'si",
                             IsDeleted = false,
                             Key = "CashAccountTypeId"
@@ -1233,7 +1407,7 @@ namespace KuyumHesap.Persistence.Migrations
                         {
                             Id = 2,
                             CreatedByUserId = 1,
-                            CreatedDate = new DateTime(2026, 4, 10, 0, 52, 29, 373, DateTimeKind.Local).AddTicks(7989),
+                            CreatedDate = new DateTime(2026, 4, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Description = "POS cihazı üzerinden yapılan tahsilat/ödeme hesabının AccountType ID'si",
                             IsDeleted = false,
                             Key = "PosAccountTypeId"
@@ -1242,7 +1416,7 @@ namespace KuyumHesap.Persistence.Migrations
                         {
                             Id = 3,
                             CreatedByUserId = 1,
-                            CreatedDate = new DateTime(2026, 4, 10, 0, 52, 29, 373, DateTimeKind.Local).AddTicks(7991),
+                            CreatedDate = new DateTime(2026, 4, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Description = "Banka havalesi/EFT işlemlerinde kullanılacak hesabın AccountType ID'si",
                             IsDeleted = false,
                             Key = "BankAccountTypeId"
@@ -1251,7 +1425,7 @@ namespace KuyumHesap.Persistence.Migrations
                         {
                             Id = 4,
                             CreatedByUserId = 1,
-                            CreatedDate = new DateTime(2026, 4, 10, 0, 52, 29, 373, DateTimeKind.Local).AddTicks(7992),
+                            CreatedDate = new DateTime(2026, 4, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Description = "Satış işlemlerinde varsayılan olarak seçilecek para biriminin Currency ID'si",
                             IsDeleted = false,
                             Key = "SalesCurrencyId"
@@ -1260,7 +1434,7 @@ namespace KuyumHesap.Persistence.Migrations
                         {
                             Id = 5,
                             CreatedByUserId = 1,
-                            CreatedDate = new DateTime(2026, 4, 10, 0, 52, 29, 373, DateTimeKind.Local).AddTicks(7994),
+                            CreatedDate = new DateTime(2026, 4, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Description = "Satış ekranında tezgahtar seçiminde listelenen hesapların AccountType ID'si",
                             IsDeleted = false,
                             Key = "CashierAccountTypeId"
@@ -1269,7 +1443,7 @@ namespace KuyumHesap.Persistence.Migrations
                         {
                             Id = 6,
                             CreatedByUserId = 1,
-                            CreatedDate = new DateTime(2026, 4, 10, 0, 52, 29, 373, DateTimeKind.Local).AddTicks(7999),
+                            CreatedDate = new DateTime(2026, 4, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Description = "Satış ekranında müşteri listesinde gösterilecek hesapların AccountType ID'si",
                             IsDeleted = false,
                             Key = "CustomerAccountTypeId"
@@ -1278,7 +1452,7 @@ namespace KuyumHesap.Persistence.Migrations
                         {
                             Id = 7,
                             CreatedByUserId = 1,
-                            CreatedDate = new DateTime(2026, 4, 10, 0, 52, 29, 373, DateTimeKind.Local).AddTicks(8001),
+                            CreatedDate = new DateTime(2026, 4, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Description = "Satış ekranı açıldığında varsayılan olarak seçili gelecek müşteri Account ID'si",
                             IsDeleted = false,
                             Key = "DefaultCustomerAccountId"
@@ -1287,7 +1461,7 @@ namespace KuyumHesap.Persistence.Migrations
                         {
                             Id = 8,
                             CreatedByUserId = 1,
-                            CreatedDate = new DateTime(2026, 4, 10, 0, 52, 29, 373, DateTimeKind.Local).AddTicks(8002),
+                            CreatedDate = new DateTime(2026, 4, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Description = "Nakit tahsilat/ödeme işlemlerinde varsayılan kasa hesabı",
                             IsDeleted = false,
                             Key = "DefaultCashAccountId"
@@ -1296,7 +1470,7 @@ namespace KuyumHesap.Persistence.Migrations
                         {
                             Id = 9,
                             CreatedByUserId = 1,
-                            CreatedDate = new DateTime(2026, 4, 10, 0, 52, 29, 373, DateTimeKind.Local).AddTicks(8003),
+                            CreatedDate = new DateTime(2026, 4, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Description = "İskonto işlemlerinde borçlandırılacak hesap",
                             IsDeleted = false,
                             Key = "DefaultDiscountAccountId"
@@ -1398,7 +1572,7 @@ namespace KuyumHesap.Persistence.Migrations
                         {
                             Id = 1,
                             CreatedByUserId = 1,
-                            CreatedDate = new DateTime(2026, 4, 10, 0, 52, 29, 374, DateTimeKind.Local).AddTicks(904),
+                            CreatedDate = new DateTime(2026, 4, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             IsDeleted = false,
                             StockGroupName = "MAMUL GRUBU"
                         },
@@ -1406,7 +1580,7 @@ namespace KuyumHesap.Persistence.Migrations
                         {
                             Id = 2,
                             CreatedByUserId = 1,
-                            CreatedDate = new DateTime(2026, 4, 10, 0, 52, 29, 374, DateTimeKind.Local).AddTicks(907),
+                            CreatedDate = new DateTime(2026, 4, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             IsDeleted = false,
                             StockGroupName = "MADEN GRUBU"
                         },
@@ -1414,7 +1588,7 @@ namespace KuyumHesap.Persistence.Migrations
                         {
                             Id = 3,
                             CreatedByUserId = 1,
-                            CreatedDate = new DateTime(2026, 4, 10, 0, 52, 29, 374, DateTimeKind.Local).AddTicks(909),
+                            CreatedDate = new DateTime(2026, 4, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             IsDeleted = false,
                             StockGroupName = "HURDA GRUBU"
                         },
@@ -1422,7 +1596,7 @@ namespace KuyumHesap.Persistence.Migrations
                         {
                             Id = 4,
                             CreatedByUserId = 1,
-                            CreatedDate = new DateTime(2026, 4, 10, 0, 52, 29, 374, DateTimeKind.Local).AddTicks(910),
+                            CreatedDate = new DateTime(2026, 4, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             IsDeleted = false,
                             StockGroupName = "PIRLANTA TAŞ GRUBU"
                         },
@@ -1430,7 +1604,7 @@ namespace KuyumHesap.Persistence.Migrations
                         {
                             Id = 5,
                             CreatedByUserId = 1,
-                            CreatedDate = new DateTime(2026, 4, 10, 0, 52, 29, 374, DateTimeKind.Local).AddTicks(912),
+                            CreatedDate = new DateTime(2026, 4, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             IsDeleted = false,
                             StockGroupName = "ELMAS TAŞ GRUBU"
                         },
@@ -1438,7 +1612,7 @@ namespace KuyumHesap.Persistence.Migrations
                         {
                             Id = 6,
                             CreatedByUserId = 1,
-                            CreatedDate = new DateTime(2026, 4, 10, 0, 52, 29, 374, DateTimeKind.Local).AddTicks(914),
+                            CreatedDate = new DateTime(2026, 4, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             IsDeleted = false,
                             StockGroupName = "RENKLİ TAŞ GRUBU"
                         });
@@ -1493,7 +1667,7 @@ namespace KuyumHesap.Persistence.Migrations
                         {
                             Id = 1,
                             CreatedByUserId = 1,
-                            CreatedDate = new DateTime(2026, 4, 10, 0, 52, 29, 374, DateTimeKind.Local).AddTicks(1934),
+                            CreatedDate = new DateTime(2026, 4, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             CurrencyId = 1,
                             IsActive = true,
                             IsDeleted = false,
@@ -1504,8 +1678,8 @@ namespace KuyumHesap.Persistence.Migrations
                         {
                             Id = 2,
                             CreatedByUserId = 1,
-                            CreatedDate = new DateTime(2026, 4, 10, 0, 52, 29, 374, DateTimeKind.Local).AddTicks(1943),
-                            CurrencyId = 8,
+                            CreatedDate = new DateTime(2026, 4, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CurrencyId = 7,
                             IsActive = true,
                             IsDeleted = false,
                             StockGroupId = 2,
@@ -1515,7 +1689,7 @@ namespace KuyumHesap.Persistence.Migrations
                         {
                             Id = 3,
                             CreatedByUserId = 1,
-                            CreatedDate = new DateTime(2026, 4, 10, 0, 52, 29, 374, DateTimeKind.Local).AddTicks(1945),
+                            CreatedDate = new DateTime(2026, 4, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             CurrencyId = 1,
                             IsActive = true,
                             IsDeleted = false,
@@ -1526,7 +1700,7 @@ namespace KuyumHesap.Persistence.Migrations
                         {
                             Id = 4,
                             CreatedByUserId = 1,
-                            CreatedDate = new DateTime(2026, 4, 10, 0, 52, 29, 374, DateTimeKind.Local).AddTicks(1946),
+                            CreatedDate = new DateTime(2026, 4, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             CurrencyId = 7,
                             IsActive = true,
                             IsDeleted = false,
@@ -1537,7 +1711,7 @@ namespace KuyumHesap.Persistence.Migrations
                         {
                             Id = 5,
                             CreatedByUserId = 1,
-                            CreatedDate = new DateTime(2026, 4, 10, 0, 52, 29, 374, DateTimeKind.Local).AddTicks(1948),
+                            CreatedDate = new DateTime(2026, 4, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             CurrencyId = 2,
                             IsActive = true,
                             IsDeleted = false,
@@ -1548,7 +1722,7 @@ namespace KuyumHesap.Persistence.Migrations
                         {
                             Id = 6,
                             CreatedByUserId = 1,
-                            CreatedDate = new DateTime(2026, 4, 10, 0, 52, 29, 374, DateTimeKind.Local).AddTicks(1949),
+                            CreatedDate = new DateTime(2026, 4, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             CurrencyId = 3,
                             IsActive = true,
                             IsDeleted = false,
@@ -1559,7 +1733,7 @@ namespace KuyumHesap.Persistence.Migrations
                         {
                             Id = 7,
                             CreatedByUserId = 1,
-                            CreatedDate = new DateTime(2026, 4, 10, 0, 52, 29, 374, DateTimeKind.Local).AddTicks(1950),
+                            CreatedDate = new DateTime(2026, 4, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             CurrencyId = 2,
                             IsActive = true,
                             IsDeleted = false,
@@ -1570,7 +1744,7 @@ namespace KuyumHesap.Persistence.Migrations
                         {
                             Id = 8,
                             CreatedByUserId = 1,
-                            CreatedDate = new DateTime(2026, 4, 10, 0, 52, 29, 374, DateTimeKind.Local).AddTicks(1951),
+                            CreatedDate = new DateTime(2026, 4, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             CurrencyId = 1,
                             IsActive = true,
                             IsDeleted = false,
@@ -1640,6 +1814,48 @@ namespace KuyumHesap.Persistence.Migrations
                     b.ToTable("TaskItems");
                 });
 
+            modelBuilder.Entity("KuyumHesap.Domain.Entities.UserPermission", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("CreatedByUserId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsAllowed")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime?>("ModifyDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("PermissionId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("UpdatedByUserId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("PermissionId");
+
+                    b.HasIndex("UserId", "PermissionId")
+                        .IsUnique();
+
+                    b.ToTable("UserPermissions");
+                });
+
             modelBuilder.Entity("KuyumHesap.Domain.Entities.Users", b =>
                 {
                     b.Property<int>("Id")
@@ -1657,15 +1873,19 @@ namespace KuyumHesap.Persistence.Migrations
                     b.Property<string>("BarkodYaziciAdi")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("BranchCode")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("CompanyCode")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<int>("CreatedByUserId")
                         .HasColumnType("int");
 
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("datetime2");
-
-                    b.Property<string>("Email")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("FirstName")
                         .IsRequired()
@@ -1697,6 +1917,10 @@ namespace KuyumHesap.Persistence.Migrations
                     b.Property<int?>("UpdatedByUserId")
                         .HasColumnType("int");
 
+                    b.Property<string>("UserName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("VarsayilanYaziciAdi")
                         .HasColumnType("nvarchar(max)");
 
@@ -1711,29 +1935,33 @@ namespace KuyumHesap.Persistence.Migrations
                         {
                             Id = 1,
                             Active = true,
+                            BranchCode = "0001",
+                            CompanyCode = "KUYUM-001",
                             CreatedByUserId = 0,
-                            CreatedDate = new DateTime(2026, 4, 10, 0, 52, 29, 374, DateTimeKind.Local).AddTicks(2889),
-                            Email = "mahmut.kavalci@gmail.com",
+                            CreatedDate = new DateTime(2026, 4, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             FirstName = "Mahmut",
                             IsDeleted = false,
                             LastName = "Kavalcı",
                             Password = "8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92",
                             Phone = "+905353348460",
-                            RoleId = 1
+                            RoleId = 3,
+                            UserName = "MAHMUT"
                         },
                         new
                         {
                             Id = 2,
                             Active = true,
+                            BranchCode = "0001",
+                            CompanyCode = "KUYUM-001",
                             CreatedByUserId = 0,
-                            CreatedDate = new DateTime(2026, 4, 10, 0, 52, 29, 374, DateTimeKind.Local).AddTicks(3336),
-                            Email = "samt51.m@icloud.com",
+                            CreatedDate = new DateTime(2026, 4, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             FirstName = "Samet",
                             IsDeleted = false,
                             LastName = "Bağlan",
                             Password = "8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92",
                             Phone = "+905363956979",
-                            RoleId = 1
+                            RoleId = 3,
+                            UserName = "SAMET"
                         });
                 });
 
@@ -1842,7 +2070,7 @@ namespace KuyumHesap.Persistence.Migrations
                     b.HasOne("KuyumHesap.Domain.Entities.AccountType", "AccountType")
                         .WithMany("Accounts")
                         .HasForeignKey("AccountTypeId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.Navigation("AccountType");
@@ -1870,32 +2098,52 @@ namespace KuyumHesap.Persistence.Migrations
                     b.Navigation("Currency");
                 });
 
+            modelBuilder.Entity("KuyumHesap.Domain.Entities.Menu", b =>
+                {
+                    b.HasOne("KuyumHesap.Domain.Entities.Menu", "Parent")
+                        .WithMany("Menus")
+                        .HasForeignKey("ParentId");
+
+                    b.Navigation("Parent");
+                });
+
             modelBuilder.Entity("KuyumHesap.Domain.Entities.Movements", b =>
                 {
                     b.HasOne("KuyumHesap.Domain.Entities.Account", "Account")
                         .WithMany("Movements")
                         .HasForeignKey("AccountId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
+
+                    b.HasOne("KuyumHesap.Domain.Entities.Currency", null)
+                        .WithMany()
+                        .HasForeignKey("CounterCurrencyId")
+                        .OnDelete(DeleteBehavior.NoAction);
 
                     b.HasOne("KuyumHesap.Domain.Entities.Currency", null)
                         .WithMany("Movements")
                         .HasForeignKey("CurrencyId");
 
+                    b.HasOne("KuyumHesap.Domain.Entities.Currency", null)
+                        .WithMany()
+                        .HasForeignKey("ForeignCurrencyId")
+                        .OnDelete(DeleteBehavior.NoAction);
+
                     b.HasOne("KuyumHesap.Domain.Entities.Receipt", "Receipt")
                         .WithMany("Movements")
                         .HasForeignKey("ReceiptId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.HasOne("KuyumHesap.Domain.Entities.Stock", "Stock")
                         .WithMany("Movements")
-                        .HasForeignKey("StockId");
+                        .HasForeignKey("StockId")
+                        .OnDelete(DeleteBehavior.NoAction);
 
                     b.HasOne("KuyumHesap.Domain.Entities.MovementType", "TransactionType")
                         .WithMany("Movements")
                         .HasForeignKey("TransactionTypeId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.Navigation("Account");
@@ -1912,10 +2160,29 @@ namespace KuyumHesap.Persistence.Migrations
                     b.HasOne("KuyumHesap.Domain.Entities.Account", "Account")
                         .WithMany("Receipts")
                         .HasForeignKey("AccountId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.Navigation("Account");
+                });
+
+            modelBuilder.Entity("KuyumHesap.Domain.Entities.RolePermission", b =>
+                {
+                    b.HasOne("KuyumHesap.Domain.Entities.Permission", "Permission")
+                        .WithMany("RolePermissions")
+                        .HasForeignKey("PermissionId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.HasOne("KuyumHesap.Domain.Entities.Roles", "Roles")
+                        .WithMany("RolePermissions")
+                        .HasForeignKey("RoleId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.Navigation("Permission");
+
+                    b.Navigation("Roles");
                 });
 
             modelBuilder.Entity("KuyumHesap.Domain.Entities.Stock", b =>
@@ -1923,13 +2190,13 @@ namespace KuyumHesap.Persistence.Migrations
                     b.HasOne("KuyumHesap.Domain.Entities.StockGroup", "StockGroup")
                         .WithMany("Stocks")
                         .HasForeignKey("StockGroupId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.HasOne("KuyumHesap.Domain.Entities.StockType", "StockType")
                         .WithMany("Stocks")
                         .HasForeignKey("StockTypeId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.Navigation("StockGroup");
@@ -1942,13 +2209,13 @@ namespace KuyumHesap.Persistence.Migrations
                     b.HasOne("KuyumHesap.Domain.Entities.Currency", "Currency")
                         .WithMany("StockTypes")
                         .HasForeignKey("CurrencyId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.HasOne("KuyumHesap.Domain.Entities.StockGroup", "StockGroup")
                         .WithMany("StockTypes")
                         .HasForeignKey("StockGroupId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.Navigation("Currency");
@@ -1972,6 +2239,25 @@ namespace KuyumHesap.Persistence.Migrations
                     b.Navigation("AssignedByUser");
 
                     b.Navigation("AssignedToUser");
+                });
+
+            modelBuilder.Entity("KuyumHesap.Domain.Entities.UserPermission", b =>
+                {
+                    b.HasOne("KuyumHesap.Domain.Entities.Permission", "Permission")
+                        .WithMany("UserPermissions")
+                        .HasForeignKey("PermissionId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.HasOne("KuyumHesap.Domain.Entities.Users", "Users")
+                        .WithMany("UserPermissions")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.Navigation("Permission");
+
+                    b.Navigation("Users");
                 });
 
             modelBuilder.Entity("KuyumHesap.Domain.Entities.Users", b =>
@@ -2011,9 +2297,21 @@ namespace KuyumHesap.Persistence.Migrations
                     b.Navigation("StockTypes");
                 });
 
+            modelBuilder.Entity("KuyumHesap.Domain.Entities.Menu", b =>
+                {
+                    b.Navigation("Menus");
+                });
+
             modelBuilder.Entity("KuyumHesap.Domain.Entities.MovementType", b =>
                 {
                     b.Navigation("Movements");
+                });
+
+            modelBuilder.Entity("KuyumHesap.Domain.Entities.Permission", b =>
+                {
+                    b.Navigation("RolePermissions");
+
+                    b.Navigation("UserPermissions");
                 });
 
             modelBuilder.Entity("KuyumHesap.Domain.Entities.Receipt", b =>
@@ -2023,6 +2321,8 @@ namespace KuyumHesap.Persistence.Migrations
 
             modelBuilder.Entity("KuyumHesap.Domain.Entities.Roles", b =>
                 {
+                    b.Navigation("RolePermissions");
+
                     b.Navigation("Users");
                 });
 
@@ -2048,6 +2348,8 @@ namespace KuyumHesap.Persistence.Migrations
                     b.Navigation("AssignedTasks");
 
                     b.Navigation("CreatedTasks");
+
+                    b.Navigation("UserPermissions");
                 });
 #pragma warning restore 612, 618
         }

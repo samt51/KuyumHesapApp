@@ -10,6 +10,8 @@ using KuyumHesap.Persistence;
 using KuyumHesap.Persistence.Common.Context;
 using KuyumHesap.Persistence.Common.Extensions;
 using Microsoft.AspNetCore.HttpLogging;
+using Microsoft.Data.SqlClient;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 using Serilog;
 using Serilog.Context;
@@ -25,6 +27,8 @@ builder.Configuration
     .AddJsonFile($"appsettings.{builder.Environment.EnvironmentName}.json", optional: true, reloadOnChange: true)
     .AddEnvironmentVariables();
 
+EnsureConfiguredDatabasesExist(builder.Configuration);
+await EnsureDevelopmentDatabaseSchemaAsync(builder.Configuration, builder.Environment);
 
 var lc = new LoggerConfiguration()
     .WriteTo.Console()
@@ -175,3 +179,122 @@ app.Use(async (context, next) =>
 app.MapControllers();
 
 app.Run();
+
+static void EnsureConfiguredDatabasesExist(IConfiguration configuration)
+{
+    var connectionStrings = new[]
+    {
+        configuration.GetConnectionString("DefaultConnection"),
+        configuration.GetConnectionString("HangfireConnection"),
+        configuration.GetConnectionString("LogsDb")
+    };
+
+    foreach (var connectionString in connectionStrings.Where(x => !string.IsNullOrWhiteSpace(x)).Distinct())
+    {
+        EnsureDatabaseExists(connectionString!);
+    }
+}
+
+static void EnsureDatabaseExists(string connectionString)
+{
+    var builder = new SqlConnectionStringBuilder(connectionString);
+    var databaseName = builder.InitialCatalog;
+
+    if (string.IsNullOrWhiteSpace(databaseName))
+    {
+        return;
+    }
+
+    builder.InitialCatalog = "master";
+
+    using var connection = new SqlConnection(builder.ConnectionString);
+    connection.Open();
+
+    using var existsCommand = connection.CreateCommand();
+    existsCommand.CommandText = "SELECT DB_ID(@databaseName)";
+    existsCommand.Parameters.AddWithValue("@databaseName", databaseName);
+
+    if (existsCommand.ExecuteScalar() is not DBNull and not null)
+    {
+        return;
+    }
+
+    using var createCommand = connection.CreateCommand();
+    createCommand.CommandText = $"CREATE DATABASE [{databaseName.Replace("]", "]]")}]";
+    createCommand.ExecuteNonQuery();
+}
+
+static async Task EnsureDevelopmentDatabaseSchemaAsync(IConfiguration configuration, IWebHostEnvironment environment)
+{
+    if (!environment.IsDevelopment())
+    {
+        return;
+    }
+
+    var connectionString = configuration.GetConnectionString("DefaultConnection");
+    if (string.IsNullOrWhiteSpace(connectionString))
+    {
+        return;
+    }
+
+    var options = new DbContextOptionsBuilder<AppDbContext>()
+        .UseSqlServer(connectionString)
+        .Options;
+
+    await using var db = new AppDbContext(options);
+    var migrations = db.Database.GetMigrations();
+
+    if (migrations.Any())
+    {
+        await db.Database.MigrateAsync();
+    }
+    else if (!await AnyModelTableExistsAsync(db))
+    {
+        await db.Database.ExecuteSqlRawAsync(db.Database.GenerateCreateScript());
+    }
+    else
+    {
+        await db.Database.EnsureCreatedAsync();
+    }
+}
+
+static async Task<bool> AnyModelTableExistsAsync(AppDbContext db)
+{
+    var tableNames = db.Model.GetEntityTypes()
+        .Select(entityType => new
+        {
+            Schema = entityType.GetSchema() ?? "dbo",
+            Table = entityType.GetTableName()
+        })
+        .Where(x => !string.IsNullOrWhiteSpace(x.Table))
+        .Distinct()
+        .ToList();
+
+    var connection = db.Database.GetDbConnection();
+    await db.Database.OpenConnectionAsync();
+
+    try
+    {
+        foreach (var tableName in tableNames)
+        {
+            await using var command = connection.CreateCommand();
+            command.CommandText = "SELECT OBJECT_ID(@tableName, 'U')";
+
+            var parameter = command.CreateParameter();
+            parameter.ParameterName = "@tableName";
+            parameter.Value = $"{tableName.Schema}.{tableName.Table}";
+            command.Parameters.Add(parameter);
+
+            if (await command.ExecuteScalarAsync() is not DBNull and not null)
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
+    finally
+    {
+        await db.Database.CloseConnectionAsync();
+    }
+}
