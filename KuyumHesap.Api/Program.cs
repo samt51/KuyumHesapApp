@@ -142,6 +142,23 @@ app.UseHttpsRedirection();
 app.UseCors("AllowAll");
 app.ConfigureExceptionHandlingMiddleware();
 app.UseHangfireDashboard("/hangfire");
+
+app.Use(async (context, next) =>
+{
+    var authHeader = context.Request.Headers.Authorization.FirstOrDefault();
+    var hasAuthHeader = !string.IsNullOrWhiteSpace(authHeader);
+    var maskedHeader = MaskAuthorizationHeader(authHeader);
+
+    Log.Information(
+        "Auth header check {Method} {Path}: HasAuthorization={HasAuthorization}, Authorization={Authorization}",
+        context.Request.Method,
+        context.Request.Path,
+        hasAuthHeader,
+        maskedHeader);
+
+    await next();
+});
+
 app.UseAuthentication();
 app.UseAuthorization();
 
@@ -179,6 +196,29 @@ app.Use(async (context, next) =>
 app.MapControllers();
 
 app.Run();
+
+static string MaskAuthorizationHeader(string? authorization)
+{
+    if (string.IsNullOrWhiteSpace(authorization))
+    {
+        return "<empty>";
+    }
+
+    var value = authorization.Trim();
+    var token = value.StartsWith("Bearer ", StringComparison.OrdinalIgnoreCase)
+        ? value["Bearer ".Length..].Trim()
+        : value.StartsWith("Bearer:", StringComparison.OrdinalIgnoreCase)
+            ? value["Bearer:".Length..].Trim()
+            : value;
+
+    if (token.Length <= 12)
+    {
+        return $"{value.Split(' ')[0]} len={token.Length}";
+    }
+
+    var prefix = value.StartsWith("Bearer", StringComparison.OrdinalIgnoreCase) ? "Bearer " : string.Empty;
+    return $"{prefix}{token[..6]}...{token[^6..]} len={token.Length}";
+}
 
 static void EnsureConfiguredDatabasesExist(IConfiguration configuration)
 {

@@ -12,6 +12,7 @@ namespace KuyumHesap.Domain.Entities
         public string Url { get; set; }
         public string IconUrl { get; set; }
         public int OrderNo { get; set; }
+        public bool IsActive { get; set; } = true;
         public string? RequeiredPermissionCode { get; set; }
         public List<Menu> Menus { get; set; } = new();
     }

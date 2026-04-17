@@ -67,6 +67,11 @@ namespace KuyumHesap.Application.Features.MenuFeature.Queries.GetAuthorized
 
             foreach (var menu in menus)
             {
+                if (!menu.IsActive)
+                {
+                    continue;
+                }
+
                 var requiresPermission = !string.IsNullOrWhiteSpace(menu.RequeiredPermissionCode);
                 if (requiresPermission && !permissionCodes.Contains(menu.RequeiredPermissionCode!))
                 {
@@ -116,6 +121,7 @@ namespace KuyumHesap.Application.Features.MenuFeature.Queries.GetAuthorized
                 Url = menu.Url,
                 IconUrl = menu.IconUrl,
                 OrderNo = menu.OrderNo,
+                IsActive = menu.IsActive,
                 RequeiredPermissionCode = menu.RequeiredPermissionCode
             };
     }

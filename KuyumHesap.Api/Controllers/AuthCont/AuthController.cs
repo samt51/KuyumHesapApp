@@ -5,6 +5,7 @@ using KuyumHesap.Application.Features.AuthFeature.Commands.Login;
 using KuyumHesap.Application.Features.AuthFeature.Commands.Register;
 using KuyumHesap.Application.Features.UserFeature.Commands.Update;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace KuyumHesap.Api.Controllers.AuthCont
@@ -17,6 +18,7 @@ namespace KuyumHesap.Api.Controllers.AuthCont
             _mediator = mediator;
         }
         [HttpPost]
+        [AllowAnonymous]
         [SwaggerDescriptionAttirbute("Login")]
         public async Task<ResponseDto<LoginCommandResponse>> LoginAsync(LoginCommandRequest request)
         {

@@ -3,6 +3,7 @@ using KuyumHesap.Application.Common.Models;
 using KuyumHesap.Application.Features.MenuFeature.Command.Create;
 using KuyumHesap.Application.Features.MenuFeature.Command.Delete;
 using KuyumHesap.Application.Features.MenuFeature.Command.Update;
+using KuyumHesap.Application.Features.MenuFeature.Command.UpdateMenuIsActive;
 using KuyumHesap.Application.Features.MenuFeature.Queries.GetAll;
 using KuyumHesap.Application.Features.MenuFeature.Queries.GetAuthorized;
 using MediatR;
@@ -48,5 +49,12 @@ namespace KuyumHesap.Api.Controllers.MenuCont
         {
             return await _mediator.Send(new DeleteMenuCommandRequest(id), token);
         }
+
+        [HttpPut]
+        public async Task<ResponseDto<UpdateMenuIsActiveCommandResponse>> UpdateIsActive([FromBody] UpdateMenuIsActiveCommandRequest request)
+        {
+            return await _mediator.Send(request);
+        }
+
     }
 }

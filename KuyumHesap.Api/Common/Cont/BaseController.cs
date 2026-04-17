@@ -1,10 +1,12 @@
 ﻿using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace KuyumHesap.Api.Common.Cont
 {
     [Route("api/[controller]/[action]")]
     [ApiController]
+    [Authorize]
     public class BaseController : ControllerBase
     {
         private readonly IMediator mediator;

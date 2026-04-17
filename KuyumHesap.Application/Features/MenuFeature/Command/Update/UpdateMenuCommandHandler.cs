@@ -23,6 +23,7 @@ namespace KuyumHesap.Application.Features.MenuFeature.Command.Update
             menu.Url = request.Url;
             menu.IconUrl = request.IconUrl;
             menu.OrderNo = request.OrderNo;
+            menu.IsActive = request.IsActive;
             menu.RequeiredPermissionCode = request.RequeiredPermissionCode;
             menu.ModifyDate = DateTime.Now;
 
