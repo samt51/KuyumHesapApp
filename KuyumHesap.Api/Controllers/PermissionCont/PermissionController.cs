@@ -5,6 +5,7 @@ using KuyumHesap.Application.Features.PermissionFeature.Command.Delete;
 using KuyumHesap.Application.Features.PermissionFeature.Command.Update;
 using KuyumHesap.Application.Features.PermissionFeature.Queries.GetAll;
 using KuyumHesap.Application.Features.PermissionFeature.Queries.GetById;
+using KuyumHesap.Application.Features.UserFeature.Queries.GetAll;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -18,6 +19,7 @@ namespace KuyumHesap.Api.Controllers.PermissionCont
         {
             _mediator = mediator;
         }
+       
 
         [HttpGet]
         public async Task<ResponseDto<List<GetAllPermissionQueryResponse>>> GetAllAsync(CancellationToken token)

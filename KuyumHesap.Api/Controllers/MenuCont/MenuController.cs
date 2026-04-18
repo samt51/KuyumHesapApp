@@ -7,6 +7,7 @@ using KuyumHesap.Application.Features.MenuFeature.Command.UpdateMenuIsActive;
 using KuyumHesap.Application.Features.MenuFeature.Queries.GetAll;
 using KuyumHesap.Application.Features.MenuFeature.Queries.GetAuthorized;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace KuyumHesap.Api.Controllers.MenuCont

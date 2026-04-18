@@ -20,22 +20,33 @@ namespace KuyumHesap.Application.Features.MenuFeature.Queries.GetAll
 
         public async Task<ResponseDto<List<GetAllMenuQueryResponse>>> Handle(GetAllMenuQueryRequest request, CancellationToken cancellationToken)
         {
+            var blockedCodes = new[] { "SETTINGS_PAGE_ACTION", "SETTINGS_MENU" };
             var roleIdStr = _httpContextAccessor.HttpContext?.User?
                 .FindFirst("roleId")?.Value;
 
             var userIdStr = _httpContextAccessor.HttpContext?.User?
                 .FindFirst("Id")?.Value;
-
+   
             int.TryParse(roleIdStr, out var currentUserRoleId);
             int.TryParse(userIdStr, out var currentUserId);
 
-            var menus = await unitOfWork.GetReadRepository<Menu>().GetAllAsync(
-                x => !x.IsDeleted && (currentUserRoleId == 3 || x.IsActive),
-                orderBy: x => x.OrderBy(y => y.OrderNo),
-                ct: cancellationToken);
+            var menus = (await unitOfWork.GetReadRepository<Menu>().GetAllAsync(
+            x => !x.IsDeleted && (currentUserRoleId == 3 || x.IsActive),
+            orderBy: x => x.OrderBy(y => y.OrderNo),
+            ct: cancellationToken)).ToList();
+
+            if (currentUserRoleId == 1)
+            {
+             
+
+                menus.RemoveAll(c => blockedCodes.Contains(c.Code));
+            }
 
             if (currentUserRoleId == 2)
             {
+      
+
+                menus.RemoveAll(c => blockedCodes.Contains(c.Code));
                 var permissionCodes = await GetEffectivePermissionCodesAsync(currentUserId, currentUserRoleId, cancellationToken);
                 menus = IncludeAuthorizedMenusAndParents(menus, permissionCodes);
             }
@@ -87,6 +98,7 @@ namespace KuyumHesap.Application.Features.MenuFeature.Queries.GetAll
 
             foreach (var menu in menus)
             {
+                
                 var requiresPermission = !string.IsNullOrWhiteSpace(menu.RequeiredPermissionCode);
                 if (requiresPermission && !permissionCodes.Contains(menu.RequeiredPermissionCode!))
                 {
@@ -120,7 +132,6 @@ namespace KuyumHesap.Application.Features.MenuFeature.Queries.GetAll
             }
 
             return menus
-                .Where(x => !x.ParentId.HasValue)
                 .OrderBy(x => x.OrderNo)
                 .Select(x => lookup[x.Id])
                 .ToList();
