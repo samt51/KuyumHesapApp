@@ -51,15 +51,6 @@ namespace KuyumHesap.Domain.Entities
         /// </summary>
         public string? MetaCode { get; set; }
 
-        /// <summary>
-        /// Alış kuru oranı
-        /// </summary>
-        public decimal BuyRate { get; set; }
-
-        /// <summary>
-        /// Satış kuru oranı
-        /// </summary>
-        public decimal SellRate { get; set; }
         public List<ExchangeRate> ExchangeRates { get; set; }
 
         public List<Movements> Movements { get; set; }

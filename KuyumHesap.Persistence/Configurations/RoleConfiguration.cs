@@ -10,9 +10,10 @@ namespace KuyumHesap.Persistence.Configurations
         {
             var data = new Roles[]
             {
-                new Roles { Id = 1, Name = "Admin", Code = "ADMIN", Type = "System" },
-                new Roles { Id = 2, Name = "User", Code = "USER", Type = "System" }
-            };  
+                new Roles { Id = 1, Name = "Admin", Code = "ADMIN", Type = "System",          CreatedDate=new DateTime(2026,04,01) },
+                new Roles { Id = 2, Name = "User", Code = "USER", Type = "System" , CreatedDate = new DateTime(2026, 04, 01)},
+                new Roles { Id = 3, Name = "SystemAdmin", Code = "SYSTEMADMIN", Type = "System" , CreatedDate = new DateTime(2026, 04, 01)}
+            };
             builder.HasData(data);
         }
     }

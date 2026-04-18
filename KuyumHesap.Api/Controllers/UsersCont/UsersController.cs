@@ -8,6 +8,9 @@ using KuyumHesap.Application.Features.UserFeature.Queries.GetAll;
 using KuyumHesap.Application.Features.UserFeature.Queries.GetById;
 using KuyumHesap.Application.Features.UserFeature.Queries.Roles.GetAll;
 using KuyumHesap.Application.Features.UserFeature.Queries.Roles.GetById;
+using KuyumHesap.Application.Features.UserPermissionFeature.Command.Assign;
+using KuyumHesap.Application.Features.UserPermissionFeature.Command.Delete;
+using KuyumHesap.Application.Features.UserPermissionFeature.Queries.GetByUserId;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -30,16 +33,7 @@ namespace KuyumHesap.Api.Controllers.UsersCont
         {
             return await _mediator.Send(new GetByIdUserQueryRequest(id), token);
         }
-        [HttpPost]
-        public async Task<ResponseDto<CreateUserCommandResponse>> CreateAsync(CreateUserCommandRequest request, CancellationToken token)
-        {
-            return await _mediator.Send(request, token);
-        }
-        [HttpPut]
-        public async Task<ResponseDto<UpdateUserCommandResponse>> UpdateAsync(UpdateUserCommandRequest request, CancellationToken token)
-        {
-            return await _mediator.Send(request, token);
-        }
+
 
         [HttpGet]
         public async Task<ResponseDto<List<GetAllRolesQueryResponse>>> GetAllRolesAsync(CancellationToken cancellationToken)
@@ -60,6 +54,28 @@ namespace KuyumHesap.Api.Controllers.UsersCont
         public async Task<ResponseDto<UpdateRolesCommandResponse>> UpdateRoleAsync(UpdateRolesCommandRequest request, CancellationToken token)
         {
             return await _mediator.Send(request, token);
+        }
+
+        [HttpGet("{userId}")]
+        public async Task<ResponseDto<List<GetUserPermissionsQueryResponse>>> GetPermissionsAsync(int userId, CancellationToken token)
+        {
+            return await _mediator.Send(new GetUserPermissionsQueryRequest(userId), token);
+        }
+
+        [HttpPost]
+        public async Task<ResponseDto<AssignUserPermissionCommandResponse>> AssignPermissionAsync(AssignUserPermissionCommandRequest request, CancellationToken token)
+        {
+            return await _mediator.Send(request, token);
+        }
+
+        [HttpDelete]
+        public async Task<ResponseDto<DeleteUserPermissionCommandResponse>> DeletePermissionAsync([FromQuery] int userId, [FromQuery] int permissionId, CancellationToken token)
+        {
+            return await _mediator.Send(new DeleteUserPermissionCommandRequest
+            {
+                UserId = userId,
+                PermissionId = permissionId
+            }, token);
         }
 
     }

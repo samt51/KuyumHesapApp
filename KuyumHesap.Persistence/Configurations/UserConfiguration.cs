@@ -13,25 +13,31 @@ namespace KuyumHesap.Persistence.Configurations
             {
                 new Users {
                 Id = 1,
-                RoleId = 1,
+                RoleId = 3,
                 FirstName = "Mahmut",
                 LastName = "Kavalcı",
-                Email = "mahmut.kavalci@gmail.com",
+                UserName = "MAHMUT",
+                CompanyCode ="KUYUM-001",
+                BranchCode="0001",
                 Password = PasswordHashExtension.HashPassword("123456"),
                 Phone = "+905353348460",
                 Active = true,
-                BagliHesapID = null
+                BagliHesapID = null,
+                          CreatedDate=new DateTime(2026,04,01)
             },
                  new Users {
                 Id = 2,
-                RoleId = 1,
+                RoleId = 3,
                 FirstName = "Samet",
                 LastName = "Bağlan",
-                Email = "samt51.m@icloud.com",
+                UserName = "SAMET",
+                CompanyCode ="KUYUM-001",
+                BranchCode="0001",
                 Password = PasswordHashExtension.HashPassword("123456"),
                 Phone = "+905363956979",
                 Active = true,
-                BagliHesapID = null
+                BagliHesapID = null,
+                          CreatedDate=new DateTime(2026,04,01)
             }
         };
             builder.HasData(data);

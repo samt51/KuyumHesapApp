@@ -1,9 +1,7 @@
 ﻿namespace KuyumHesap.Domain.Entities
 {
-    public class UserPermission
+    public class UserPermission : KuyumHesap.Domain.Command.BaseEntity
     {
-        public int Id { get; set; }
-
         public int UserId { get; set; }
         public Users Users { get; set; }
 

@@ -1,6 +1,4 @@
-﻿using KuyumHesap.Application.Common.Extensions;
-using KuyumHesap.Domain.Entities;
-using KuyumHesap.Persistence.Common.Context;
+﻿using KuyumHesap.Persistence.Common.Context;
 using KuyumHesap.Persistence.Common.SqlViews;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
@@ -24,7 +22,20 @@ namespace KuyumHesap.Persistence.Common.Extensions
             var db = sp.GetRequiredService<TContext>();
             var logger = sp.GetRequiredService<ILoggerFactory>().CreateLogger("EF.Migration");
 
-            await db.Database.MigrateAsync();
+            var migrations = db.Database.GetMigrations();
+            if (migrations.Any())
+            {
+                await db.Database.MigrateAsync();
+                logger.LogInformation("Development database migrated.");
+            }
+            else
+            {
+                var created = await db.Database.EnsureCreatedAsync();
+                logger.LogInformation(
+                    created
+                        ? "Development database created with the current model."
+                        : "Development database already exists.");
+            }
 
             // Persistence katmanında view'leri garantiye al
             if (db is AppDbContext appDb)

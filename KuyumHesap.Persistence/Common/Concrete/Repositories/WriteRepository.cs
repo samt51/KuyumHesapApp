@@ -49,5 +49,12 @@ namespace KuyumHesap.Persistence.Common.Concrete.Repositories
             await Task.Run(() => Table.Update(entity));
             return entity;
         }
+
+
+
+        public void UpdateRange(List<T> entities, CancellationToken cancellationToken = default)
+        {
+            Table.UpdateRange(entities);
+        }
     }
 }

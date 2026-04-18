@@ -28,8 +28,9 @@ namespace KuyumHesap.Persistence.Common.Concrete.Auth
             {
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
                 new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
-                new Claim(JwtRegisteredClaimNames.Email, user.Email),
-                 new Claim(ClaimTypes.Name, user.Email.ToString()),
+                new Claim("userName", user.UserName),
+                 new Claim("companyCode", user.CompanyCode),
+                 new Claim("branchCode", user.BranchCode),
             };
 
             foreach (var role in roles)
@@ -85,22 +86,22 @@ namespace KuyumHesap.Persistence.Common.Concrete.Auth
         }
         public Task<LoginCommandResponse> GenerateToken(GenerateTokenRequest roleRequest)
         {
-
-            SymmetricSecurityKey symmetricSecurityKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(configuration["JWT:Secret"]));
+            SymmetricSecurityKey symmetricSecurityKey =
+                new SymmetricSecurityKey(Encoding.ASCII.GetBytes(configuration["JWT:Secret"]));
 
             var notBefore = DateTime.Now;
             var expiresTime = DateTime.Now.AddDays(1);
 
-
             JwtSecurityToken jwt = new JwtSecurityToken(
                 issuer: configuration["JWT:Issuer"],
                 audience: configuration["JWT:Audience"],
-                claims: new List<Claim> {
-                    new Claim("role", roleRequest.Role),
-                    new Claim(ClaimTypes.Email,roleRequest.Email),
-                    new Claim("Id",roleRequest.Id.ToString()),
-                    new Claim(ClaimTypes.Name,roleRequest.Email.ToString())
-
+                claims: new List<Claim>
+                {
+            new Claim("roleId", roleRequest.RoleId.ToString()),
+            new Claim("userName", roleRequest.UserName),
+            new Claim("Id", roleRequest.Id.ToString()),
+            new Claim("companyCode", roleRequest.CompanyCode),
+            new Claim("branchCode", roleRequest.BranchCode)
                 },
                 expires: expiresTime,
                 notBefore: notBefore,
@@ -110,7 +111,7 @@ namespace KuyumHesap.Persistence.Common.Concrete.Auth
             return Task.FromResult(new LoginCommandResponse
             {
                 Token = new JwtSecurityTokenHandler().WriteToken(jwt),
-                TokenExpireDate = notBefore
+                TokenExpireDate = expiresTime
             });
         }
     }

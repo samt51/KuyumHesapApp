@@ -10,11 +10,11 @@ namespace KuyumHesap.Persistence.Configurations
         {
             var data = new ProductType[]
             {
-                new ProductType { Id = 1, ProductTypeName = "YÜZÜK" ,CreatedByUserId =1},
-                new ProductType { Id = 2, ProductTypeName = "KÜPE" ,CreatedByUserId=1},
-                new ProductType { Id = 3, ProductTypeName = "ALYANS" ,CreatedByUserId = 1},
-                new ProductType { Id = 4, ProductTypeName = "BİLEKLİK" ,CreatedByUserId = 1},
-                new ProductType { Id = 5, ProductTypeName = "KELEPÇE" ,CreatedByUserId = 1}
+                new ProductType { Id = 1, ProductTypeName = "YÜZÜK" ,CreatedByUserId =1,          CreatedDate=new DateTime(2026,04,01)},
+                new ProductType { Id = 2, ProductTypeName = "KÜPE" ,CreatedByUserId=1, CreatedDate = new DateTime(2026, 04, 01)},
+                new ProductType { Id = 3, ProductTypeName = "ALYANS" ,CreatedByUserId = 1, CreatedDate = new DateTime(2026, 04, 01)},
+                new ProductType { Id = 4, ProductTypeName = "BİLEKLİK" ,CreatedByUserId = 1, CreatedDate = new DateTime(2026, 04, 01)},
+                new ProductType { Id = 5, ProductTypeName = "KELEPÇE" ,CreatedByUserId = 1, CreatedDate = new DateTime(2026, 04, 01)}
             };
             builder.HasData(data);
         }

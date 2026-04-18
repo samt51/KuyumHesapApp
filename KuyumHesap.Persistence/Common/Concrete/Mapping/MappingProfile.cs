@@ -23,6 +23,8 @@ using KuyumHesap.Application.Features.CurrecyFeature.Queries.GetAll;
 using KuyumHesap.Application.Features.ExchangeFeature.Dtos;
 using KuyumHesap.Application.Features.ExchangeFeature.Queries.GetAll;
 using KuyumHesap.Application.Features.ExchangeFeature.Queries.GetById;
+using KuyumHesap.Application.Features.AuthFeature.Commands.Register;
+using KuyumHesap.Application.Features.MenuFeature.Command.Create;
 using KuyumHesap.Application.Features.MovementFeature.Dtos;
 using KuyumHesap.Application.Features.MovementFeature.Queries.GetAll;
 using KuyumHesap.Application.Features.MovementFeature.Queries.GetById;
@@ -117,6 +119,8 @@ namespace KuyumHesap.Persistence.Common.Concrete.Mapping
             CreateMap<TaskItem, GetAllMyTaskQueryResponse>().ReverseMap();
             CreateMap<TaskItem, GetByIdTaskItemQueryResponse>().ReverseMap();
             CreateMap<Users, UserResponseDto>().ReverseMap();
+            CreateMap<RegisterCommandRequest, Users>().ReverseMap();
+            CreateMap<CreateUserCommandRequest, Users>().ReverseMap();
             CreateMap<TaskItem, GetAllMyTaskQueryResponseDto>().ReverseMap();
             CreateMap<Currency, ExchangeForCurrencyResponseDto>().ReverseMap();
 
@@ -139,7 +143,7 @@ namespace KuyumHesap.Persistence.Common.Concrete.Mapping
 .ForMember(d => d.RoleResponse, opt => opt.MapFrom(s => s.Role));
 
             CreateMap<Users, GetByIdUserQueryResponse>()
-.ForMember(d => d.RoleResponseDto, opt => opt.MapFrom(s => s.Role));
+.ForMember(d => d.RoleResponse, opt => opt.MapFrom(s => s.Role));
 
 
 
@@ -226,6 +230,8 @@ namespace KuyumHesap.Persistence.Common.Concrete.Mapping
 
             CreateMap<UpdateRolesCommandRequest, Roles>().ReverseMap();
             CreateMap<CreateUserCommandRequest, Roles>().ReverseMap();
+
+            CreateMap<CreateMenuCommandRequest, Menu>().ReverseMap();
         }
     }
 }

@@ -8,7 +8,12 @@ namespace KuyumHesap.Application.Features.UserFeature.Commands.Update
         public int Id { get; set; }
         public string FirstName { get; set; } = string.Empty;
         public string LastName { get; set; } = string.Empty;
-        public string Password { get; set; } = string.Empty;
+        public string UserName { get; set; } = string.Empty;
+        public string CompanyCode { get; set; }
+        public string BranchCode { get; set; }
+        public string Password { get; set; }
+        public string ConfirmPassword { get; set; }
+        public int RoleId { get; set; }
         public string? Phone { get; set; }
         public bool Active { get; set; }
         public int? BagliHesapID { get; set; }
