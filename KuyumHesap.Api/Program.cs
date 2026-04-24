@@ -28,7 +28,6 @@ builder.Configuration
     .AddEnvironmentVariables();
 
 EnsureConfiguredDatabasesExist(builder.Configuration);
-await EnsureDevelopmentDatabaseSchemaAsync(builder.Configuration, builder.Environment);
 
 var lc = new LoggerConfiguration()
     .WriteTo.Console()
@@ -133,10 +132,10 @@ builder.Services.AddMemoryCache();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
- 
-    app.UseSwagger();
-    app.UseSwaggerUI();
- 
+
+app.UseSwagger();
+app.UseSwaggerUI();
+
 
 app.UseHttpsRedirection();
 app.UseCors("AllowAll");
@@ -169,7 +168,7 @@ if (app.Environment.IsDevelopment())
         await HostingExtensions.DevSeeder.SeedAsync(db);
     });
 }
- 
+
 using (var scope = app.Services.CreateScope())
 {
     var recurring = scope.ServiceProvider.GetRequiredService<IRecurringJobManager>();
@@ -264,77 +263,3 @@ static void EnsureDatabaseExists(string connectionString)
     createCommand.ExecuteNonQuery();
 }
 
-static async Task EnsureDevelopmentDatabaseSchemaAsync(IConfiguration configuration, IWebHostEnvironment environment)
-{
-    if (!environment.IsDevelopment())
-    {
-        return;
-    }
-
-    var connectionString = configuration.GetConnectionString("DefaultConnection");
-    if (string.IsNullOrWhiteSpace(connectionString))
-    {
-        return;
-    }
-
-    var options = new DbContextOptionsBuilder<AppDbContext>()
-        .UseSqlServer(connectionString)
-        .Options;
-
-    await using var db = new AppDbContext(options);
-    var migrations = db.Database.GetMigrations();
-
-    if (migrations.Any())
-    {
-        await db.Database.MigrateAsync();
-    }
-    else if (!await AnyModelTableExistsAsync(db))
-    {
-        await db.Database.ExecuteSqlRawAsync(db.Database.GenerateCreateScript());
-    }
-    else
-    {
-        await db.Database.EnsureCreatedAsync();
-    }
-}
-
-static async Task<bool> AnyModelTableExistsAsync(AppDbContext db)
-{
-    var tableNames = db.Model.GetEntityTypes()
-        .Select(entityType => new
-        {
-            Schema = entityType.GetSchema() ?? "dbo",
-            Table = entityType.GetTableName()
-        })
-        .Where(x => !string.IsNullOrWhiteSpace(x.Table))
-        .Distinct()
-        .ToList();
-
-    var connection = db.Database.GetDbConnection();
-    await db.Database.OpenConnectionAsync();
-
-    try
-    {
-        foreach (var tableName in tableNames)
-        {
-            await using var command = connection.CreateCommand();
-            command.CommandText = "SELECT OBJECT_ID(@tableName, 'U')";
-
-            var parameter = command.CreateParameter();
-            parameter.ParameterName = "@tableName";
-            parameter.Value = $"{tableName.Schema}.{tableName.Table}";
-            command.Parameters.Add(parameter);
-
-            if (await command.ExecuteScalarAsync() is not DBNull and not null)
-            {
-                return true;
-            }
-        }
-
-        return false;
-    }
-    finally
-    {
-        await db.Database.CloseConnectionAsync();
-    }
-}

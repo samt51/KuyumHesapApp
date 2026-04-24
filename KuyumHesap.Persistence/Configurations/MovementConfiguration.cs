@@ -8,6 +8,13 @@ namespace KuyumHesap.Persistence.Configurations
     {
         public void Configure(EntityTypeBuilder<Movements> builder)
         {
+
+            builder.Property(s => s.MillRate)
+         .HasPrecision(18, 3);
+
+            builder.Property(s => s.LaborCost)
+    .HasPrecision(18, 3);
+
             builder.HasOne(m => m.Receipt)
                    .WithMany(r => r.Movements)
                    .HasForeignKey(m => m.ReceiptId)

@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace KuyumHesap.Persistence.Migrations
 {
     /// <inheritdoc />
-    public partial class first1migrate : Migration
+    public partial class initiliazermg : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -112,6 +112,7 @@ namespace KuyumHesap.Persistence.Migrations
                     Url = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     IconUrl = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     OrderNo = table.Column<int>(type: "int", nullable: false),
+                    IsActive = table.Column<bool>(type: "bit", nullable: false),
                     RequeiredPermissionCode = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     ModifyDate = table.Column<DateTime>(type: "datetime2", nullable: true),
@@ -151,6 +152,29 @@ namespace KuyumHesap.Persistence.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_MovementTypes", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "PageActions",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Code = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    PageCode = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    IconUrl = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    OrderNo = table.Column<int>(type: "int", nullable: false),
+                    RequiredPermissionCode = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    ModifyDate = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false),
+                    CreatedByUserId = table.Column<int>(type: "int", nullable: false),
+                    UpdatedByUserId = table.Column<int>(type: "int", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_PageActions", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -357,8 +381,12 @@ namespace KuyumHesap.Persistence.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     RoleId = table.Column<int>(type: "int", nullable: false),
-                    RolesId = table.Column<int>(type: "int", nullable: false),
-                    PermissionId = table.Column<int>(type: "int", nullable: false)
+                    PermissionId = table.Column<int>(type: "int", nullable: false),
+                    CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    ModifyDate = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false),
+                    CreatedByUserId = table.Column<int>(type: "int", nullable: false),
+                    UpdatedByUserId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -367,14 +395,12 @@ namespace KuyumHesap.Persistence.Migrations
                         name: "FK_RolePermissions_Permissions_PermissionId",
                         column: x => x.PermissionId,
                         principalTable: "Permissions",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                     table.ForeignKey(
-                        name: "FK_RolePermissions_Roles_RolesId",
-                        column: x => x.RolesId,
+                        name: "FK_RolePermissions_Roles_RoleId",
+                        column: x => x.RoleId,
                         principalTable: "Roles",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -519,9 +545,13 @@ namespace KuyumHesap.Persistence.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     UserId = table.Column<int>(type: "int", nullable: false),
-                    UsersId = table.Column<int>(type: "int", nullable: false),
                     PermissionId = table.Column<int>(type: "int", nullable: false),
-                    IsAllowed = table.Column<bool>(type: "bit", nullable: false)
+                    IsAllowed = table.Column<bool>(type: "bit", nullable: false),
+                    CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    ModifyDate = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false),
+                    CreatedByUserId = table.Column<int>(type: "int", nullable: false),
+                    UpdatedByUserId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -530,14 +560,12 @@ namespace KuyumHesap.Persistence.Migrations
                         name: "FK_UserPermissions_Permissions_PermissionId",
                         column: x => x.PermissionId,
                         principalTable: "Permissions",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                     table.ForeignKey(
-                        name: "FK_UserPermissions_Users_UsersId",
-                        column: x => x.UsersId,
+                        name: "FK_UserPermissions_Users_UserId",
+                        column: x => x.UserId,
                         principalTable: "Users",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -688,6 +716,18 @@ namespace KuyumHesap.Persistence.Migrations
                 });
 
             migrationBuilder.InsertData(
+                table: "Menus",
+                columns: new[] { "Id", "Code", "CreatedByUserId", "CreatedDate", "IconUrl", "IsActive", "IsDeleted", "ModifyDate", "Name", "OrderNo", "ParentId", "RequeiredPermissionCode", "UpdatedByUserId", "Url" },
+                values: new object[,]
+                {
+                    { 1, "DASHBOARD_VIEW", 1, new DateTime(2026, 4, 16, 3, 43, 46, 338, DateTimeKind.Unspecified).AddTicks(3950), "fas fa-home w-6 text-center text-xl text-gray-500", true, false, null, "Ana Sayfa", 1, null, "DASHBOARD_VIEW", null, "/Dashboard/IndexDashboard" },
+                    { 82, "SELLANDCARI_VIEW", 1, new DateTime(2026, 4, 17, 2, 2, 16, 20, DateTimeKind.Unspecified), "fas fa-shopping-cart w-6 text-center text-xl text-gray-500", true, false, null, "Satış Ve Cari", 2, null, "SELLANDCARI_VIEW", null, "/SellAndCari/Index" },
+                    { 83, "REPORTS_ROOT", 1, new DateTime(2026, 4, 17, 2, 2, 16, 20, DateTimeKind.Unspecified), "fas fa-chart-line w-6 text-center text-xl text-gray-500", true, false, null, "Cari Raporlar", 3, null, "REPORTS_ROOT", null, "" },
+                    { 84, "DEFINITIONS_ROOT", 1, new DateTime(2026, 4, 17, 2, 2, 16, 20, DateTimeKind.Unspecified), "fas fa-sitemap w-6 text-center text-xl text-gray-500", true, false, null, "Tanımlamalar", 4, null, "DEFINITIONS_ROOT", null, "" },
+                    { 98, "SETTINGS_ROOT", 1, new DateTime(2026, 4, 18, 7, 20, 11, 0, DateTimeKind.Unspecified), "fas fa-cogs w-6 text-center text-xl text-gray-500", true, false, null, "Ayarlar", 5, null, "SETTINGS_ROOT", null, "" }
+                });
+
+            migrationBuilder.InsertData(
                 table: "MovementTypes",
                 columns: new[] { "Id", "AutoGeneratedTransactionTypeId", "CreatedByUserId", "CreatedDate", "Description", "GC", "IsActive", "IsDeleted", "ModifyDate", "SC", "TransactionCode", "TransactionName", "UpdatedByUserId" },
                 values: new object[,]
@@ -702,6 +742,53 @@ namespace KuyumHesap.Persistence.Migrations
                     { 8, 7, 1, new DateTime(2026, 4, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "VİRMAN(HAVALE) ÇIKIŞ İŞLEMLERİ İÇİN KULLANILIR", "C", true, false, null, "C", "VRC", "VİRMAN ÇIKIŞ", null },
                     { 9, 10, 1, new DateTime(2026, 4, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "ÇEVİRME GİRİŞ İŞLEMLERİ İÇİN KULLANILIR", "G", true, false, null, "C", "CVG", "ÇEVİRME GİRİŞ", null },
                     { 10, 9, 1, new DateTime(2026, 4, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "ÇEVİRME ÇIKIŞ İŞLEMLERİ İÇİN KULLANILIR", "C", true, false, null, "C", "CVC", "ÇEVİRME ÇIKIŞ", null }
+                });
+
+            migrationBuilder.InsertData(
+                table: "Permissions",
+                columns: new[] { "Id", "Code", "CreatedByUserId", "CreatedDate", "IsDeleted", "ModifyDate", "Name", "UpdatedByUserId" },
+                values: new object[,]
+                {
+                    { 4, "DASHBOARD_VIEW", 1, new DateTime(2026, 4, 17, 4, 15, 41, 11, DateTimeKind.Unspecified).AddTicks(1055), false, null, "Ana Sayfa", null },
+                    { 5, "SELLANDCARI_VIEW", 1, new DateTime(2026, 4, 17, 4, 15, 41, 93, DateTimeKind.Unspecified).AddTicks(9078), false, null, "Satış Ve Cari", null },
+                    { 6, "REPORTS_ROOT", 1, new DateTime(2026, 4, 17, 4, 15, 41, 142, DateTimeKind.Unspecified).AddTicks(3436), false, null, "Cari Raporlar", null },
+                    { 7, "DEFINITIONS_ROOT", 1, new DateTime(2026, 4, 17, 4, 15, 41, 206, DateTimeKind.Unspecified).AddTicks(4989), false, null, "Tanımlamalar", null },
+                    { 8, "SATIS_CARI_NAKIT_GIRIS", 1, new DateTime(2026, 4, 17, 4, 15, 41, 354, DateTimeKind.Unspecified).AddTicks(354), false, null, "Nakit Giriş", null },
+                    { 9, "SATIS_CARI_CRM", 1, new DateTime(2026, 4, 17, 4, 15, 41, 415, DateTimeKind.Unspecified).AddTicks(5333), false, null, "CRM", null },
+                    { 10, "SATIS_CARI_EKSTRE", 1, new DateTime(2026, 4, 17, 4, 15, 41, 458, DateTimeKind.Unspecified).AddTicks(1016), false, null, "Ekstre", null },
+                    { 11, "SATIS_CARI_NAKIT_CIKIS", 1, new DateTime(2026, 4, 17, 4, 15, 41, 498, DateTimeKind.Unspecified).AddTicks(8579), false, null, "Nakit Çıkış", null },
+                    { 12, "SATIS_CARI_URUN_GIRIS", 1, new DateTime(2026, 4, 17, 4, 15, 41, 544, DateTimeKind.Unspecified).AddTicks(9639), false, null, "Ürün Giriş", null },
+                    { 13, "SATIS_CARI_LISTE", 1, new DateTime(2026, 4, 17, 4, 15, 41, 603, DateTimeKind.Unspecified).AddTicks(1762), false, null, "Cari Liste", null },
+                    { 14, "SATIS_CARI_URUN_CIKIS", 1, new DateTime(2026, 4, 17, 4, 15, 41, 653, DateTimeKind.Unspecified).AddTicks(7409), false, null, "Ürün Çıkış", null },
+                    { 15, "SATIS_CARI_ISKONTO", 1, new DateTime(2026, 4, 17, 4, 15, 41, 788, DateTimeKind.Unspecified).AddTicks(9634), false, null, "İskonto", null },
+                    { 16, "SATIS_CARI_VIRMAN", 1, new DateTime(2026, 4, 17, 4, 15, 41, 853, DateTimeKind.Unspecified).AddTicks(4540), false, null, "Virman", null },
+                    { 17, "SATIS_CARI_ACIK_HESAP", 1, new DateTime(2026, 4, 17, 4, 15, 41, 911, DateTimeKind.Unspecified).AddTicks(806), false, null, "Açık Hesap", null },
+                    { 18, "SATIS_CARI_CEVIRI", 1, new DateTime(2026, 4, 17, 4, 15, 41, 971, DateTimeKind.Unspecified).AddTicks(9923), false, null, "Çeviri", null },
+                    { 19, "SATIS_CARI_KALEM_EKLE", 1, new DateTime(2026, 4, 17, 4, 15, 42, 58, DateTimeKind.Unspecified).AddTicks(734), false, null, "Kalem Ekle", null },
+                    { 20, "SATIS_CARI_KALEM_SIL", 1, new DateTime(2026, 4, 17, 4, 15, 42, 139, DateTimeKind.Unspecified).AddTicks(5336), false, null, "Kalem Sil", null },
+                    { 21, "SATIS_CARI_FIS_KAYDET", 1, new DateTime(2026, 4, 17, 4, 15, 42, 239, DateTimeKind.Unspecified).AddTicks(4560), false, null, "Fiş Kaydet", null },
+                    { 22, "SATIS_CARI_YENI_ISLEM", 1, new DateTime(2026, 4, 17, 4, 15, 42, 658, DateTimeKind.Unspecified).AddTicks(454), false, null, "Yeni İşlem", null },
+                    { 23, "SATIS_CARI_FIS_SIL", 1, new DateTime(2026, 4, 17, 4, 15, 42, 871, DateTimeKind.Unspecified).AddTicks(3977), false, null, "Fiş Sil", null },
+                    { 24, "SATIS_CARI_NAKIT_TAHSILAT", 1, new DateTime(2026, 4, 17, 4, 15, 42, 954, DateTimeKind.Unspecified).AddTicks(7189), false, null, "Nakit Tahsilat", null },
+                    { 25, "SATIS_CARI_NAKIT_ODEME", 1, new DateTime(2026, 4, 17, 4, 15, 43, 25, DateTimeKind.Unspecified).AddTicks(4522), false, null, "Nakit Ödeme", null },
+                    { 26, "SATIS_CARI_URUN_ALIS", 1, new DateTime(2026, 4, 17, 4, 15, 43, 222, DateTimeKind.Unspecified).AddTicks(5784), false, null, "Ürün Alış", null },
+                    { 27, "SATIS_CARI_URUN_SATIS", 1, new DateTime(2026, 4, 17, 4, 15, 43, 293, DateTimeKind.Unspecified).AddTicks(9680), false, null, "Ürün Satış", null },
+                    { 28, "ACCOUNT_VIEW", 1, new DateTime(2026, 4, 18, 5, 28, 15, 55, DateTimeKind.Unspecified).AddTicks(5203), false, null, "Hesap Tanımlama", null },
+                    { 29, "CASH_REPORT_VIEW", 1, new DateTime(2026, 4, 18, 5, 28, 15, 94, DateTimeKind.Unspecified).AddTicks(3770), false, null, "Kasa Raporu", null },
+                    { 30, "CASH_IN_OUT_REPORT_VIEW", 1, new DateTime(2026, 4, 18, 5, 28, 15, 126, DateTimeKind.Unspecified).AddTicks(5704), false, null, "Nakit Giriş Çıkış Raporu", null },
+                    { 31, "ACCOUNT_TYPE_VIEW", 1, new DateTime(2026, 4, 18, 5, 28, 15, 158, DateTimeKind.Unspecified).AddTicks(956), false, null, "Hesap Tipleri Tanımlama", null },
+                    { 32, "CURRENCY_VIEW", 1, new DateTime(2026, 4, 18, 5, 28, 15, 188, DateTimeKind.Unspecified).AddTicks(7847), false, null, "Döviz Tanımlama", null },
+                    { 33, "STOCK_GROUP_VIEW", 1, new DateTime(2026, 4, 18, 5, 28, 15, 223, DateTimeKind.Unspecified).AddTicks(4144), false, null, "Stok Grubu Tanımlama", null },
+                    { 34, "STOCK_TYPE_VIEW", 1, new DateTime(2026, 4, 18, 5, 28, 15, 255, DateTimeKind.Unspecified).AddTicks(9451), false, null, "Stok Tipleri Tanımlama", null },
+                    { 35, "STOCK_VIEW", 1, new DateTime(2026, 4, 18, 5, 28, 15, 289, DateTimeKind.Unspecified).AddTicks(9268), false, null, "Stok Tanımlama", null },
+                    { 36, "PRODUCT_TYPE_VIEW", 1, new DateTime(2026, 4, 18, 5, 28, 15, 346, DateTimeKind.Unspecified).AddTicks(3792), false, null, "Ürün Tipi Tanımlama", null },
+                    { 37, "USER_VIEW", 1, new DateTime(2026, 4, 18, 5, 28, 15, 377, DateTimeKind.Unspecified).AddTicks(3427), false, null, "Kullanıcı Tanımlama", null },
+                    { 42, "SETTINGS_ROOT", 1, new DateTime(2026, 4, 18, 7, 17, 39, 353, DateTimeKind.Unspecified).AddTicks(3333), false, null, "Ayarlar Menüsü", null },
+                    { 43, "SETTINGS_GENEL_VIEW", 1, new DateTime(2026, 4, 18, 7, 17, 39, 353, DateTimeKind.Unspecified).AddTicks(3333), false, null, "Genel Ayarlar", null },
+                    { 44, "SETTINGS_BARKOD_VIEW", 1, new DateTime(2026, 4, 18, 7, 17, 39, 353, DateTimeKind.Unspecified).AddTicks(3333), false, null, "Barkod Ayarları", null },
+                    { 45, "SETTINGS_MENU", 1, new DateTime(2026, 4, 18, 7, 46, 42, 276, DateTimeKind.Unspecified).AddTicks(6667), false, null, "Menü Ayarları Yönetimi", null },
+                    { 46, "SETTINGS_PAGE_ACTION", 1, new DateTime(2026, 4, 18, 7, 46, 42, 276, DateTimeKind.Unspecified).AddTicks(6667), false, null, "Sayfa Aksiyon Yönetimi", null },
+                    { 47, "SETTINGS_PERMISSIONS", 1, new DateTime(2026, 4, 18, 7, 46, 42, 276, DateTimeKind.Unspecified).AddTicks(6667), false, null, "İzin / Yetki Yönetimi", null }
                 });
 
             migrationBuilder.InsertData(
@@ -756,6 +843,28 @@ namespace KuyumHesap.Persistence.Migrations
                 });
 
             migrationBuilder.InsertData(
+                table: "Menus",
+                columns: new[] { "Id", "Code", "CreatedByUserId", "CreatedDate", "IconUrl", "IsActive", "IsDeleted", "ModifyDate", "Name", "OrderNo", "ParentId", "RequeiredPermissionCode", "UpdatedByUserId", "Url" },
+                values: new object[,]
+                {
+                    { 85, "CASH_REPORT_VIEW", 1, new DateTime(2026, 4, 17, 2, 2, 16, 20, DateTimeKind.Unspecified), "fas fa-wallet", true, false, null, "Kasa Raporu", 1, 83, "CASH_REPORT_VIEW", null, "/Report/GetCashReport" },
+                    { 86, "CASH_IN_OUT_REPORT_VIEW", 1, new DateTime(2026, 4, 17, 2, 2, 16, 20, DateTimeKind.Unspecified), "fas fa-exchange-alt", true, false, null, "Nakit Giriş Çıkış Raporu", 2, 83, "CASH_IN_OUT_REPORT_VIEW", null, "/Report/GetCashReport" },
+                    { 87, "ACCOUNT_VIEW", 1, new DateTime(2026, 4, 17, 2, 2, 16, 20, DateTimeKind.Unspecified), "fas fa-tags", true, false, null, "Hesap Tanımlama", 1, 84, "ACCOUNT_VIEW", null, "/Account/Index" },
+                    { 88, "ACCOUNT_TYPE_VIEW", 1, new DateTime(2026, 4, 17, 2, 2, 16, 20, DateTimeKind.Unspecified), "fas fa-tags", true, false, null, "Hesap Tipleri Tanımlama", 2, 84, "ACCOUNT_TYPE_VIEW", null, "/AccountType/Index" },
+                    { 89, "CURRENCY_VIEW", 1, new DateTime(2026, 4, 17, 2, 2, 16, 20, DateTimeKind.Unspecified), "fas fa-coins", true, false, null, "Döviz Tanımlama", 3, 84, "CURRENCY_VIEW", null, "/Currency/Index" },
+                    { 90, "STOCK_GROUP_VIEW", 1, new DateTime(2026, 4, 17, 2, 2, 16, 20, DateTimeKind.Unspecified), "fas fa-layer-group", true, false, null, "Stok Grubu Tanımlama", 4, 84, "STOCK_GROUP_VIEW", null, "/StockGroup/Index" },
+                    { 91, "STOCK_TYPE_VIEW", 1, new DateTime(2026, 4, 17, 2, 2, 16, 20, DateTimeKind.Unspecified), "fas fa-cubes", true, false, null, "Stok Tipleri Tanımlama", 5, 84, "STOCK_TYPE_VIEW", null, "/StockType/Index" },
+                    { 92, "STOCK_VIEW", 1, new DateTime(2026, 4, 17, 2, 2, 16, 20, DateTimeKind.Unspecified), "fas fa-box", true, false, null, "Stok Tanımlama", 6, 84, "STOCK_VIEW", null, "/Stock/Index" },
+                    { 93, "PRODUCT_TYPE_VIEW", 1, new DateTime(2026, 4, 17, 2, 2, 16, 20, DateTimeKind.Unspecified), "fas fa-gem", true, false, null, "Ürün Tipi Tanımlama", 7, 84, "PRODUCT_TYPE_VIEW", null, "/ProductType/Index" },
+                    { 94, "USER_VIEW", 1, new DateTime(2026, 4, 17, 2, 2, 16, 20, DateTimeKind.Unspecified), "fas fa-users-cog", true, false, null, "Kullanıcı Tanımlama", 8, 84, "USER_VIEW", null, "/User/Index" },
+                    { 99, "SETTINGS_GENEL_VIEW", 1, new DateTime(2026, 4, 18, 7, 20, 11, 0, DateTimeKind.Unspecified), "fas fa-cog", true, false, null, "Genel Ayarlar", 1, 98, "SETTINGS_GENEL_VIEW", null, "/Settings/Index" },
+                    { 100, "SETTINGS_BARKOD_VIEW", 1, new DateTime(2026, 4, 18, 7, 20, 11, 3, DateTimeKind.Unspecified).AddTicks(3333), "fas fa-barcode", true, false, null, "Barkod Ayarları", 2, 98, "SETTINGS_BARKOD_VIEW", null, "/BarcodeSettings/Index" },
+                    { 101, "SETTINGS_MENU", 1, new DateTime(2026, 4, 18, 7, 46, 42, 276, DateTimeKind.Unspecified).AddTicks(6667), "fas fa-list", true, false, null, "Menü Ayarları ve İzinler", 3, 98, "SETTINGS_MENU", null, "/MenuSettings/Index" },
+                    { 102, "SETTINGS_PAGE_ACTION", 1, new DateTime(2026, 4, 18, 7, 46, 42, 280, DateTimeKind.Unspecified), "fas fa-toggle-on", true, false, null, "Sayfa Aksiyonları", 4, 98, "SETTINGS_PAGE_ACTION", null, "/PageActionSettings/Index" },
+                    { 103, "SETTINGS_PERMISSIONS", 1, new DateTime(2026, 4, 18, 7, 46, 42, 280, DateTimeKind.Unspecified), "fas fa-user-shield", true, false, null, "İzinler", 5, 98, "SETTINGS_PERMISSIONS", null, "/Permissions/Index" }
+                });
+
+            migrationBuilder.InsertData(
                 table: "StockTypes",
                 columns: new[] { "Id", "CreatedByUserId", "CreatedDate", "CurrencyId", "IsActive", "IsDeleted", "ModifyDate", "StockGroupId", "StockTypeName", "UpdatedByUserId" },
                 values: new object[,]
@@ -775,8 +884,8 @@ namespace KuyumHesap.Persistence.Migrations
                 columns: new[] { "Id", "Active", "BagliHesapID", "BarkodYaziciAdi", "BranchCode", "CompanyCode", "CreatedByUserId", "CreatedDate", "FirstName", "FisYaziciAdi", "IsDeleted", "LastName", "ModifyDate", "Password", "Phone", "RoleId", "UpdatedByUserId", "UserName", "VarsayilanYaziciAdi" },
                 values: new object[,]
                 {
-                    { 1, true, null, null, "0001", "KUYUM-001", 0, new DateTime(2026, 4, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Mahmut", null, false, "Kavalcı", null, "8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92", "+905353348460", 3, null, "MAHMUT", null },
-                    { 2, true, null, null, "0001", "KUYUM-001", 0, new DateTime(2026, 4, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Samet", null, false, "Bağlan", null, "8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92", "+905363956979", 3, null, "SAMET", null }
+                    { 1, true, null, null, "0001", "KUYUM", 0, new DateTime(2026, 4, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Mahmut", null, false, "Kavalcı", null, "8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92", "+905353348460", 3, null, "MAHMUT", null },
+                    { 2, true, null, null, "0001", "KUYUM", 0, new DateTime(2026, 4, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Samet", null, false, "Bağlan", null, "8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92", "+905363956979", 3, null, "SAMET", null }
                 });
 
             migrationBuilder.CreateIndex(
@@ -845,9 +954,10 @@ namespace KuyumHesap.Persistence.Migrations
                 column: "PermissionId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_RolePermissions_RolesId",
+                name: "IX_RolePermissions_RoleId_PermissionId",
                 table: "RolePermissions",
-                column: "RolesId");
+                columns: new[] { "RoleId", "PermissionId" },
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_Settings_Key",
@@ -898,11 +1008,6 @@ namespace KuyumHesap.Persistence.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_UserPermissions_UsersId",
-                table: "UserPermissions",
-                column: "UsersId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Users_RoleId",
                 table: "Users",
                 column: "RoleId");
@@ -925,6 +1030,9 @@ namespace KuyumHesap.Persistence.Migrations
 
             migrationBuilder.DropTable(
                 name: "Movements");
+
+            migrationBuilder.DropTable(
+                name: "PageActions");
 
             migrationBuilder.DropTable(
                 name: "ProductTypes");

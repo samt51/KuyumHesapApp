@@ -680,6 +680,9 @@ namespace KuyumHesap.Persistence.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
@@ -689,11 +692,6 @@ namespace KuyumHesap.Persistence.Migrations
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("IsActive")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bit")
-                        .HasDefaultValue(true);
 
                     b.Property<int>("OrderNo")
                         .HasColumnType("int");
@@ -716,6 +714,303 @@ namespace KuyumHesap.Persistence.Migrations
                     b.HasIndex("ParentId");
 
                     b.ToTable("Menus");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Code = "DASHBOARD_VIEW",
+                            CreatedByUserId = 1,
+                            CreatedDate = new DateTime(2026, 4, 16, 3, 43, 46, 338, DateTimeKind.Unspecified).AddTicks(3950),
+                            IconUrl = "fas fa-home w-6 text-center text-xl text-gray-500",
+                            IsActive = true,
+                            IsDeleted = false,
+                            Name = "Ana Sayfa",
+                            OrderNo = 1,
+                            RequeiredPermissionCode = "DASHBOARD_VIEW",
+                            Url = "/Dashboard/IndexDashboard"
+                        },
+                        new
+                        {
+                            Id = 82,
+                            Code = "SELLANDCARI_VIEW",
+                            CreatedByUserId = 1,
+                            CreatedDate = new DateTime(2026, 4, 17, 2, 2, 16, 20, DateTimeKind.Unspecified),
+                            IconUrl = "fas fa-shopping-cart w-6 text-center text-xl text-gray-500",
+                            IsActive = true,
+                            IsDeleted = false,
+                            Name = "Satış Ve Cari",
+                            OrderNo = 2,
+                            RequeiredPermissionCode = "SELLANDCARI_VIEW",
+                            Url = "/SellAndCari/Index"
+                        },
+                        new
+                        {
+                            Id = 83,
+                            Code = "REPORTS_ROOT",
+                            CreatedByUserId = 1,
+                            CreatedDate = new DateTime(2026, 4, 17, 2, 2, 16, 20, DateTimeKind.Unspecified),
+                            IconUrl = "fas fa-chart-line w-6 text-center text-xl text-gray-500",
+                            IsActive = true,
+                            IsDeleted = false,
+                            Name = "Cari Raporlar",
+                            OrderNo = 3,
+                            RequeiredPermissionCode = "REPORTS_ROOT",
+                            Url = ""
+                        },
+                        new
+                        {
+                            Id = 84,
+                            Code = "DEFINITIONS_ROOT",
+                            CreatedByUserId = 1,
+                            CreatedDate = new DateTime(2026, 4, 17, 2, 2, 16, 20, DateTimeKind.Unspecified),
+                            IconUrl = "fas fa-sitemap w-6 text-center text-xl text-gray-500",
+                            IsActive = true,
+                            IsDeleted = false,
+                            Name = "Tanımlamalar",
+                            OrderNo = 4,
+                            RequeiredPermissionCode = "DEFINITIONS_ROOT",
+                            Url = ""
+                        },
+                        new
+                        {
+                            Id = 85,
+                            Code = "CASH_REPORT_VIEW",
+                            CreatedByUserId = 1,
+                            CreatedDate = new DateTime(2026, 4, 17, 2, 2, 16, 20, DateTimeKind.Unspecified),
+                            IconUrl = "fas fa-wallet",
+                            IsActive = true,
+                            IsDeleted = false,
+                            Name = "Kasa Raporu",
+                            OrderNo = 1,
+                            ParentId = 83,
+                            RequeiredPermissionCode = "CASH_REPORT_VIEW",
+                            Url = "/Report/GetCashReport"
+                        },
+                        new
+                        {
+                            Id = 86,
+                            Code = "CASH_IN_OUT_REPORT_VIEW",
+                            CreatedByUserId = 1,
+                            CreatedDate = new DateTime(2026, 4, 17, 2, 2, 16, 20, DateTimeKind.Unspecified),
+                            IconUrl = "fas fa-exchange-alt",
+                            IsActive = true,
+                            IsDeleted = false,
+                            Name = "Nakit Giriş Çıkış Raporu",
+                            OrderNo = 2,
+                            ParentId = 83,
+                            RequeiredPermissionCode = "CASH_IN_OUT_REPORT_VIEW",
+                            Url = "/Report/GetCashReport"
+                        },
+                        new
+                        {
+                            Id = 87,
+                            Code = "ACCOUNT_VIEW",
+                            CreatedByUserId = 1,
+                            CreatedDate = new DateTime(2026, 4, 17, 2, 2, 16, 20, DateTimeKind.Unspecified),
+                            IconUrl = "fas fa-tags",
+                            IsActive = true,
+                            IsDeleted = false,
+                            Name = "Hesap Tanımlama",
+                            OrderNo = 1,
+                            ParentId = 84,
+                            RequeiredPermissionCode = "ACCOUNT_VIEW",
+                            Url = "/Account/Index"
+                        },
+                        new
+                        {
+                            Id = 88,
+                            Code = "ACCOUNT_TYPE_VIEW",
+                            CreatedByUserId = 1,
+                            CreatedDate = new DateTime(2026, 4, 17, 2, 2, 16, 20, DateTimeKind.Unspecified),
+                            IconUrl = "fas fa-tags",
+                            IsActive = true,
+                            IsDeleted = false,
+                            Name = "Hesap Tipleri Tanımlama",
+                            OrderNo = 2,
+                            ParentId = 84,
+                            RequeiredPermissionCode = "ACCOUNT_TYPE_VIEW",
+                            Url = "/AccountType/Index"
+                        },
+                        new
+                        {
+                            Id = 89,
+                            Code = "CURRENCY_VIEW",
+                            CreatedByUserId = 1,
+                            CreatedDate = new DateTime(2026, 4, 17, 2, 2, 16, 20, DateTimeKind.Unspecified),
+                            IconUrl = "fas fa-coins",
+                            IsActive = true,
+                            IsDeleted = false,
+                            Name = "Döviz Tanımlama",
+                            OrderNo = 3,
+                            ParentId = 84,
+                            RequeiredPermissionCode = "CURRENCY_VIEW",
+                            Url = "/Currency/Index"
+                        },
+                        new
+                        {
+                            Id = 90,
+                            Code = "STOCK_GROUP_VIEW",
+                            CreatedByUserId = 1,
+                            CreatedDate = new DateTime(2026, 4, 17, 2, 2, 16, 20, DateTimeKind.Unspecified),
+                            IconUrl = "fas fa-layer-group",
+                            IsActive = true,
+                            IsDeleted = false,
+                            Name = "Stok Grubu Tanımlama",
+                            OrderNo = 4,
+                            ParentId = 84,
+                            RequeiredPermissionCode = "STOCK_GROUP_VIEW",
+                            Url = "/StockGroup/Index"
+                        },
+                        new
+                        {
+                            Id = 91,
+                            Code = "STOCK_TYPE_VIEW",
+                            CreatedByUserId = 1,
+                            CreatedDate = new DateTime(2026, 4, 17, 2, 2, 16, 20, DateTimeKind.Unspecified),
+                            IconUrl = "fas fa-cubes",
+                            IsActive = true,
+                            IsDeleted = false,
+                            Name = "Stok Tipleri Tanımlama",
+                            OrderNo = 5,
+                            ParentId = 84,
+                            RequeiredPermissionCode = "STOCK_TYPE_VIEW",
+                            Url = "/StockType/Index"
+                        },
+                        new
+                        {
+                            Id = 92,
+                            Code = "STOCK_VIEW",
+                            CreatedByUserId = 1,
+                            CreatedDate = new DateTime(2026, 4, 17, 2, 2, 16, 20, DateTimeKind.Unspecified),
+                            IconUrl = "fas fa-box",
+                            IsActive = true,
+                            IsDeleted = false,
+                            Name = "Stok Tanımlama",
+                            OrderNo = 6,
+                            ParentId = 84,
+                            RequeiredPermissionCode = "STOCK_VIEW",
+                            Url = "/Stock/Index"
+                        },
+                        new
+                        {
+                            Id = 93,
+                            Code = "PRODUCT_TYPE_VIEW",
+                            CreatedByUserId = 1,
+                            CreatedDate = new DateTime(2026, 4, 17, 2, 2, 16, 20, DateTimeKind.Unspecified),
+                            IconUrl = "fas fa-gem",
+                            IsActive = true,
+                            IsDeleted = false,
+                            Name = "Ürün Tipi Tanımlama",
+                            OrderNo = 7,
+                            ParentId = 84,
+                            RequeiredPermissionCode = "PRODUCT_TYPE_VIEW",
+                            Url = "/ProductType/Index"
+                        },
+                        new
+                        {
+                            Id = 94,
+                            Code = "USER_VIEW",
+                            CreatedByUserId = 1,
+                            CreatedDate = new DateTime(2026, 4, 17, 2, 2, 16, 20, DateTimeKind.Unspecified),
+                            IconUrl = "fas fa-users-cog",
+                            IsActive = true,
+                            IsDeleted = false,
+                            Name = "Kullanıcı Tanımlama",
+                            OrderNo = 8,
+                            ParentId = 84,
+                            RequeiredPermissionCode = "USER_VIEW",
+                            Url = "/User/Index"
+                        },
+                        new
+                        {
+                            Id = 98,
+                            Code = "SETTINGS_ROOT",
+                            CreatedByUserId = 1,
+                            CreatedDate = new DateTime(2026, 4, 18, 7, 20, 11, 0, DateTimeKind.Unspecified),
+                            IconUrl = "fas fa-cogs w-6 text-center text-xl text-gray-500",
+                            IsActive = true,
+                            IsDeleted = false,
+                            Name = "Ayarlar",
+                            OrderNo = 5,
+                            RequeiredPermissionCode = "SETTINGS_ROOT",
+                            Url = ""
+                        },
+                        new
+                        {
+                            Id = 99,
+                            Code = "SETTINGS_GENEL_VIEW",
+                            CreatedByUserId = 1,
+                            CreatedDate = new DateTime(2026, 4, 18, 7, 20, 11, 0, DateTimeKind.Unspecified),
+                            IconUrl = "fas fa-cog",
+                            IsActive = true,
+                            IsDeleted = false,
+                            Name = "Genel Ayarlar",
+                            OrderNo = 1,
+                            ParentId = 98,
+                            RequeiredPermissionCode = "SETTINGS_GENEL_VIEW",
+                            Url = "/Settings/Index"
+                        },
+                        new
+                        {
+                            Id = 100,
+                            Code = "SETTINGS_BARKOD_VIEW",
+                            CreatedByUserId = 1,
+                            CreatedDate = new DateTime(2026, 4, 18, 7, 20, 11, 3, DateTimeKind.Unspecified).AddTicks(3333),
+                            IconUrl = "fas fa-barcode",
+                            IsActive = true,
+                            IsDeleted = false,
+                            Name = "Barkod Ayarları",
+                            OrderNo = 2,
+                            ParentId = 98,
+                            RequeiredPermissionCode = "SETTINGS_BARKOD_VIEW",
+                            Url = "/BarcodeSettings/Index"
+                        },
+                        new
+                        {
+                            Id = 101,
+                            Code = "SETTINGS_MENU",
+                            CreatedByUserId = 1,
+                            CreatedDate = new DateTime(2026, 4, 18, 7, 46, 42, 276, DateTimeKind.Unspecified).AddTicks(6667),
+                            IconUrl = "fas fa-list",
+                            IsActive = true,
+                            IsDeleted = false,
+                            Name = "Menü Ayarları ve İzinler",
+                            OrderNo = 3,
+                            ParentId = 98,
+                            RequeiredPermissionCode = "SETTINGS_MENU",
+                            Url = "/MenuSettings/Index"
+                        },
+                        new
+                        {
+                            Id = 102,
+                            Code = "SETTINGS_PAGE_ACTION",
+                            CreatedByUserId = 1,
+                            CreatedDate = new DateTime(2026, 4, 18, 7, 46, 42, 280, DateTimeKind.Unspecified),
+                            IconUrl = "fas fa-toggle-on",
+                            IsActive = true,
+                            IsDeleted = false,
+                            Name = "Sayfa Aksiyonları",
+                            OrderNo = 4,
+                            ParentId = 98,
+                            RequeiredPermissionCode = "SETTINGS_PAGE_ACTION",
+                            Url = "/PageActionSettings/Index"
+                        },
+                        new
+                        {
+                            Id = 103,
+                            Code = "SETTINGS_PERMISSIONS",
+                            CreatedByUserId = 1,
+                            CreatedDate = new DateTime(2026, 4, 18, 7, 46, 42, 280, DateTimeKind.Unspecified),
+                            IconUrl = "fas fa-user-shield",
+                            IsActive = true,
+                            IsDeleted = false,
+                            Name = "İzinler",
+                            OrderNo = 5,
+                            ParentId = 98,
+                            RequeiredPermissionCode = "SETTINGS_PERMISSIONS",
+                            Url = "/Permissions/Index"
+                        });
                 });
 
             modelBuilder.Entity("KuyumHesap.Domain.Entities.MovementType", b =>
@@ -1114,6 +1409,368 @@ namespace KuyumHesap.Persistence.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Permissions");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 4,
+                            Code = "DASHBOARD_VIEW",
+                            CreatedByUserId = 1,
+                            CreatedDate = new DateTime(2026, 4, 17, 4, 15, 41, 11, DateTimeKind.Unspecified).AddTicks(1055),
+                            IsDeleted = false,
+                            Name = "Ana Sayfa"
+                        },
+                        new
+                        {
+                            Id = 5,
+                            Code = "SELLANDCARI_VIEW",
+                            CreatedByUserId = 1,
+                            CreatedDate = new DateTime(2026, 4, 17, 4, 15, 41, 93, DateTimeKind.Unspecified).AddTicks(9078),
+                            IsDeleted = false,
+                            Name = "Satış Ve Cari"
+                        },
+                        new
+                        {
+                            Id = 6,
+                            Code = "REPORTS_ROOT",
+                            CreatedByUserId = 1,
+                            CreatedDate = new DateTime(2026, 4, 17, 4, 15, 41, 142, DateTimeKind.Unspecified).AddTicks(3436),
+                            IsDeleted = false,
+                            Name = "Cari Raporlar"
+                        },
+                        new
+                        {
+                            Id = 7,
+                            Code = "DEFINITIONS_ROOT",
+                            CreatedByUserId = 1,
+                            CreatedDate = new DateTime(2026, 4, 17, 4, 15, 41, 206, DateTimeKind.Unspecified).AddTicks(4989),
+                            IsDeleted = false,
+                            Name = "Tanımlamalar"
+                        },
+                        new
+                        {
+                            Id = 8,
+                            Code = "SATIS_CARI_NAKIT_GIRIS",
+                            CreatedByUserId = 1,
+                            CreatedDate = new DateTime(2026, 4, 17, 4, 15, 41, 354, DateTimeKind.Unspecified).AddTicks(354),
+                            IsDeleted = false,
+                            Name = "Nakit Giriş"
+                        },
+                        new
+                        {
+                            Id = 9,
+                            Code = "SATIS_CARI_CRM",
+                            CreatedByUserId = 1,
+                            CreatedDate = new DateTime(2026, 4, 17, 4, 15, 41, 415, DateTimeKind.Unspecified).AddTicks(5333),
+                            IsDeleted = false,
+                            Name = "CRM"
+                        },
+                        new
+                        {
+                            Id = 10,
+                            Code = "SATIS_CARI_EKSTRE",
+                            CreatedByUserId = 1,
+                            CreatedDate = new DateTime(2026, 4, 17, 4, 15, 41, 458, DateTimeKind.Unspecified).AddTicks(1016),
+                            IsDeleted = false,
+                            Name = "Ekstre"
+                        },
+                        new
+                        {
+                            Id = 11,
+                            Code = "SATIS_CARI_NAKIT_CIKIS",
+                            CreatedByUserId = 1,
+                            CreatedDate = new DateTime(2026, 4, 17, 4, 15, 41, 498, DateTimeKind.Unspecified).AddTicks(8579),
+                            IsDeleted = false,
+                            Name = "Nakit Çıkış"
+                        },
+                        new
+                        {
+                            Id = 12,
+                            Code = "SATIS_CARI_URUN_GIRIS",
+                            CreatedByUserId = 1,
+                            CreatedDate = new DateTime(2026, 4, 17, 4, 15, 41, 544, DateTimeKind.Unspecified).AddTicks(9639),
+                            IsDeleted = false,
+                            Name = "Ürün Giriş"
+                        },
+                        new
+                        {
+                            Id = 13,
+                            Code = "SATIS_CARI_LISTE",
+                            CreatedByUserId = 1,
+                            CreatedDate = new DateTime(2026, 4, 17, 4, 15, 41, 603, DateTimeKind.Unspecified).AddTicks(1762),
+                            IsDeleted = false,
+                            Name = "Cari Liste"
+                        },
+                        new
+                        {
+                            Id = 14,
+                            Code = "SATIS_CARI_URUN_CIKIS",
+                            CreatedByUserId = 1,
+                            CreatedDate = new DateTime(2026, 4, 17, 4, 15, 41, 653, DateTimeKind.Unspecified).AddTicks(7409),
+                            IsDeleted = false,
+                            Name = "Ürün Çıkış"
+                        },
+                        new
+                        {
+                            Id = 15,
+                            Code = "SATIS_CARI_ISKONTO",
+                            CreatedByUserId = 1,
+                            CreatedDate = new DateTime(2026, 4, 17, 4, 15, 41, 788, DateTimeKind.Unspecified).AddTicks(9634),
+                            IsDeleted = false,
+                            Name = "İskonto"
+                        },
+                        new
+                        {
+                            Id = 16,
+                            Code = "SATIS_CARI_VIRMAN",
+                            CreatedByUserId = 1,
+                            CreatedDate = new DateTime(2026, 4, 17, 4, 15, 41, 853, DateTimeKind.Unspecified).AddTicks(4540),
+                            IsDeleted = false,
+                            Name = "Virman"
+                        },
+                        new
+                        {
+                            Id = 17,
+                            Code = "SATIS_CARI_ACIK_HESAP",
+                            CreatedByUserId = 1,
+                            CreatedDate = new DateTime(2026, 4, 17, 4, 15, 41, 911, DateTimeKind.Unspecified).AddTicks(806),
+                            IsDeleted = false,
+                            Name = "Açık Hesap"
+                        },
+                        new
+                        {
+                            Id = 18,
+                            Code = "SATIS_CARI_CEVIRI",
+                            CreatedByUserId = 1,
+                            CreatedDate = new DateTime(2026, 4, 17, 4, 15, 41, 971, DateTimeKind.Unspecified).AddTicks(9923),
+                            IsDeleted = false,
+                            Name = "Çeviri"
+                        },
+                        new
+                        {
+                            Id = 19,
+                            Code = "SATIS_CARI_KALEM_EKLE",
+                            CreatedByUserId = 1,
+                            CreatedDate = new DateTime(2026, 4, 17, 4, 15, 42, 58, DateTimeKind.Unspecified).AddTicks(734),
+                            IsDeleted = false,
+                            Name = "Kalem Ekle"
+                        },
+                        new
+                        {
+                            Id = 20,
+                            Code = "SATIS_CARI_KALEM_SIL",
+                            CreatedByUserId = 1,
+                            CreatedDate = new DateTime(2026, 4, 17, 4, 15, 42, 139, DateTimeKind.Unspecified).AddTicks(5336),
+                            IsDeleted = false,
+                            Name = "Kalem Sil"
+                        },
+                        new
+                        {
+                            Id = 21,
+                            Code = "SATIS_CARI_FIS_KAYDET",
+                            CreatedByUserId = 1,
+                            CreatedDate = new DateTime(2026, 4, 17, 4, 15, 42, 239, DateTimeKind.Unspecified).AddTicks(4560),
+                            IsDeleted = false,
+                            Name = "Fiş Kaydet"
+                        },
+                        new
+                        {
+                            Id = 22,
+                            Code = "SATIS_CARI_YENI_ISLEM",
+                            CreatedByUserId = 1,
+                            CreatedDate = new DateTime(2026, 4, 17, 4, 15, 42, 658, DateTimeKind.Unspecified).AddTicks(454),
+                            IsDeleted = false,
+                            Name = "Yeni İşlem"
+                        },
+                        new
+                        {
+                            Id = 23,
+                            Code = "SATIS_CARI_FIS_SIL",
+                            CreatedByUserId = 1,
+                            CreatedDate = new DateTime(2026, 4, 17, 4, 15, 42, 871, DateTimeKind.Unspecified).AddTicks(3977),
+                            IsDeleted = false,
+                            Name = "Fiş Sil"
+                        },
+                        new
+                        {
+                            Id = 24,
+                            Code = "SATIS_CARI_NAKIT_TAHSILAT",
+                            CreatedByUserId = 1,
+                            CreatedDate = new DateTime(2026, 4, 17, 4, 15, 42, 954, DateTimeKind.Unspecified).AddTicks(7189),
+                            IsDeleted = false,
+                            Name = "Nakit Tahsilat"
+                        },
+                        new
+                        {
+                            Id = 25,
+                            Code = "SATIS_CARI_NAKIT_ODEME",
+                            CreatedByUserId = 1,
+                            CreatedDate = new DateTime(2026, 4, 17, 4, 15, 43, 25, DateTimeKind.Unspecified).AddTicks(4522),
+                            IsDeleted = false,
+                            Name = "Nakit Ödeme"
+                        },
+                        new
+                        {
+                            Id = 26,
+                            Code = "SATIS_CARI_URUN_ALIS",
+                            CreatedByUserId = 1,
+                            CreatedDate = new DateTime(2026, 4, 17, 4, 15, 43, 222, DateTimeKind.Unspecified).AddTicks(5784),
+                            IsDeleted = false,
+                            Name = "Ürün Alış"
+                        },
+                        new
+                        {
+                            Id = 27,
+                            Code = "SATIS_CARI_URUN_SATIS",
+                            CreatedByUserId = 1,
+                            CreatedDate = new DateTime(2026, 4, 17, 4, 15, 43, 293, DateTimeKind.Unspecified).AddTicks(9680),
+                            IsDeleted = false,
+                            Name = "Ürün Satış"
+                        },
+                        new
+                        {
+                            Id = 28,
+                            Code = "ACCOUNT_VIEW",
+                            CreatedByUserId = 1,
+                            CreatedDate = new DateTime(2026, 4, 18, 5, 28, 15, 55, DateTimeKind.Unspecified).AddTicks(5203),
+                            IsDeleted = false,
+                            Name = "Hesap Tanımlama"
+                        },
+                        new
+                        {
+                            Id = 29,
+                            Code = "CASH_REPORT_VIEW",
+                            CreatedByUserId = 1,
+                            CreatedDate = new DateTime(2026, 4, 18, 5, 28, 15, 94, DateTimeKind.Unspecified).AddTicks(3770),
+                            IsDeleted = false,
+                            Name = "Kasa Raporu"
+                        },
+                        new
+                        {
+                            Id = 30,
+                            Code = "CASH_IN_OUT_REPORT_VIEW",
+                            CreatedByUserId = 1,
+                            CreatedDate = new DateTime(2026, 4, 18, 5, 28, 15, 126, DateTimeKind.Unspecified).AddTicks(5704),
+                            IsDeleted = false,
+                            Name = "Nakit Giriş Çıkış Raporu"
+                        },
+                        new
+                        {
+                            Id = 31,
+                            Code = "ACCOUNT_TYPE_VIEW",
+                            CreatedByUserId = 1,
+                            CreatedDate = new DateTime(2026, 4, 18, 5, 28, 15, 158, DateTimeKind.Unspecified).AddTicks(956),
+                            IsDeleted = false,
+                            Name = "Hesap Tipleri Tanımlama"
+                        },
+                        new
+                        {
+                            Id = 32,
+                            Code = "CURRENCY_VIEW",
+                            CreatedByUserId = 1,
+                            CreatedDate = new DateTime(2026, 4, 18, 5, 28, 15, 188, DateTimeKind.Unspecified).AddTicks(7847),
+                            IsDeleted = false,
+                            Name = "Döviz Tanımlama"
+                        },
+                        new
+                        {
+                            Id = 33,
+                            Code = "STOCK_GROUP_VIEW",
+                            CreatedByUserId = 1,
+                            CreatedDate = new DateTime(2026, 4, 18, 5, 28, 15, 223, DateTimeKind.Unspecified).AddTicks(4144),
+                            IsDeleted = false,
+                            Name = "Stok Grubu Tanımlama"
+                        },
+                        new
+                        {
+                            Id = 34,
+                            Code = "STOCK_TYPE_VIEW",
+                            CreatedByUserId = 1,
+                            CreatedDate = new DateTime(2026, 4, 18, 5, 28, 15, 255, DateTimeKind.Unspecified).AddTicks(9451),
+                            IsDeleted = false,
+                            Name = "Stok Tipleri Tanımlama"
+                        },
+                        new
+                        {
+                            Id = 35,
+                            Code = "STOCK_VIEW",
+                            CreatedByUserId = 1,
+                            CreatedDate = new DateTime(2026, 4, 18, 5, 28, 15, 289, DateTimeKind.Unspecified).AddTicks(9268),
+                            IsDeleted = false,
+                            Name = "Stok Tanımlama"
+                        },
+                        new
+                        {
+                            Id = 36,
+                            Code = "PRODUCT_TYPE_VIEW",
+                            CreatedByUserId = 1,
+                            CreatedDate = new DateTime(2026, 4, 18, 5, 28, 15, 346, DateTimeKind.Unspecified).AddTicks(3792),
+                            IsDeleted = false,
+                            Name = "Ürün Tipi Tanımlama"
+                        },
+                        new
+                        {
+                            Id = 37,
+                            Code = "USER_VIEW",
+                            CreatedByUserId = 1,
+                            CreatedDate = new DateTime(2026, 4, 18, 5, 28, 15, 377, DateTimeKind.Unspecified).AddTicks(3427),
+                            IsDeleted = false,
+                            Name = "Kullanıcı Tanımlama"
+                        },
+                        new
+                        {
+                            Id = 42,
+                            Code = "SETTINGS_ROOT",
+                            CreatedByUserId = 1,
+                            CreatedDate = new DateTime(2026, 4, 18, 7, 17, 39, 353, DateTimeKind.Unspecified).AddTicks(3333),
+                            IsDeleted = false,
+                            Name = "Ayarlar Menüsü"
+                        },
+                        new
+                        {
+                            Id = 43,
+                            Code = "SETTINGS_GENEL_VIEW",
+                            CreatedByUserId = 1,
+                            CreatedDate = new DateTime(2026, 4, 18, 7, 17, 39, 353, DateTimeKind.Unspecified).AddTicks(3333),
+                            IsDeleted = false,
+                            Name = "Genel Ayarlar"
+                        },
+                        new
+                        {
+                            Id = 44,
+                            Code = "SETTINGS_BARKOD_VIEW",
+                            CreatedByUserId = 1,
+                            CreatedDate = new DateTime(2026, 4, 18, 7, 17, 39, 353, DateTimeKind.Unspecified).AddTicks(3333),
+                            IsDeleted = false,
+                            Name = "Barkod Ayarları"
+                        },
+                        new
+                        {
+                            Id = 45,
+                            Code = "SETTINGS_MENU",
+                            CreatedByUserId = 1,
+                            CreatedDate = new DateTime(2026, 4, 18, 7, 46, 42, 276, DateTimeKind.Unspecified).AddTicks(6667),
+                            IsDeleted = false,
+                            Name = "Menü Ayarları Yönetimi"
+                        },
+                        new
+                        {
+                            Id = 46,
+                            Code = "SETTINGS_PAGE_ACTION",
+                            CreatedByUserId = 1,
+                            CreatedDate = new DateTime(2026, 4, 18, 7, 46, 42, 276, DateTimeKind.Unspecified).AddTicks(6667),
+                            IsDeleted = false,
+                            Name = "Sayfa Aksiyon Yönetimi"
+                        },
+                        new
+                        {
+                            Id = 47,
+                            Code = "SETTINGS_PERMISSIONS",
+                            CreatedByUserId = 1,
+                            CreatedDate = new DateTime(2026, 4, 18, 7, 46, 42, 276, DateTimeKind.Unspecified).AddTicks(6667),
+                            IsDeleted = false,
+                            Name = "İzin / Yetki Yönetimi"
+                        });
                 });
 
             modelBuilder.Entity("KuyumHesap.Domain.Entities.ProductType", b =>
@@ -1941,7 +2598,7 @@ namespace KuyumHesap.Persistence.Migrations
                             Id = 1,
                             Active = true,
                             BranchCode = "0001",
-                            CompanyCode = "KUYUM-001",
+                            CompanyCode = "KUYUM",
                             CreatedByUserId = 0,
                             CreatedDate = new DateTime(2026, 4, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             FirstName = "Mahmut",
@@ -1957,7 +2614,7 @@ namespace KuyumHesap.Persistence.Migrations
                             Id = 2,
                             Active = true,
                             BranchCode = "0001",
-                            CompanyCode = "KUYUM-001",
+                            CompanyCode = "KUYUM",
                             CreatedByUserId = 0,
                             CreatedDate = new DateTime(2026, 4, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             FirstName = "Samet",

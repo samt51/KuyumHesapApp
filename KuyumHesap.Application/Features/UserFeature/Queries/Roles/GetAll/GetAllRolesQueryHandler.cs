@@ -1,4 +1,4 @@
-﻿using KuyumHesap.Application.Common.Abstractions;
+using KuyumHesap.Application.Common.Abstractions;
 using KuyumHesap.Application.Common.Abstractions.Mapper;
 using KuyumHesap.Application.Common.Abstractions.UnitOfWorks;
 using KuyumHesap.Application.Common.Models;
@@ -29,6 +29,13 @@ namespace KuyumHesap.Application.Features.UserFeature.Queries.Roles.GetAll
                 );
 
             var mapData = mapper.Map<List<GetAllRolesQueryResponse>>(data);
+            
+            foreach (var role in mapData)
+            {
+                if (role.Name == "SystemAdmin") role.Name = "Sistem Yönetici";
+                else if (role.Name == "Admin") role.Name = "Yönetici";
+                else if (role.Name == "User") role.Name = "Çalışan";
+            }
 
             return new ResponseDto<List<GetAllRolesQueryResponse>>().Success(mapData);
         }
