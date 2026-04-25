@@ -85,6 +85,7 @@ namespace KuyumHesap.Application.Features.ReceiptFeature.Commands.Create
 
                         counter.AccountId = ReturnAccountIdByStockId(data);
                         item.NetProductValue = item.MillRate * item.Quantity;
+                        counter.NetProductValue = item.NetProductValue;
                         if (item.StockId == 17)
                         {
                            
