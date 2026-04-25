@@ -235,6 +235,10 @@ namespace KuyumHesap.Application.Features.ReceiptFeature.Queries.GetEkstreByCust
             /// İşçilik birimi (örn. adet, saat)
             /// </summary>
             public string? LaborUnit { get; set; }
+            /// <summary>
+            /// İşçilik adedi
+            /// </summary>
+            public int? LaborQuantity { get; set; }
 
             /// <summary>
             /// Mutabakat durumu (true = mutabakat sağlanmış)

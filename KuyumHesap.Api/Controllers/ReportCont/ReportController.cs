@@ -5,7 +5,9 @@ using KuyumHesap.Application.Features.ReportFeature.Queries.GetAllReports;
 using KuyumHesap.Application.Features.ReportFeature.Queries.GetBankReport;
 using KuyumHesap.Application.Features.ReportFeature.Queries.GetCashReport;
 using KuyumHesap.Application.Features.ReportFeature.Queries.GetPosReport;
+using KuyumHesap.Application.Features.ReportFeature.Queries.GetStockReport;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace KuyumHesap.Api.Controllers.ReportCont
@@ -47,6 +49,11 @@ namespace KuyumHesap.Api.Controllers.ReportCont
         {
             return await _mediator.Send(new GetBankReportQueryRequest());
         }
+        [HttpGet("{stockGroupAccountId}")]
+        public async Task<ResponseDto<GetStockReportQueryResponse>> GetStockReportAsync(int stockGroupAccountId)
+        {
+            return await _mediator.Send(new GetStockReportQueryRequest(stockGroupAccountId));
 
+        }
     }
 }

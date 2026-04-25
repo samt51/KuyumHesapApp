@@ -27,6 +27,7 @@ namespace KuyumHesap.Application.Features.ReceiptFeature.Commands.Create
                 var counterList = new List<CreateMovementReceiptRequestDto>();
                 foreach (var item in request.CreateMovementReceiptRequestDtos)
                 {
+             
                     counterList.Add(item);
 
                     int counterTransactionTypeId = 0;
@@ -81,9 +82,19 @@ namespace KuyumHesap.Application.Features.ReceiptFeature.Commands.Create
                         {
                             throw new Exception("Ýlgili Stok Bulunamadý");
                         }
-                        counter.AccountId = ReturnAccountIdByStockId(data);
-                        item.NetProductValue = item.MillRate * item.Quantity;
-                        counter.NetProductValue = item.NetProductValue;
+
+                       
+                        if (item.StockId == 17)
+                        {
+                            counter.AccountId = ReturnAccountIdByStockId(data);
+                            item.NetProductValue = item.MillRate * item.Quantity;
+                            counter.NetProductValue = item.NetProductValue;
+                            item.LaborUnit = "USD";
+                            item.NetProductValue = item.ForeignCurrencyAmount * item.Quantity;
+
+                            counter.LaborUnit = item.LaborUnit;
+                            counter.NetProductValue = item.NetProductValue;
+                        }
                     }
                     else
                     {
@@ -127,6 +138,7 @@ namespace KuyumHesap.Application.Features.ReceiptFeature.Commands.Create
                     var movementData = movements[i];
                     var movementDataTwo = movements[i + 1];
 
+                    movementData.AccountId = request.AccountId;
                     movementData.ReceiptId = receipt.Id;
                     movementData.CreatedByUserId = 1;
 
@@ -160,7 +172,7 @@ namespace KuyumHesap.Application.Features.ReceiptFeature.Commands.Create
             {
                 case 2: return 37;
                 case 3: return 34;
-                case 1: return 41;
+                case 1: return 39;
                 default: return 0;
             }
         }

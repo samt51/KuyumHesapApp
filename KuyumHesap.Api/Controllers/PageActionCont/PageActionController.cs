@@ -33,7 +33,7 @@ namespace KuyumHesap.Api.Controllers.PageActionCont
             return await _mediator.Send(new GetPageActionsByPageCodeQueryRequest(pageCode), token);
         }
 
-       
+        [HttpGet]
         public async Task<ResponseDto<List<GetAuthorizedPageActionsQueryResponse>>> AuthorizedAsync([FromQuery] int userId, [FromQuery] string pageCode, CancellationToken token)
         {
             return await _mediator.Send(new GetAuthorizedPageActionsQueryRequest(userId, pageCode), token);
