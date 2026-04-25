@@ -83,11 +83,12 @@ namespace KuyumHesap.Application.Features.ReceiptFeature.Commands.Create
                             throw new Exception("Ýlgili Stok Bulunamadý");
                         }
 
-                       
+                        counter.AccountId = ReturnAccountIdByStockId(data);
+                        item.NetProductValue = item.MillRate * item.Quantity;
                         if (item.StockId == 17)
                         {
-                            counter.AccountId = ReturnAccountIdByStockId(data);
-                            item.NetProductValue = item.MillRate * item.Quantity;
+                           
+                          
                             counter.NetProductValue = item.NetProductValue;
                             item.LaborUnit = "USD";
                             item.NetProductValue = item.ForeignCurrencyAmount * item.Quantity;
