@@ -36,7 +36,7 @@ namespace KuyumHesap.Api.Controllers.ReportCont
         {
             return await _mediator.Send(request);
         }
-        [AllowAnonymous]
+ 
         [HttpGet]
         public async Task<ResponseDto<List<GetFilterTypesQueryResponse>>> GetFilterTypesAsync()
         {

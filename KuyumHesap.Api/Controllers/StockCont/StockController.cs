@@ -30,7 +30,7 @@ namespace KuyumHesap.Api.Controllers.StockCont
             return _mediator.Send(new GetAllStockQueryRequest(), token);
         }
         [HttpGet("{groupId}")]
-        [AllowAnonymous]
+
         public async Task<ResponseDto<List<GetAllStockQueryResponse>>> GetStockByGroupId(int groupId, CancellationToken token)
         {
             return await _mediator.Send(new GetStockByGroupIdQueryRequest(groupId), token);
