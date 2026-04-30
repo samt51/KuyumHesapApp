@@ -79,7 +79,8 @@ namespace KuyumHesap.Application.Features.ReportFeature.Queries.GetStockReport
                     AccountId = item.AccountId,
                     AccountName = item.AccountName,
                     AccountTypeName = item.AccountTypeName,
-                    TransactionTypeId = item.TransactionTypeId
+                    TransactionTypeId = item.TransactionTypeId,
+                    StockId = item.StockId
                 });
             }
             decimal totalHas = 0;

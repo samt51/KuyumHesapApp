@@ -3,6 +3,7 @@ using KuyumHesap.Application.Common.Models.Dtos.SqlResponse;
 using KuyumHesap.Persistence.Common.Context;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Identity.Client;
 using System.Data;
 
 namespace KuyumHesap.Persistence.Common.Concrete.SqlViews
@@ -89,6 +90,164 @@ GROUP BY BalanceUnit, AccountId;";
 
             return rows;
         }
+
+        public async Task<List<AccountStatementViewResponseModel>> GetFinancialViewByFilterBetweenDate(
+        int[] accountId,
+        string[]? currencyCode,
+        DateTime start,
+        DateTime end,
+        CancellationToken ct)
+        {
+            if (accountId == null || accountId.Length == 0)
+                return new List<AccountStatementViewResponseModel>();
+
+            var accountIdParameters = accountId
+                .Select((id, index) => new SqlParameter($"@accountId{index}", SqlDbType.Int) { Value = id })
+                .ToArray();
+
+            var accountInClause = string.Join(", ", accountIdParameters.Select(p => p.ParameterName));
+
+            var currencyParameters = currencyCode?
+                .Where(x => !string.IsNullOrWhiteSpace(x))
+                .Distinct()
+                .Select((code, index) => new SqlParameter($"@unit{index}", SqlDbType.NVarChar) { Value = code })
+                .ToArray() ?? Array.Empty<SqlParameter>();
+
+            var currencyFilter = "";
+
+            if (currencyParameters.Any())
+            {
+                var currencyInClause = string.Join(", ", currencyParameters.Select(p => p.ParameterName));
+                currencyFilter = $" AND BalanceUnit IN ({currencyInClause})";
+            }
+
+            var sql = $@"
+SELECT
+    MovementId,
+    ReceiptId,
+    ReceiptDate,
+    AccountId,
+    TransactionName,
+    ISNULL(Quantity, 0) AS Quantity,
+    ISNULL(Unit, '') AS Unit,
+    ISNULL(Rate, 0) AS Rate,
+    ISNULL(CounterQuantity, 0) AS CounterQuantity,
+    ISNULL(CounterUnit, '') AS CounterUnit,
+    ISNULL(CounterRate, 0) AS CounterRate,
+    StockId,
+    StockName,
+    MillRate,
+    LaborCost,
+    LaborUnit,
+    LaborQuantity,
+    CAST(ISNULL(IsLaborIncluded, 0) AS bit) AS IsLaborIncluded,
+    NetProductValue,
+    TotalLaborCost,
+    ISNULL(BalanceEffectAmount, 0) AS BalanceEffectAmount,
+    ISNULL(BalanceUnit, '') AS BalanceUnit,
+    Description,
+    CAST(ISNULL(IsReconciled, 0) AS bit) AS IsReconciled,
+    CAST(ISNULL(IsEntry, 0) AS bit) AS IsEntry,
+    ISNULL(StockUnit, '') AS StockUnit,
+    AccountTypeId,
+    AccountTypeName,
+    ReceiptAccounId,
+    ReceiptAccountName,
+    ReceiptAccounTypeName,
+    TransactionTypeId,
+    CAST(ISNULL(IsCustomerReceipt, 0) AS bit) AS IsCustomerReceipt,
+    AccountName
+FROM dbo.vw_HesapEkstresi
+WHERE AccountId IN ({accountInClause})
+  AND ReceiptDate BETWEEN @start AND @end
+  {currencyFilter}
+ORDER BY ReceiptDate, MovementId;";
+
+            var paramStart = new SqlParameter("@start", SqlDbType.DateTime) { Value = start };
+            var paramEnd = new SqlParameter("@end", SqlDbType.DateTime) { Value = end };
+
+            var parameters = accountIdParameters
+                .Cast<object>()
+                .Concat(currencyParameters.Cast<object>())
+                .Append(paramStart)
+                .Append(paramEnd)
+                .ToArray();
+
+            var rows = await _context.Database
+                .SqlQueryRaw<AccountStatementViewResponseModel>(sql, parameters)
+                .ToListAsync(ct);
+
+            return rows;
+        }
+
+        public async Task<List<AccountStatementViewResponseModel>> GetStockViewByFilterBetweenDate(int[] stockId, DateTime start, DateTime end, CancellationToken ct)
+        {
+            if (stockId == null || stockId.Length == 0)
+                return new List<AccountStatementViewResponseModel>();
+
+            var accountIdParameters = stockId
+                .Select((id, index) => new SqlParameter($"@stockId{index}", SqlDbType.Int) { Value = id })
+                .ToArray();
+
+            var inClause = string.Join(", ", accountIdParameters.Select(p => p.ParameterName));
+
+            var sql = $@"
+SELECT
+    MovementId,
+    ReceiptId,
+    ReceiptDate,
+    AccountId,
+    TransactionName,
+    ISNULL(Quantity, 0) AS Quantity,
+    ISNULL(Unit, '') AS Unit,
+    ISNULL(Rate, 0) AS Rate,
+    ISNULL(CounterQuantity, 0) AS CounterQuantity,
+    ISNULL(CounterUnit, '') AS CounterUnit,
+    ISNULL(CounterRate, 0) AS CounterRate,
+    StockId,
+    StockName,
+    MillRate,
+    LaborCost,
+    LaborUnit,
+    LaborQuantity,
+    CAST(ISNULL(IsLaborIncluded, 0) AS bit) AS IsLaborIncluded,
+    NetProductValue,
+    TotalLaborCost,
+    ISNULL(BalanceEffectAmount, 0) AS BalanceEffectAmount,
+    ISNULL(BalanceUnit, '') AS BalanceUnit,
+    Description,
+    CAST(ISNULL(IsReconciled, 0) AS bit) AS IsReconciled,
+    CAST(ISNULL(IsEntry, 0) AS bit) AS IsEntry,
+    ISNULL(StockUnit, '') AS StockUnit,
+    AccountTypeId,
+    AccountTypeName,
+    ReceiptAccounId,
+    ReceiptAccountName,
+    ReceiptAccounTypeName,
+    TransactionTypeId,
+    CAST(ISNULL(IsCustomerReceipt, 0) AS bit) AS IsCustomerReceipt,
+    AccountName
+FROM dbo.vw_HesapEkstresi
+WHERE StockId IN ({inClause})
+  AND ReceiptDate BETWEEN @start AND @end
+ORDER BY ReceiptDate, MovementId;";
+
+            var paramStart = new SqlParameter("@start", SqlDbType.DateTime) { Value = start };
+            var paramEnd = new SqlParameter("@end", SqlDbType.DateTime) { Value = end };
+
+            var parameters = accountIdParameters
+                .Cast<object>()
+                .Append(paramStart)
+                .Append(paramEnd)
+                .ToArray();
+
+            var rows = await _context.Database
+                .SqlQueryRaw<AccountStatementViewResponseModel>(sql, parameters)
+                .ToListAsync(ct);
+
+            return rows;
+        }
+
 
         public async Task<List<AccountStatementViewResponseModel>> GetViewByAccountIdaAndStartBetweenEndDate(int accountId, DateTime start, DateTime end, int isCustomerReceipt, CancellationToken ct)
         {

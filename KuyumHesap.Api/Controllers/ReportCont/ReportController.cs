@@ -1,9 +1,10 @@
 ﻿using KuyumHesap.Api.Common.Cont;
 using KuyumHesap.Application.Common.Models;
 using KuyumHesap.Application.Features.ReportFeature.Queries.GetAccountStatement;
-using KuyumHesap.Application.Features.ReportFeature.Queries.GetAllReports;
 using KuyumHesap.Application.Features.ReportFeature.Queries.GetBankReport;
 using KuyumHesap.Application.Features.ReportFeature.Queries.GetCashReport;
+using KuyumHesap.Application.Features.ReportFeature.Queries.GetFilterReport;
+using KuyumHesap.Application.Features.ReportFeature.Queries.GetFilterTypes;
 using KuyumHesap.Application.Features.ReportFeature.Queries.GetPosReport;
 using KuyumHesap.Application.Features.ReportFeature.Queries.GetStockReport;
 using MediatR;
@@ -29,10 +30,17 @@ namespace KuyumHesap.Api.Controllers.ReportCont
                 FinishDate = finishDate
             });
         }
-        [HttpGet]
-        public async Task<ResponseDto<GetAllReportQueryResponse>> GetAllReportAsync(int? hesapId)
+        
+        [HttpPost]
+        public async Task<ResponseDto<List<GetFilterReportQueryResponse>>> GetFilterReportAsync([FromBody]GetFilterReportQueryRequest request)
         {
-            return await _mediator.Send(new GetAllReportQueryRequest(hesapId));
+            return await _mediator.Send(request);
+        }
+        [AllowAnonymous]
+        [HttpGet]
+        public async Task<ResponseDto<List<GetFilterTypesQueryResponse>>> GetFilterTypesAsync()
+        {
+            return await _mediator.Send(new GetFilterTypesQueryRequest());
         }
         [HttpGet]
         public async Task<ResponseDto<GetCashReportQueryResponse>> GetCashReportAsync()

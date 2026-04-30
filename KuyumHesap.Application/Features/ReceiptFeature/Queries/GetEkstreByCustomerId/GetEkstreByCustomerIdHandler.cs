@@ -274,6 +274,7 @@ namespace KuyumHesap.Application.Features.ReceiptFeature.Queries.GetEkstreByCust
             /// Stok birimi (view'deki StockUnit / UnitName)
             /// </summary>
             public string StockUnit { get; set; } = "";
+            public int? StockId { get; set; }
         }
 
         public class EkstreViewModel

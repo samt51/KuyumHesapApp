@@ -1,6 +1,7 @@
 ﻿using KuyumHesap.Api.Common.Cont;
 using KuyumHesap.Application.Common.Abstractions.Aut;
 using KuyumHesap.Application.Common.Models;
+using KuyumHesap.Application.Feature.AccountFeature.Queries.GetAllAccountByTypeId;
 using KuyumHesap.Application.Features.AccountFeature.Command.Create;
 using KuyumHesap.Application.Features.AccountFeature.Command.Delete;
 using KuyumHesap.Application.Features.AccountFeature.Command.Update;
@@ -30,8 +31,6 @@ namespace KuyumHesap.Api.Controllers.AccountCont
         [HttpGet]
         public async Task<ResponseDto<List<GetAllAccountQueryResponse>>> GetAllAsync(string accountTypeName, CancellationToken token)
         {
-            var d = await _kurGuncellemeService.GetDailyCureData();
-
             return await _mediator.Send(new GetAllAccountQueryRequest { AccountTypeName = accountTypeName }, token);
         }
         [HttpPost]
@@ -59,6 +58,11 @@ namespace KuyumHesap.Api.Controllers.AccountCont
         public async Task<ResponseDto<CheckSoftDuplicateQueryResponse>> CheckSoftDuplicate(string accountName, int currentId = 0)
         {
             return await _mediator.Send(new CheckSoftDuplicateQueryRequest { AccountName = accountName, CurrentId = currentId });
+        }
+        [HttpGet("{accountTypeId}")]
+        public async Task<ResponseDto<List<GetAllAccountByTypeIdQueryResponse>>> GetAccountByTypeIdAsync(int accountTypeId, CancellationToken token)
+        {
+            return await _mediator.Send(new GetAllAccountByTypeIdQueryRequest { AccountTypeId = accountTypeId }, token);
         }
     }
 }
