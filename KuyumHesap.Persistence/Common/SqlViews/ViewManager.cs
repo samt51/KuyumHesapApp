@@ -63,7 +63,8 @@ SELECT
     acc.AccountName as ReceiptAccountName,
     tip.AccountTypeName as ReceiptAccounTypeName,
     ht.Id as TransactionTypeId,
-    f.IsCustomerReceipt
+    f.IsCustomerReceipt,
+    h.ForeignCurrencyId
 
 FROM dbo.Movements AS h
 

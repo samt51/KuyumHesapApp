@@ -1,4 +1,4 @@
-﻿using EllipticCurve.Utils;
+using EllipticCurve.Utils;
 using KuyumHesap.Application.Common.Abstractions;
 using KuyumHesap.Application.Common.Abstractions.Mapper;
 using KuyumHesap.Application.Common.Abstractions.SqlViewAndFuncQuery;
@@ -68,7 +68,8 @@ namespace KuyumHesap.Application.Features.ReportFeature.Queries.GetFilterReport
                         AccountId = item.AccountId,
                         AccountName = item.AccountName,
                         AccountTypeName = item.AccountTypeName,
-                        TransactionTypeId = item.TransactionTypeId
+                        TransactionTypeId = item.TransactionTypeId,
+                        ForeignCurrencyId = item.ForeignCurrencyId
                     });
                 }
 
@@ -113,7 +114,8 @@ namespace KuyumHesap.Application.Features.ReportFeature.Queries.GetFilterReport
                         AccountId = item.AccountId,
                         AccountName = item.AccountName,
                         AccountTypeName = item.AccountTypeName,
-                        TransactionTypeId = item.TransactionTypeId
+                        TransactionTypeId = item.TransactionTypeId,
+                        ForeignCurrencyId = item.ForeignCurrencyId
                     });
                 }
             }

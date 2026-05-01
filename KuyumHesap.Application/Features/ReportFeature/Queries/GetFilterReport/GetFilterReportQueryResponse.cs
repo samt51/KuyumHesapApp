@@ -1,4 +1,4 @@
-﻿namespace KuyumHesap.Application.Features.ReportFeature.Queries.GetFilterReport
+namespace KuyumHesap.Application.Features.ReportFeature.Queries.GetFilterReport
 {
     public class GetFilterReportQueryResponse
     {
@@ -145,5 +145,6 @@
         /// Stok birimi (view'deki StockUnit / UnitName)
         /// </summary>
         public string StockUnit { get; set; } = "";
+        public int ForeignCurrencyId { get; set; }
     }
 }

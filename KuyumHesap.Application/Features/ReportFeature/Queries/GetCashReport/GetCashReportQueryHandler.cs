@@ -1,4 +1,4 @@
-﻿using KuyumHesap.Application.Common.Abstractions;
+using KuyumHesap.Application.Common.Abstractions;
 using KuyumHesap.Application.Common.Abstractions.Mapper;
 using KuyumHesap.Application.Common.Abstractions.SqlViewAndFuncQuery;
 using KuyumHesap.Application.Common.Abstractions.UnitOfWorks;
@@ -37,7 +37,8 @@ namespace KuyumHesap.Application.Features.ReportFeature.Queries.GetCashReport
                 items.DevredenBakiyeler = devredenBalance.Where(c => c.AccountId == item.Id).Select(b => new EkstreBakiyeViewModel
                 {
                     CurrencyCode = b.DovizKodu,
-                    Balance = b.Balance
+                    Balance = b.Balance,
+                    CurrencyId = b.ForeignCurrencyId
                 }).ToList();
                 items.Hareketler = new List<EkstreSatirViewModel>();
                 responseItem.Add(items);
@@ -78,7 +79,8 @@ namespace KuyumHesap.Application.Features.ReportFeature.Queries.GetCashReport
                     AccountId = item.AccountId,
                     AccountName = item.AccountName,
                     AccountTypeName = item.AccountTypeName,
-                    TransactionTypeId = item.TransactionTypeId
+                    TransactionTypeId = item.TransactionTypeId,
+                    ForeignCurrencyId = item.ForeignCurrencyId
                 });
             }
             decimal totalHas = 0;

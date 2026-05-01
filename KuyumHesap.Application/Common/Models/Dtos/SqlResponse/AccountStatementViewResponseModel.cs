@@ -36,5 +36,7 @@
         public string ReceiptAccounTypeName { get; set; }
         public int TransactionTypeId { get; set; }
         public bool? IsCustomerReceipt { get; set; }
+        public int ForeignCurrencyId { get; set; }
+
     }
 }

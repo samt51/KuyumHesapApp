@@ -1,4 +1,4 @@
-﻿using KuyumHesap.Application.Common.Abstractions.SqlViewAndFuncQuery;
+using KuyumHesap.Application.Common.Abstractions.SqlViewAndFuncQuery;
 using KuyumHesap.Application.Common.Models.Dtos.SqlResponse;
 using KuyumHesap.Persistence.Common.Context;
 using Microsoft.Data.SqlClient;
@@ -54,7 +54,8 @@ ReceiptAccountName,
 ReceiptAccounTypeName,
 TransactionTypeId,
  CAST(ISNULL(IsCustomerReceipt, 0) AS bit)    AS IsCustomerReceipt,
-AccountName
+AccountName,
+ForeignCurrencyId
 FROM dbo.vw_HesapEkstresi
 ORDER BY ReceiptDate, MovementId;
 
@@ -76,10 +77,11 @@ ORDER BY ReceiptDate, MovementId;
 SELECT 
     BalanceUnit AS DovizKodu,
     SUM(CASE WHEN IsEntry = 1 THEN BalanceEffectAmount ELSE -BalanceEffectAmount END) AS Balance,
-    AccountId
+    AccountId,
+    ForeignCurrencyId
 FROM vw_HesapEkstresi
 WHERE AccountId = @accountId AND ReceiptDate < @start
-GROUP BY BalanceUnit, AccountId;";
+GROUP BY BalanceUnit, AccountId, ForeignCurrencyId;";
 
             var param1 = new SqlParameter("@accountId", SqlDbType.Int) { Value = accountId };
             var param2 = new SqlParameter("@start", SqlDbType.DateTime) { Value = start };
@@ -156,7 +158,8 @@ SELECT
     ReceiptAccounTypeName,
     TransactionTypeId,
     CAST(ISNULL(IsCustomerReceipt, 0) AS bit) AS IsCustomerReceipt,
-    AccountName
+    AccountName,
+    ForeignCurrencyId
 FROM dbo.vw_HesapEkstresi
 WHERE AccountId IN ({accountInClause})
   AND ReceiptDate BETWEEN @start AND @end
@@ -226,7 +229,8 @@ SELECT
     ReceiptAccounTypeName,
     TransactionTypeId,
     CAST(ISNULL(IsCustomerReceipt, 0) AS bit) AS IsCustomerReceipt,
-    AccountName
+    AccountName,
+    ForeignCurrencyId
 FROM dbo.vw_HesapEkstresi
 WHERE StockId IN ({inClause})
   AND ReceiptDate BETWEEN @start AND @end
@@ -289,7 +293,8 @@ ReceiptAccountName,
 ReceiptAccounTypeName,
 TransactionTypeId,
  CAST(ISNULL(IsCustomerReceipt, 0) AS bit)    AS IsCustomerReceipt,
- AccountName
+ AccountName,
+ ForeignCurrencyId
 FROM dbo.vw_HesapEkstresi
 WHERE AccountId = {0} AND ReceiptDate BETWEEN {1} AND {2} AND IsCustomerReceipt ={3}
 ORDER BY ReceiptDate, MovementId;";
@@ -323,11 +328,12 @@ ORDER BY ReceiptDate, MovementId;";
         SELECT 
             BalanceUnit AS DovizKodu,
             SUM(CASE WHEN IsEntry = 1 THEN BalanceEffectAmount ELSE -BalanceEffectAmount END) AS Balance,
-            AccountId
+            AccountId,
+            ForeignCurrencyId
         FROM vw_HesapEkstresi
         WHERE AccountId IN ({inClause})
           AND ReceiptDate < @start
-        GROUP BY BalanceUnit, AccountId;";
+        GROUP BY BalanceUnit, AccountId, ForeignCurrencyId;";
 
             var startParameter = new SqlParameter("@start", SqlDbType.DateTime)
             {
@@ -397,7 +403,8 @@ SELECT
     ReceiptAccounTypeName,
     TransactionTypeId,
     CAST(ISNULL(IsCustomerReceipt, 0) AS bit) AS IsCustomerReceipt,
-    AccountName
+    AccountName,
+    ForeignCurrencyId
 FROM dbo.vw_HesapEkstresi
 WHERE AccountId IN ({inClause})
   AND ReceiptDate BETWEEN @start AND @end

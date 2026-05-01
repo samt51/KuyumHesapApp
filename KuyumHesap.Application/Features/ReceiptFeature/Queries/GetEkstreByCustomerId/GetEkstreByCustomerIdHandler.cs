@@ -1,4 +1,4 @@
-﻿using KuyumHesap.Application.Common.Abstractions;
+using KuyumHesap.Application.Common.Abstractions;
 using KuyumHesap.Application.Common.Abstractions.Mapper;
 using KuyumHesap.Application.Common.Abstractions.SqlViewAndFuncQuery;
 using KuyumHesap.Application.Common.Abstractions.UnitOfWorks;
@@ -39,7 +39,8 @@ namespace KuyumHesap.Application.Features.ReceiptFeature.Queries.GetEkstreByCust
             ekstre.DevredenBakiyeler = devredenBalance.Select(b => new EkstreBakiyeViewModel
             {
                 CurrencyCode = b.DovizKodu,
-                Balance = b.Balance
+                Balance = b.Balance,
+                CurrencyId = b.ForeignCurrencyId
             }).ToList();
  
 
@@ -123,6 +124,7 @@ namespace KuyumHesap.Application.Features.ReceiptFeature.Queries.GetEkstreByCust
             /// </summary>
             public string CurrencyCode { get; set; }
             public decimal Balance { get; set; }
+            public int CurrencyId { get; set; }
         }
 
 
@@ -275,6 +277,7 @@ namespace KuyumHesap.Application.Features.ReceiptFeature.Queries.GetEkstreByCust
             /// </summary>
             public string StockUnit { get; set; } = "";
             public int? StockId { get; set; }
+            public int ForeignCurrencyId { get; set; }
         }
 
         public class EkstreViewModel
