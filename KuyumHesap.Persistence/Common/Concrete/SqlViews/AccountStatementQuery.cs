@@ -159,7 +159,9 @@ SELECT
     TransactionTypeId,
     CAST(ISNULL(IsCustomerReceipt, 0) AS bit) AS IsCustomerReceipt,
     AccountName,
-    ForeignCurrencyId
+    ForeignCurrencyId,
+    CounterAccountName,
+    MovementCreatedDate
 FROM dbo.vw_HesapEkstresi
 WHERE AccountId IN ({accountInClause})
   AND ReceiptDate BETWEEN @start AND @end
@@ -230,7 +232,9 @@ SELECT
     TransactionTypeId,
     CAST(ISNULL(IsCustomerReceipt, 0) AS bit) AS IsCustomerReceipt,
     AccountName,
-    ForeignCurrencyId
+    ForeignCurrencyId,
+    CounterAccountName,
+    MovementCreatedDate
 FROM dbo.vw_HesapEkstresi
 WHERE StockId IN ({inClause})
   AND ReceiptDate BETWEEN @start AND @end
@@ -294,7 +298,9 @@ ReceiptAccounTypeName,
 TransactionTypeId,
  CAST(ISNULL(IsCustomerReceipt, 0) AS bit)    AS IsCustomerReceipt,
  AccountName,
- ForeignCurrencyId
+ ForeignCurrencyId,
+    CounterAccountName,
+    MovementCreatedDate
 FROM dbo.vw_HesapEkstresi
 WHERE AccountId = {0} AND ReceiptDate BETWEEN {1} AND {2} AND IsCustomerReceipt ={3}
 ORDER BY ReceiptDate, MovementId;";
@@ -404,7 +410,9 @@ SELECT
     TransactionTypeId,
     CAST(ISNULL(IsCustomerReceipt, 0) AS bit) AS IsCustomerReceipt,
     AccountName,
-    ForeignCurrencyId
+    ForeignCurrencyId,
+    CounterAccountName,
+    MovementCreatedDate
 FROM dbo.vw_HesapEkstresi
 WHERE AccountId IN ({inClause})
   AND ReceiptDate BETWEEN @start AND @end

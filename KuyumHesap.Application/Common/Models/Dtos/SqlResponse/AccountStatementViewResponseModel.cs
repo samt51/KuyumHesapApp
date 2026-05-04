@@ -37,6 +37,9 @@
         public int TransactionTypeId { get; set; }
         public bool? IsCustomerReceipt { get; set; }
         public int ForeignCurrencyId { get; set; }
+        public string CounterAccountName { get; set; } = string.Empty;
+        public DateTime MovementCreatedDate { get; set; }
+
 
     }
 }

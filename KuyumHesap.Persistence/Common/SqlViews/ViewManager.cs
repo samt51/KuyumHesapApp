@@ -64,7 +64,10 @@ SELECT
     tip.AccountTypeName as ReceiptAccounTypeName,
     ht.Id as TransactionTypeId,
     f.IsCustomerReceipt,
-    h.ForeignCurrencyId
+    h.CounterCurrencyId AS ForeignCurrencyId,
+    counterAccount.AccountName as CounterAccountName,
+    h.CreatedDate as MovementCreatedDate
+
 
 FROM dbo.Movements AS h
 
@@ -77,6 +80,8 @@ LEFT JOIN dbo.Accounts AS hs ON hs.Id = h.AccountId
 LEFT JOIN dbo.Accounts AS acc ON acc.Id = f.AccountId
 LEFT JOIN dbo.AccountTypes AS tip ON tip.Id = acc.AccountTypeId
 LEFT JOIN dbo.AccountTypes AS hstip ON hstip.Id = hs.AccountTypeId
+LEFT JOIN dbo.Movements AS counterMovement ON counterMovement.Id = h.CounterTransactionId
+LEFT JOIN dbo.Accounts AS counterAccount ON counterAccount.Id = counterMovement.AccountId
 
 WHERE 
     h.IsDeleted = 0 

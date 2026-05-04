@@ -30,13 +30,13 @@ namespace KuyumHesap.Api.Controllers.ReportCont
                 FinishDate = finishDate
             });
         }
-        
+
         [HttpPost]
-        public async Task<ResponseDto<List<GetFilterReportQueryResponse>>> GetFilterReportAsync([FromBody]GetFilterReportQueryRequest request)
+        public async Task<ResponseDto<GetFilterReportQueryResponse>> GetFilterReportAsync([FromBody] GetFilterReportQueryRequest request)
         {
             return await _mediator.Send(request);
         }
- 
+
         [HttpGet]
         public async Task<ResponseDto<List<GetFilterTypesQueryResponse>>> GetFilterTypesAsync()
         {
